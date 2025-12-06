@@ -1,0 +1,121 @@
+{
+    "position": "top",
+    "layer": "top",
+    "height": 40,
+    "margin-top": 0,
+    "margin-bottom": 0,
+    "margin-left": 0,
+    "margin-right": 0,
+    "modules-left": [
+        "custom/arch",
+        "hyprland/workspaces",
+        "hyprland/window"
+    ],
+    "modules-center": [
+        "mpris"
+    ],
+    "modules-right": [
+        "pulseaudio",
+        "pulseaudio#microphone",
+        "tray",
+        "bluetooth",
+        "battery",
+        "clock#time",
+        "clock#date"
+    ],
+
+    "custom/arch": {
+        "format": "",
+        "tooltip": false,
+        "on-click": "wleave"
+    },
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "on-click": "activate",
+        "format-icons": {
+            "default": " ",
+            "active": " "
+        },
+        "persistent_workspaces": {
+            "*": 9
+        }
+    },
+    "mpris": {
+        "format": "{player_icon} {title} - {artist}",
+        "format-stopped": "No music playing",
+        "player-icons": {
+            "default": "▶ ",
+            "mpv": "🎵 ",
+            "spotify": " "
+        },
+        "max-length": 35,
+        "on-click": "playerctl play-pause",
+        "on-scroll-up": "playerctl next",
+        "on-scroll-down": "playerctl previous"
+    },
+    "tray": {
+        "icon-size": 18,
+        "spacing": 10
+    },
+
+    "clock#time": {
+        "format": " {:%I:%M %p}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+    
+    "clock#date": {
+        "format": " {:%a, %b %d}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "<span size='150%'>{icon}</span> {capacity}%",
+        "format-charging": "<span size='110%'></span> {capacity}%",
+        "format-plugged": "<span size='110%'></span> {capacity}%",
+        "format-icons": [" ", " ", " ", " ", " "]
+    },
+
+
+    "bluetooth": {
+        "format": "<span size='125%'></span>",
+        "format-disabled": "",
+        "format-connected": "<span size='125%'></span> {device_alias}",
+        "on-click": "blueman-manager",
+        "tooltip-format": "{device_enumerate}"
+    },
+
+
+    "pulseaudio": {
+        "format": "<span size='120%'>{icon} </span> {volume}%",
+        "format-bluetooth": "<span size='120%'>{icon}</span> {volume}%",
+        "format-muted": "<span size='150%'>󰝟 </span>",
+        "tooltip": false,
+
+        "on-click": "wpctl set-mute @DEFAULT_SINK@ toggle",
+        "on-scroll-up": "wpctl set-volume @DEFAULT_SINK@ 5%+",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_SINK@ 5%-",
+
+        "format-icons": {
+          "headphone": "",
+          "hands-free": "",
+          "headset": "",
+          "phone": "",
+          "portable": "",
+          "car": "",
+          "default": ["", "", ""]
+        }
+    },
+
+    "pulseaudio#microphone": {
+      "format": "{format_source}",
+      "format-source": "<span color='#f38ba8'>  </span><span color='#cdd6f4'>{volume}%</span>",
+      "format-source-muted": "  ",
+      "on-click": "wpctl set-mute @DEFAULT_SOURCE@ toggle",
+      "on-scroll-up": "wpctl set-volume @DEFAULT_SOURCE@ 5%+",
+      "on-scroll-down": "wpctl set-volume @DEFAULT_SOURCE@ 5%-"
+    }
+}
