@@ -26,7 +26,6 @@
       cloudflare-cli
       brightnessctl
       xfce.thunar-volman
-			discord-ptb
   ];
 
   programs.hyprland = {

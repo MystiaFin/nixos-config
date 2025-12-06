@@ -27,6 +27,7 @@ in
   home.packages = with pkgs; [
     fastfetch 
     nerd-fonts.jetbrains-mono
+		discord-ptb
   ];
 
   home.pointerCursor = {
