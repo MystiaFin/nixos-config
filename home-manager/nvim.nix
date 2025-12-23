@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  xdg.configFile."nvim".source = ./nvim;
+  xdg.configFile."nvim".source = ./config/nvim;
 
   programs.neovim = {
     enable = true;
@@ -19,6 +19,7 @@
       gcc
 			kdePackages.qtdeclarative
 			nixd
+			nixpkgs-fmt
     ];
   };
 }

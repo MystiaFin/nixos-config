@@ -1,21 +1,35 @@
 { pkgs, config, ... }:
-
 {
   gtk = {
     enable = true;
     
     theme = {
-      name = "catppuccin-mocha-standard-lavender-dark";
+      name = "catppuccin-mocha-blue-standard";
       package = pkgs.catppuccin-gtk.override {
-        accents = [ "lavender" ];
+        accents = [ "blue" ];
         variant = "mocha";
       };
     };
-
+    
     iconTheme = {
       name = "Papirus-Dark";
-      package = pkgs.papirus-icon-theme;
+      package = pkgs.catppuccin-papirus-folders.override {
+        flavor = "mocha";
+        accent = "blue";
+      };
     };
+
+    gtk3.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+    };
+
+    gtk4.extraConfig = {
+      gtk-application-prefer-dark-theme = 1;
+    };
+  };
+
+  home.sessionVariables = {
+    GTK_THEME = "catppuccin-mocha-blue-standard";
   };
 
   xdg.configFile = {

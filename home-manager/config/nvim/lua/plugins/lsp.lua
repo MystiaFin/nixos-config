@@ -75,7 +75,7 @@ return {
 						expr = "import <nixpkgs> { }",
 					},
 					formatting = {
-						command = { "nixfmt" }, -- or "alejandra" if you prefer
+						command = { "nixpkgs-fmt" },
 					},
 				},
 			},

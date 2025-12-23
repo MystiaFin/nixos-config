@@ -5,7 +5,7 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   imports =
     [
-    ./hardware-configuration.nix
+      ./hardware-configuration.nix
     ];
 
   boot.loader.systemd-boot.enable = true;
@@ -16,23 +16,23 @@
 
   time.timeZone = "Asia/Jakarta";
 
-  environment.systemPackages = with pkgs; [
-    neovim
-      wget
-      kitty
-      waybar
-      git
-      cloudflare-warp
-      cloudflare-cli
-      brightnessctl
-      xfce.thunar-volman
-  ];
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
+  environment.variables = {
+    XCURSOR_THEME = "catppuccin-mocha-dark-cursors";
+    XCURSOR_SIZE = "14";
+		GTK_THEME = "catppuccin-mocha-blue-standard";
   };
 
+  environment.systemPackages = with pkgs; [
+    neovim
+    wget
+    git
+    xwayland-satellite
+    catppuccin-cursors.mochaDark
+  ];
+
+  programs.niri.enable = true;
   programs.zsh.enable = true;
   programs.mtr.enable = true;
 
@@ -42,19 +42,6 @@
   };
 
   programs.dconf.enable = true;
-
-  programs.thunar.enable = true;
-  programs.thunar.plugins = with pkgs.xfce; [
-    thunar-archive-plugin
-      thunar-volman
-  ];
-
-	programs.tmux = {
-					enable=true;
-					clock24 = true;
-					extraConfig = ''
-									'';
-	};
 
   users.users.mystiafin = {
     isNormalUser = true;

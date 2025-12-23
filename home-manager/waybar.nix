@@ -12,10 +12,10 @@
   programs.waybar = {
     enable = true;
 
-    style = builtins.readFile ./waybar/styles.css;
+    style = builtins.readFile ./config/waybar/styles.css;
 
     settings = {
-      mainBar = builtins.fromJSON (builtins.readFile ./waybar/config.json);
+      mainBar = builtins.fromJSON (builtins.readFile ./config/waybar/config.json);
     };
   };
 }
