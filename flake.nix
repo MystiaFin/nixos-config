@@ -1,11 +1,11 @@
 {
-	description = "Veronica's NixOS";
-	inputs = {
-		nixpkgs.url = "nixpkgs/nixos-unstable";
-		home-manager = {
-			url = "github:nix-community/home-manager";
-			inputs.nixpkgs.follows = "nixpkgs";
-		};
+  description = "Veronica's NixOS";
+  inputs = {
+    nixpkgs.url = "nixpkgs/nixos-unstable";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -17,24 +17,41 @@
         home-manager.follows = "home-manager";
       };
     };
-	};
+  };
 
-	outputs = { self, nixpkgs, home-manager, ... }@inputs: {
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        ./configuration.nix
-        home-manager.nixosModules.home-manager
-        {
-          home-manager = {
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            users.mystiafin = import ./home.nix;
-            extraSpecialArgs = { inherit inputs; };
-            backupFileExtension = "backup";
-          };
-        }
-      ];
+outputs = { self, nixpkgs, home-manager, ... }@inputs: {
+    nixosConfigurations = {
+      
+      desktop = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; hw_file = "high-end"; };
+        modules = [
+          ./configuration.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.mystiafin = import ./home.nix;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+          }
+        ];
+      };
+
+      thinkpad = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; hw_file = "low-end"; };
+        modules = [
+          ./configuration.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.mystiafin = import ./home.nix;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+          }
+        ];
+      };
+
     };
   };
 }

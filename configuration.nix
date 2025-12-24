@@ -1,17 +1,17 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, hw_file, ... }:
 
 {
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   imports =
     [
-      ./hardware-configuration.nix
+      ./devices/${hw_file}.nix
     ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos";
+  networking.hostName = hw_file;
   networking.networkmanager.enable = true;
 
   time.timeZone = "Asia/Jakarta";
@@ -21,7 +21,7 @@
   environment.variables = {
     XCURSOR_THEME = "catppuccin-mocha-dark-cursors";
     XCURSOR_SIZE = "14";
-		GTK_THEME = "catppuccin-mocha-blue-standard";
+    GTK_THEME = "catppuccin-mocha-blue-standard";
   };
 
   environment.systemPackages = with pkgs; [
