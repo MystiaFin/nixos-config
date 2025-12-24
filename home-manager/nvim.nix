@@ -24,7 +24,7 @@
     viAlias = true;
     vimAlias = true;
     defaultEditor = true;
-    
+
     extraLuaConfig = ''
       -- Numberings
       vim.o.number = true
@@ -55,6 +55,7 @@
     '';
 
     extraPackages = with pkgs; [
+      git
       lua-language-server
       intelephense
       vscode-langservers-extracted
