@@ -23,7 +23,6 @@ in
   home.packages = with pkgs; [
     tmux
     kitty
-    waybar
     wofi
     wlogout
     cloudflare-warp
@@ -55,7 +54,6 @@ in
     ./home-manager/zsh.nix
     ./home-manager/kitty.nix
     ./home-manager/nvim.nix
-    ./home-manager/waybar.nix
     ./home-manager/gtk.nix
     ./home-manager/tmux.nix
     ./home-manager/niri.nix

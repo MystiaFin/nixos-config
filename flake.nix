@@ -19,9 +19,9 @@
     };
   };
 
-outputs = { self, nixpkgs, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
     nixosConfigurations = {
-      
+
       desktop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; hw_file = "high-end"; };
@@ -32,7 +32,7 @@ outputs = { self, nixpkgs, home-manager, ... }@inputs: {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.mystiafin = import ./home.nix;
-            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.extraSpecialArgs = { inherit inputs; device = "high-end"; };
           }
         ];
       };
@@ -47,7 +47,7 @@ outputs = { self, nixpkgs, home-manager, ... }@inputs: {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.mystiafin = import ./home.nix;
-            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.extraSpecialArgs = { inherit inputs; device = "low-end"; };
           }
         ];
       };
