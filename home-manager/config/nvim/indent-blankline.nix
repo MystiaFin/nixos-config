@@ -6,7 +6,11 @@
       plugin = pkgs.vimPlugins.indent-blankline-nvim;
       type = "lua";
       config = ''
-        require("ibl").setup({})
+        require("ibl").setup({
+        	exclude = {
+        		filetypes = { "dashboard" }
+        	}
+        })
       '';
     }
   ];

@@ -2,7 +2,7 @@
 
 {
   programs.neovim.plugins = with pkgs.vimPlugins; [
-    nvim-web-devicons # Dependency
+    nvim-web-devicons
     {
       plugin = lualine-nvim;
       type = "lua";

@@ -3,7 +3,6 @@
 {
   programs.neovim.plugins = [
     {
-      # We use the special 'withPlugins' function here
       plugin = pkgs.vimPlugins.nvim-treesitter.withPlugins (p: [
         p.lua
         p.typescript
@@ -17,7 +16,6 @@
       type = "lua";
       config = ''
         require("nvim-treesitter.configs").setup({
-           -- ensure_installed is NOT needed because Nix handles it
            highlight = {
               enable = true,
            },

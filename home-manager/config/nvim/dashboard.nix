@@ -2,10 +2,7 @@
 
 {
   programs.neovim.plugins = with pkgs.vimPlugins; [
-    # Dependency first
     nvim-web-devicons 
-    
-    # The Dashboard plugin
     {
       plugin = dashboard-nvim;
       type = "lua";
