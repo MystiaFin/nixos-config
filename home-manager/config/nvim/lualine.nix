@@ -1,8 +1,12 @@
-return {
-    "nvim-lualine/lualine.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    -- Wrap the setup logic in a config function so it runs AFTER the plugin loads
-    config = function()
+{ pkgs, ... }:
+
+{
+  programs.neovim.plugins = with pkgs.vimPlugins; [
+    nvim-web-devicons # Dependency
+    {
+      plugin = lualine-nvim;
+      type = "lua";
+      config = ''
         require('lualine').setup {
             options = {
                 icons_enabled = true,
@@ -21,19 +25,8 @@ return {
                     statusline = 1000,
                     tabline = 1000,
                     winbar = 1000,
-                    refresh_time = 16, -- ~60fps
-                    events = {
-                        'WinEnter',
-                        'BufEnter',
-                        'BufWritePost',
-                        'SessionLoadPost',
-                        'FileChangedShellPost',
-                        'VimResized',
-                        'Filetype',
-                        'CursorMoved',
-                        'CursorMovedI',
-                        'ModeChanged',
-                    },
+                    refresh_time = 16,
+                    events = { 'WinEnter', 'BufEnter', 'BufWritePost', 'SessionLoadPost', 'FileChangedShellPost', 'VimResized', 'Filetype', 'CursorMoved', 'CursorMovedI', 'ModeChanged' },
                 }
             },
             sections = {
@@ -57,5 +50,7 @@ return {
             inactive_winbar = {},
             extensions = {}
         }
-    end
+      '';
+    }
+  ];
 }

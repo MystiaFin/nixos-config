@@ -33,6 +33,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.mystiafin = import ./home.nix;
             home-manager.extraSpecialArgs = { inherit inputs; device = "high-end"; };
+						home-manager.backupFileExtension = "backup";
           }
         ];
       };
@@ -48,6 +49,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.mystiafin = import ./home.nix;
             home-manager.extraSpecialArgs = { inherit inputs; device = "low-end"; };
+						home-manager.backupFileExtension = "backup";
           }
         ];
       };
