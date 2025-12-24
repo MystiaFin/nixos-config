@@ -24,7 +24,7 @@
 
       desktop = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs; hw_file = "high-end"; };
+        specialArgs = { inherit inputs; hw_file = "nixos"; };
         modules = [
           ./configuration.nix
           home-manager.nixosModules.home-manager
@@ -32,7 +32,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.mystiafin = import ./home.nix;
-            home-manager.extraSpecialArgs = { inherit inputs; device = "high-end"; };
+            home-manager.extraSpecialArgs = { inherit inputs; device = "nixos"; };
 						home-manager.backupFileExtension = "backup";
           }
         ];

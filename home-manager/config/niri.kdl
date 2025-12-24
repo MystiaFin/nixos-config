@@ -20,6 +20,9 @@ input {
 
     trackpoint {
     }
+  	tablet {
+        map-to-output "eDP-1" 
+    }
 }
 
 layer-rule {

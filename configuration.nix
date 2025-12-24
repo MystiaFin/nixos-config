@@ -30,11 +30,14 @@
     git
     xwayland-satellite
     catppuccin-cursors.mochaDark
+		opentabletdriver
   ];
 
   programs.niri.enable = true;
   programs.zsh.enable = true;
   programs.mtr.enable = true;
+	services.xserver.wacom.enable = true;
+	hardware.opentabletdriver.enable = true;
 
   programs.gnupg.agent = {
     enable = true;
