@@ -59,6 +59,17 @@
 
   services.keyd = {
     enable = true;
+    keyboards = {
+      default = {
+        ids = [ "*" ];
+        settings = {
+          main = {
+            capslock = "overload(control, esc)";
+            esc = "capslock";
+          };
+        };
+      };
+    };
   };
 
   services.libinput.enable = true;
@@ -70,6 +81,4 @@
   services.udisks2.enable = true;
 
   system.stateVersion = "25.05";
-
 }
-
