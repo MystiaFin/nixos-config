@@ -1,4 +1,5 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, device, ... }:
+
 let
   spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
 in
@@ -14,15 +15,30 @@ in
       adblock
     ];
   };
+
   home.username = "mystiafin";
   home.homeDirectory = "/home/mystiafin";
   home.stateVersion = "25.05";
   programs.home-manager.enable = true;
   
-  # General packages
+  imports = [
+    inputs.spicetify-nix.homeManagerModules.default
+    inputs.zen-browser.homeModules.beta
+    ./home-manager/zsh.nix
+    ./home-manager/nvim.nix
+    ./home-manager/gtk.nix
+    ./home-manager/tmux.nix
+    ./home-manager/niri.nix
+    ./home-manager/wofi.nix
+    ./home-manager/wlogout.nix
+  ] ++ (if device == "low-end" then [
+    # ./home-manager/foot.nix
+  ] else [
+    ./home-manager/kitty.nix
+  ]);
+
   home.packages = with pkgs; [
     tmux
-    kitty
     wofi
     wlogout
     cloudflare-warp
@@ -38,28 +54,19 @@ in
     google-fonts
     btop
     libnotify
-		gtk3
-		prismlauncher
-		osu-lazer-bin
-  ];
+    gtk3
+  ] ++ (if device == "low-end" then [
+    foot
+  ] else [
+    kitty
+    prismlauncher
+    osu-lazer-bin
+  ]);
   
   home.sessionVariables = {
     QMLLS_BUILD_DIRS = "${pkgs.qt6.qtdeclarative}/lib/qt-6/qml:${pkgs.quickshell}/lib/qt-6/qml";
     QML_IMPORT_PATH = "${pkgs.qt6.qtdeclarative}/lib/qt-6/qml:${pkgs.quickshell}/lib/qt-6/qml:${pkgs.qt6.qt5compat}/lib/qt-6/qml";
   };
-  
-  imports = [
-    inputs.spicetify-nix.homeManagerModules.default
-    inputs.zen-browser.homeModules.beta
-    ./home-manager/zsh.nix
-    ./home-manager/kitty.nix
-    ./home-manager/nvim.nix
-    ./home-manager/gtk.nix
-    ./home-manager/tmux.nix
-    ./home-manager/niri.nix
-    ./home-manager/wofi.nix
-    ./home-manager/wlogout.nix
-  ];
   
   programs.bash.enable = true;
   programs.zen-browser.enable = true;
