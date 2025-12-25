@@ -32,7 +32,7 @@ in
     ./home-manager/wofi.nix
     ./home-manager/wlogout.nix
   ] ++ (if device == "low-end" then [
-    # ./home-manager/foot.nix
+    ./home-manager/foot.nix
   ] else [
     ./home-manager/kitty.nix
   ]);
