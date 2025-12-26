@@ -19,6 +19,7 @@ input {
     }
 
     trackpoint {
+						accel-speed -0.3
     }
   	tablet {
         map-to-output "eDP-1" 
