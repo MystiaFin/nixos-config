@@ -55,6 +55,8 @@ in
     btop
     libnotify
     gtk3
+		nautilus
+		bluez-tools
   ] ++ (if device == "low-end" then [
     foot
   ] else [

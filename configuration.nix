@@ -30,14 +30,24 @@
     git
     xwayland-satellite
     catppuccin-cursors.mochaDark
-		opentabletdriver
+    opentabletdriver
   ];
 
   programs.niri.enable = true;
   programs.zsh.enable = true;
   programs.mtr.enable = true;
-	services.xserver.wacom.enable = true;
-	hardware.opentabletdriver.enable = true;
+  services.xserver.wacom.enable = true;
+  hardware.opentabletdriver.enable = true;
+  security.polkit.enable = true;
+  security.polkit.extraConfig = ''
+    polkit.addRule(function(action, subject) {
+      if (action.id.indexOf("org.freedesktop.NetworkManager.") == 0 && subject.isInGroup("wheel")) {
+        return polkit.Result.YES;
+      }
+    });
+  '';
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
 
   programs.gnupg.agent = {
     enable = true;
