@@ -73,6 +73,14 @@ hotkey-overlay {
 }
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 animations {
+    window-open {
+        duration-ms 500
+        curve "ease-out-expo"
+    }
+    window-close {
+        duration-ms 300
+        curve "ease-out-quad"
+    }
 }
 
 window-rule {
@@ -97,7 +105,9 @@ binds {
 
     Mod+Return hotkey-overlay-title="Open a Terminal: kitty" { spawn "@TERMINAL@"; }
     Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
-		Mod+Shift+T hotkey-overlay-title="Quickshell Launcher" { spawn-sh "quickshell -p ~/.config/quickshell/Widgets/Launcher.qml"; }
+		Mod+Shift+T hotkey-overlay-title="Quickshell Launcher" { 
+    spawn "qs" "ipc" "call" "launcher" "toggle";
+}
 		Mod+E { spawn "nautilus"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
 

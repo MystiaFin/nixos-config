@@ -57,6 +57,7 @@ in
     gtk3
 		nautilus
 		bluez-tools
+		fuzzel
   ] ++ (if device == "low-end" then [
     foot
   ] else [
