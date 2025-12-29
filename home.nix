@@ -59,6 +59,7 @@ in
 		bluez-tools
 		fuzzel
 		microfetch
+		qbittorrent-enhanced
   ] ++ (if device == "low-end" then [
     foot
   ] else [
