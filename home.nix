@@ -31,6 +31,7 @@ in
     ./home-manager/niri.nix
     ./home-manager/wofi.nix
     ./home-manager/wlogout.nix
+		./home-manager/btop.nix
   ] ++ (if device == "low-end" then [
     ./home-manager/foot.nix
   ] else [
