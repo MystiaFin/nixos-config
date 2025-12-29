@@ -74,11 +74,11 @@ hotkey-overlay {
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 animations {
     window-open {
-        duration-ms 500
+        duration-ms 180
         curve "ease-out-expo"
     }
     window-close {
-        duration-ms 300
+        duration-ms 180
         curve "ease-out-quad"
     }
 }

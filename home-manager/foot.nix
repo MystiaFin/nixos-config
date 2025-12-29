@@ -20,7 +20,6 @@
 
       colors = {
         cursor = "1e1e2e f5e0dc";
-        alpha = 0.92;
         background = "1e1e2e";
         foreground = "cdd6f4";
         selection-foreground = "cdd6f4";
