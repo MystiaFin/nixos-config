@@ -8,6 +8,19 @@
       ./devices/${hw_file}.nix
     ];
 
+  boot.kernelParams = [
+    "pcie_aspm=off"
+    "mt7921e.disable_aspm=1"
+    "amdgpu.dcdebugmask=0x10"
+  ];
+
+  hardware.nvidia =
+    {
+      modesetting.enable = true;
+      open = true;
+      powerManagement.enable = true;
+    };
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
