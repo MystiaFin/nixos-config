@@ -8,18 +8,17 @@
       ./devices/${hw_file}.nix
     ];
 
-  boot.kernelParams = [
+  boot.kernelParams = lib.mkIf (hw_file == "nixos") [
     "pcie_aspm=off"
     "mt7921e.disable_aspm=1"
     "amdgpu.dcdebugmask=0x10"
   ];
 
-  hardware.nvidia =
-    {
-      modesetting.enable = true;
-      open = true;
-      powerManagement.enable = true;
-    };
+  hardware.nvidia = lib.mkIf (hw_file == "nixos") {
+    modesetting.enable = true;
+    open = true;
+    powerManagement.enable = true;
+  };
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
