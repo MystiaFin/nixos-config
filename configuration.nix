@@ -56,10 +56,14 @@
 
   programs.dconf.enable = true;
 
+  virtualisation.docker = {
+    enable = true;
+  };
+
   users.users.mystiafin = {
     isNormalUser = true;
     shell = pkgs.zsh;
-    extraGroups = [ "wheel" "libvirtd" ];
+    extraGroups = [ "wheel" "libvirtd" "docker" ];
     packages = with pkgs; [
       tree
     ];

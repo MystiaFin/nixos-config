@@ -9,6 +9,8 @@
       ll = "ls -l";
       vim = "nvim";
       vi = "nvim";
+      nrs-thinkpad = "sudo nixos-rebuild switch --flake .#thinkpad";
+      nrs-desktop = "sudo nixos-rebuild switch --flake .#desktop";
     };
 
     oh-my-zsh = {

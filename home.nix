@@ -45,7 +45,6 @@ in
     cloudflare-warp
     cloudflare-cli
     brightnessctl
-    fastfetch
     nerd-fonts.jetbrains-mono
     vesktop
     quickshell
@@ -59,6 +58,7 @@ in
 		nautilus
 		bluez-tools
 		fuzzel
+		microfetch
   ] ++ (if device == "low-end" then [
     foot
   ] else [
