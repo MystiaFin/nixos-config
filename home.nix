@@ -60,6 +60,7 @@ in
 		fuzzel
 		microfetch
 		qbittorrent-enhanced
+		playerctl
   ] ++ (if device == "low-end" then [
     foot
   ] else [
