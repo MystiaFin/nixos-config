@@ -71,6 +71,12 @@ spawn-at-startup "qs"
 hotkey-overlay {
 				skip-at-startup
 }
+
+gestures {
+				hot-corners {
+								off
+				}
+}
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 animations {
     window-open {

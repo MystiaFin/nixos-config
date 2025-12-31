@@ -12,6 +12,7 @@
         p.json
         p.tsx
 				p.prisma
+				p.kdl
       ]);
       
       type = "lua";

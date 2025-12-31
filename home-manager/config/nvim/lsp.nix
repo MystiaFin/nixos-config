@@ -89,6 +89,13 @@
             },
         }
 
+        -- Added KDL configuration
+        vim.lsp.config.kdl_lsp = {
+            cmd = { "kdl-lsp" },
+            filetypes = { "kdl" },
+            root_markers = { ".git" },
+        }
+
         -- Note: Ensure 'vim.lsp.enable' is defined in your environment
         -- or this line will error.
         vim.lsp.enable({
@@ -98,12 +105,14 @@
             "tailwindcss",
             "qmlls",
             "lua_ls",
-            "nixd"
+            "nixd",
+            "kdl_lsp" -- Added here
         })
 
         vim.filetype.add({
             pattern = {
                 ['.*%.blade%.php'] = 'blade',
+                ['.*%.kdl'] = 'kdl', -- Added filetype detection
             },
         })
 
