@@ -11,6 +11,7 @@
         p.css
         p.json
         p.tsx
+				p.prisma
       ]);
       
       type = "lua";

@@ -22,6 +22,7 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+	powerManagement.cpuFreqGovernor = "performance";
 
   networking.hostName = hw_file;
   networking.networkmanager.enable = true;
