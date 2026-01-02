@@ -57,10 +57,11 @@ in
     gtk3
 		nautilus
 		bluez-tools
-		fuzzel
 		microfetch
 		qbittorrent-enhanced
 		playerctl
+		cava
+		cmatrix
   ] ++ (if device == "low-end" then [
     foot
   ] else [
