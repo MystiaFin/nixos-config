@@ -22,7 +22,7 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-	powerManagement.cpuFreqGovernor = "performance";
+  powerManagement.cpuFreqGovernor = "performance";
 
   networking.hostName = hw_file;
   networking.networkmanager.enable = true;
@@ -43,14 +43,17 @@
     git
     xwayland-satellite
     catppuccin-cursors.mochaDark
+  ] ++ lib.optionals (hw_file == "nixos") [
     opentabletdriver
   ];
 
   programs.niri.enable = true;
   programs.zsh.enable = true;
   programs.mtr.enable = true;
-  services.xserver.wacom.enable = true;
-  hardware.opentabletdriver.enable = true;
+
+  services.xserver.wacom.enable = lib.mkIf (hw_file == "nixos") true;
+  hardware.opentabletdriver.enable = lib.mkIf (hw_file == "nixos") true;
+
   security.polkit.enable = true;
   security.polkit.extraConfig = ''
     polkit.addRule(function(action, subject) {
