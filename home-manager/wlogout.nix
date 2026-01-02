@@ -44,7 +44,7 @@
     * {
       background-image: none;
       font-family: "JetBrainsMono Nerd Font";
-      font-size: 16px;
+      font-size: 13px;
     }
 
     window {
@@ -56,12 +56,15 @@
       background-color: #313244;
       border: 2px solid #45475a;
       background-repeat: no-repeat;
-      background-position: center 35px; 
-      background-size: 96px; 
-      min-height: 180px;
-      min-width: 150px;
-      border-radius: 16px;
-      margin: 15px;
+      
+      background-position: center 25px; 
+      background-size: 64px;
+      
+      min-height: 110px;                
+      min-width: 110px;                 
+      
+      border-radius: 12px;
+      margin: 5px;
       padding: 0px; 
       transition: background-color 0.2s, border-color 0.2s; 
     }
