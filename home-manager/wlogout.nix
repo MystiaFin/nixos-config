@@ -1,7 +1,7 @@
 { config, pkgs, device, ... }:
 
 let
-  isLowEnd = device == "low-end";
+  isLowEnd = device == "thinkpad";
   
   iconSize = if isLowEnd then "64px" else "96px";
   

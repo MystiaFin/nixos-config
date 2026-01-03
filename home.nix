@@ -32,7 +32,7 @@ in
     ./home-manager/wofi.nix
     ./home-manager/wlogout.nix
 		./home-manager/btop.nix
-  ] ++ (if device == "low-end" then [
+  ] ++ (if device == "thinkpad" then [
     ./home-manager/foot.nix
   ] else [
     ./home-manager/kitty.nix
@@ -63,7 +63,7 @@ in
 		cava
 		cmatrix
 		qt6.qtsvg
-  ] ++ (if device == "low-end" then [
+  ] ++ (if device == "thinkpad" then [
     foot
   ] else [
     kitty

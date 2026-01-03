@@ -44,6 +44,7 @@
 
   networking.hostName = hw_file;
   networking.networkmanager.enable = true;
+  systemd.services.NetworkManager-wait-online.enable = false;
 
   time.timeZone = "Asia/Jakarta";
 
@@ -94,6 +95,7 @@
 
   virtualisation.docker = {
     enable = true;
+    enableOnBoot = false;
   };
 
   users.users.mystiafin = {

@@ -40,7 +40,7 @@
 
       thinkpad = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs; hw_file = "low-end"; };
+        specialArgs = { inherit inputs; hw_file = "thinkpad"; };
         modules = [
           ./configuration.nix
           home-manager.nixosModules.home-manager
@@ -48,7 +48,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.mystiafin = import ./home.nix;
-            home-manager.extraSpecialArgs = { inherit inputs; device = "low-end"; };
+            home-manager.extraSpecialArgs = { inherit inputs; device = "thinkpad"; };
 						home-manager.backupFileExtension = "backup";
           }
         ];
