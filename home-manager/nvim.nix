@@ -5,7 +5,6 @@
     ./config/nvim/autoclose.nix
     ./config/nvim/autotag.nix
     ./config/nvim/catppuccin.nix
-    ./config/nvim/cord.nix
     ./config/nvim/dashboard.nix
     ./config/nvim/gitsigns.nix
     ./config/nvim/harpoon.nix
