@@ -62,6 +62,7 @@ in
 		playerctl
 		cava
 		cmatrix
+		qt6.qtsvg
   ] ++ (if device == "low-end" then [
     foot
   ] else [
