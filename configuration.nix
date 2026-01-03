@@ -20,6 +20,20 @@
     powerManagement.enable = true;
   };
 
+  hardware.graphics = lib.mkIf (hw_file == "nixos") {
+    enable = true;
+    enable32Bit = true;
+  };
+
+  programs.steam = lib.mkIf (hw_file == "nixos") {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+    gamescopeSession.enable = true;
+  };
+
+  programs.gamemode.enable = lib.mkIf (hw_file == "nixos") true;
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   powerManagement.cpuFreqGovernor = "performance";
@@ -45,6 +59,8 @@
     catppuccin-cursors.mochaDark
   ] ++ lib.optionals (hw_file == "nixos") [
     opentabletdriver
+    mangohud
+    protonup-qt
   ];
 
   programs.niri.enable = true;

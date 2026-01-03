@@ -69,7 +69,6 @@ in
     kitty
     prismlauncher
     osu-lazer-bin
-		steam
   ]);
   
   home.sessionVariables = {
