@@ -8,11 +8,36 @@
       ./devices/${hw_file}.nix
     ];
 
-  boot.kernelParams = lib.mkIf (hw_file == "nixos") [
-    "pcie_aspm=off"
-    "mt7921e.disable_aspm=1"
-    "amdgpu.dcdebugmask=0x10"
-  ];
+  boot = {
+    loader.systemd-boot = {
+      enable = true;
+      consoleMode = "max";
+    };
+    loader.efi.canTouchEfiVariables = true;
+    consoleLogLevel = 0;
+    initrd.verbose = false;
+    plymouth = {
+      enable = true;
+      theme = "catppuccin-mocha";
+      themePackages = with pkgs; [
+        (catppuccin-plymouth.override { variant = "mocha"; })
+      ];
+    };
+
+    kernelParams = [
+      "quiet"
+      "splash"
+      "boot.shell_on_fail"
+      "loglevel=3"
+      "rd.systemd.show_status=false"
+      "rd.udev.log_level=3"
+      "udev.log_priority=3"
+    ] ++ lib.optionals (hw_file == "nixos") [
+      "pcie_aspm=off"
+      "mt7921e.disable_aspm=1"
+      "amdgpu.dcdebugmask=0x10"
+    ];
+  };
 
   hardware.nvidia = lib.mkIf (hw_file == "nixos") {
     modesetting.enable = true;
@@ -37,9 +62,6 @@
   };
 
   programs.gamemode.enable = lib.mkIf (hw_file == "nixos") true;
-
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
   powerManagement.cpuFreqGovernor = "performance";
 
   networking.hostName = hw_file;
@@ -62,6 +84,7 @@
     git
     xwayland-satellite
     catppuccin-cursors.mochaDark
+    sddm-astronaut
   ] ++ lib.optionals (hw_file == "nixos") [
     opentabletdriver
     mangohud
@@ -128,7 +151,17 @@
   };
 
   services.libinput.enable = true;
-  services.displayManager.ly.enable = true;
+  services.xserver.videoDrivers = lib.mkIf (hw_file == "nixos") [ "nvidia" ];
+  services.displayManager.sddm = {
+    enable = true;
+    wayland.enable = true;
+    theme = "sddm-astronaut-theme";
+    extraPackages = with pkgs; [
+      kdePackages.qtmultimedia
+      kdePackages.qtsvg
+      kdePackages.qt5compat
+    ];
+  };
   services.printing.enable = true;
   services.openssh.enable = true;
   services.cloudflare-warp.enable = true;
