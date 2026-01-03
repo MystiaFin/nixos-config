@@ -1,5 +1,14 @@
-{ config, pkgs, ... }:
+{ config, pkgs, device, ... }:
 
+let
+  isLowEnd = device == "low-end";
+  
+  iconSize = if isLowEnd then "64px" else "96px";
+  
+  buttonSize = if isLowEnd then "110px" else "180px";
+  
+  bgPos = if isLowEnd then "25px" else "40px";
+in
 {
   xdg.configFile."wlogout/layout".text = ''
     {
@@ -57,11 +66,11 @@
       border: 2px solid #45475a;
       background-repeat: no-repeat;
       
-      background-position: center 25px; 
-      background-size: 64px;
+      background-position: center ${bgPos}; 
+      background-size: ${iconSize};
       
-      min-height: 110px;                
-      min-width: 110px;                 
+      min-height: ${buttonSize};                
+      min-width: ${buttonSize};                 
       
       border-radius: 12px;
       margin: 5px;
