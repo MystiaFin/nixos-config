@@ -1,9 +1,10 @@
 {
   description = "Veronica's NixOS";
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+		nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     spicetify-nix = {
@@ -33,7 +34,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.mystiafin = import ./home.nix;
             home-manager.extraSpecialArgs = { inherit inputs; device = "nixos"; };
-						home-manager.backupFileExtension = "backup";
+            home-manager.backupFileExtension = "backup";
           }
         ];
       };
@@ -49,7 +50,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.mystiafin = import ./home.nix;
             home-manager.extraSpecialArgs = { inherit inputs; device = "thinkpad"; };
-						home-manager.backupFileExtension = "backup";
+            home-manager.backupFileExtension = "backup";
           }
         ];
       };
