@@ -69,6 +69,7 @@ in
     kitty
     prismlauncher
     osu-lazer-bin
+		yazi
   ]);
   
   home.sessionVariables = {
