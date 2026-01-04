@@ -6,7 +6,6 @@
   imports =
     [
       ./devices/${hw_file}.nix
-			./update.nix
     ];
 
   boot = {

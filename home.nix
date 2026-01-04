@@ -20,7 +20,7 @@ in
   home.homeDirectory = "/home/mystiafin";
   home.stateVersion = "25.05";
   programs.home-manager.enable = true;
-  
+
   imports = [
     inputs.spicetify-nix.homeManagerModules.default
     inputs.zen-browser.homeModules.beta
@@ -31,7 +31,7 @@ in
     ./home-manager/niri.nix
     ./home-manager/wofi.nix
     ./home-manager/wlogout.nix
-		./home-manager/btop.nix
+    ./home-manager/btop.nix
   ] ++ (if device == "thinkpad" then [
     ./home-manager/foot.nix
   ] else [
@@ -55,28 +55,29 @@ in
     btop
     libnotify
     gtk3
-		nautilus
-		bluez-tools
-		microfetch
-		qbittorrent-enhanced
-		playerctl
-		cava
-		cmatrix
-		qt6.qtsvg
+    nautilus
+    bluez-tools
+    microfetch
+    qbittorrent-enhanced
+    playerctl
+    cava
+    cmatrix
+    qt6.qtsvg
+    inkscape-with-extensions
   ] ++ (if device == "thinkpad" then [
     foot
   ] else [
     kitty
     prismlauncher
     osu-lazer-bin
-		yazi
+    yazi
   ]);
-  
+
   home.sessionVariables = {
     QMLLS_BUILD_DIRS = "${pkgs.qt6.qtdeclarative}/lib/qt-6/qml:${pkgs.quickshell}/lib/qt-6/qml";
     QML_IMPORT_PATH = "${pkgs.qt6.qtdeclarative}/lib/qt-6/qml:${pkgs.quickshell}/lib/qt-6/qml:${pkgs.qt6.qt5compat}/lib/qt-6/qml";
   };
-  
+
   programs.bash.enable = true;
   programs.zen-browser.enable = true;
 }
