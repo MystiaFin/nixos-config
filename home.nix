@@ -46,7 +46,6 @@ in
     cloudflare-cli
     brightnessctl
     nerd-fonts.jetbrains-mono
-    vesktop
     quickshell
     qt6.qt5compat
     obs-studio
@@ -67,6 +66,7 @@ in
   ] ++ (if device == "thinkpad" then [
     foot
   ] else [
+    vesktop
     kitty
     prismlauncher
     osu-lazer-bin

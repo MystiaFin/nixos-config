@@ -18,7 +18,7 @@
       plugins = [ "git" "sudo" "docker" ];
       theme = "robbyrussell";
     };
-    initExtra = ''
+    initContent = ''
       # Force cursor to be a block (standard vt100 code)
       echo -ne '\e[2 q'
 
