@@ -1,3 +1,4 @@
+{ device, ... }:
 {
   programs.zsh = {
     enable = true;
@@ -9,8 +10,7 @@
       ll = "ls -l";
       vim = "nvim";
       vi = "nvim";
-      nrs-thinkpad = "sudo nixos-rebuild switch --flake .#thinkpad";
-      nrs-desktop = "sudo nixos-rebuild switch --flake .#desktop";
+      nrs = "sudo nixos-rebuild switch --flake .#${if device == "thinkpad" then "thinkpad" else "desktop"}";
     };
 
     oh-my-zsh = {

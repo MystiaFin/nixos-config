@@ -32,6 +32,8 @@
       "rd.systemd.show_status=false"
       "rd.udev.log_level=3"
       "udev.log_priority=3"
+      "vt.global_cursor_default=0"
+      "fbcon=nodefer"
     ] ++ lib.optionals (hw_file == "nixos") [
       "pcie_aspm=off"
       "mt7921e.disable_aspm=1"
@@ -167,6 +169,8 @@
   services.cloudflare-warp.enable = true;
   services.gvfs.enable = true;
   services.udisks2.enable = true;
+  services.gnome.tracker-miners.enable = true;
+  services.gnome.tracker.enable = true;
 
   system.stateVersion = "25.05";
 }

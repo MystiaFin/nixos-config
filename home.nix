@@ -40,7 +40,6 @@ in
 
   home.packages = with pkgs; [
     tmux
-    wofi
     wlogout
     cloudflare-warp
     cloudflare-cli

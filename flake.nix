@@ -2,7 +2,7 @@
   description = "Veronica's NixOS";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
-		nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -44,6 +44,9 @@
         specialArgs = { inherit inputs; hw_file = "thinkpad"; };
         modules = [
           ./configuration.nix
+          ({ pkgs, ... }: {
+            boot.kernelPackages = pkgs.linuxPackages_xanmod;
+          })
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
