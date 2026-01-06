@@ -65,6 +65,13 @@
 
   programs.gamemode.enable = lib.mkIf (hw_file == "nixos") true;
   powerManagement.cpuFreqGovernor = "performance";
+  services.tlp = {
+    enable = true;
+    settings = {
+      STOP_CHARGE_THRESH_BAT1 = 85;
+      START_CHARGE_THRESH_BAT1 = 75;
+    };
+  };
 
   networking.hostName = hw_file;
   networking.networkmanager.enable = true;
