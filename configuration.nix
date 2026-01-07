@@ -176,8 +176,6 @@
   services.cloudflare-warp.enable = true;
   services.gvfs.enable = true;
   services.udisks2.enable = true;
-  services.gnome.tracker-miners.enable = true;
-  services.gnome.tracker.enable = true;
 
   system.stateVersion = "25.05";
 }

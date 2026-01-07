@@ -2,7 +2,11 @@
 {
   gtk = {
     enable = true;
-    
+    font = {
+      name = "Poppins";
+      size = 11;
+    };
+
     theme = {
       name = "catppuccin-mocha-blue-standard";
       package = pkgs.catppuccin-gtk.override {
@@ -10,7 +14,7 @@
         variant = "mocha";
       };
     };
-    
+
     iconTheme = {
       name = "Papirus-Dark";
       package = pkgs.catppuccin-papirus-folders.override {

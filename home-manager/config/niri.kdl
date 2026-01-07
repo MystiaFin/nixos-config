@@ -106,7 +106,7 @@ binds {
 		Mod+Shift+T hotkey-overlay-title="Quickshell Launcher" { 
     spawn "qs" "ipc" "call" "launcher" "toggle";
 }
-		Mod+E { spawn "nautilus"; }
+		Mod+E { spawn "nemo"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
 
     XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+"; }

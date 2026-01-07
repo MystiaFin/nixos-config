@@ -48,12 +48,12 @@ in
     quickshell
     qt6.qt5compat
     obs-studio
-    xdg-desktop-portal-gnome
+    xdg-desktop-portal-gtk
     google-fonts
     btop
     libnotify
     gtk3
-    nautilus
+		nemo
     bluez-tools
     microfetch
     qbittorrent-enhanced
@@ -62,10 +62,12 @@ in
     cmatrix
     qt6.qtsvg
     inkscape-with-extensions
+    ffmpeg
+    unzip
+    vesktop
   ] ++ (if device == "thinkpad" then [
     foot
   ] else [
-    vesktop
     kitty
     prismlauncher
     osu-lazer-bin
