@@ -103,7 +103,7 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     Mod+Return hotkey-overlay-title="Open a Terminal: kitty" { spawn "@TERMINAL@"; }
-		Mod+Shift+T hotkey-overlay-title="Quickshell Launcher" { 
+		Ctrl+Space hotkey-overlay-title="Quickshell Launcher" { 
     spawn "qs" "ipc" "call" "launcher" "toggle";
 }
 		Mod+E { spawn "nemo"; }
