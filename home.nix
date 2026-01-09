@@ -25,7 +25,6 @@ in
     inputs.spicetify-nix.homeManagerModules.default
     inputs.zen-browser.homeModules.beta
     ./home-manager/zsh.nix
-    ./home-manager/nvim.nix
     ./home-manager/gtk.nix
     ./home-manager/tmux.nix
     ./home-manager/niri.nix
@@ -65,6 +64,8 @@ in
     ffmpeg
     unzip
     vesktop
+		ungoogled-chromium
+		unrar
   ] ++ (if device == "thinkpad" then [
     foot
   ] else [

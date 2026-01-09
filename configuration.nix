@@ -6,6 +6,7 @@
   imports =
     [
       ./devices/${hw_file}.nix
+			./modules/nixvim.nix
     ];
 
   boot = {
@@ -88,7 +89,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    neovim
     wget
     git
     xwayland-satellite

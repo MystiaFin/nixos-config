@@ -18,9 +18,13 @@
         home-manager.follows = "home-manager";
       };
     };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, nixvim, home-manager, ... }@inputs: {
     nixosConfigurations = {
 
       desktop = nixpkgs.lib.nixosSystem {
@@ -29,6 +33,7 @@
         modules = [
           ./configuration.nix
           home-manager.nixosModules.home-manager
+					nixvim.nixosModules.nixvim
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
@@ -48,6 +53,7 @@
             boot.kernelPackages = pkgs.linuxPackages_xanmod;
           })
           home-manager.nixosModules.home-manager
+					nixvim.nixosModules.nixvim
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
