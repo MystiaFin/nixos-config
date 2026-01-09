@@ -33,7 +33,7 @@
         modules = [
           ./configuration.nix
           home-manager.nixosModules.home-manager
-					nixvim.nixosModules.nixvim
+          nixvim.nixosModules.nixvim
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
@@ -53,7 +53,7 @@
             boot.kernelPackages = pkgs.linuxPackages_xanmod;
           })
           home-manager.nixosModules.home-manager
-					nixvim.nixosModules.nixvim
+          nixvim.nixosModules.nixvim
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
