@@ -30,12 +30,11 @@ in
     ./home-manager/wofi.nix
     ./home-manager/wlogout.nix
     ./home-manager/btop.nix
+    ./home-manager/niri.nix
   ] ++ (if device == "thinkpad" then [
     ./home-manager/foot.nix
-    ./home-manager/sway.nix
   ] else [
     ./home-manager/kitty.nix
-    ./home-manager/niri.nix
   ]);
 
   home.packages = with pkgs; [
@@ -69,9 +68,6 @@ in
     unrar
   ] ++ (if device == "thinkpad" then [
     foot
-		grim
-		slurp
-		wl-clipboard
   ] else [
     kitty
     prismlauncher
