@@ -101,6 +101,7 @@
   ];
 
   programs.niri.enable = true;
+	programs.sway.enable = true;
   programs.zsh.enable = true;
   programs.mtr.enable = true;
 

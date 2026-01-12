@@ -33,6 +33,7 @@ in
     ./home-manager/btop.nix
   ] ++ (if device == "thinkpad" then [
     ./home-manager/foot.nix
+    ./home-manager/sway.nix
   ] else [
     ./home-manager/kitty.nix
   ]);
@@ -52,7 +53,7 @@ in
     btop
     libnotify
     gtk3
-		nemo
+    nemo
     bluez-tools
     microfetch
     qbittorrent-enhanced
@@ -64,8 +65,11 @@ in
     ffmpeg
     unzip
     vesktop
-		ungoogled-chromium
-		unrar
+    ungoogled-chromium
+    unrar
+		grim
+		slurp
+		wl-clipboard
   ] ++ (if device == "thinkpad" then [
     foot
   ] else [
