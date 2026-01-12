@@ -27,7 +27,6 @@ in
     ./home-manager/zsh.nix
     ./home-manager/gtk.nix
     ./home-manager/tmux.nix
-    ./home-manager/niri.nix
     ./home-manager/wofi.nix
     ./home-manager/wlogout.nix
     ./home-manager/btop.nix
@@ -36,6 +35,7 @@ in
     ./home-manager/sway.nix
   ] else [
     ./home-manager/kitty.nix
+    ./home-manager/niri.nix
   ]);
 
   home.packages = with pkgs; [
@@ -67,11 +67,11 @@ in
     vesktop
     ungoogled-chromium
     unrar
+  ] ++ (if device == "thinkpad" then [
+    foot
 		grim
 		slurp
 		wl-clipboard
-  ] ++ (if device == "thinkpad" then [
-    foot
   ] else [
     kitty
     prismlauncher

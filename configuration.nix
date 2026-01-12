@@ -100,8 +100,8 @@
     protonup-qt
   ];
 
-  programs.niri.enable = true;
-	programs.sway.enable = true;
+  programs.niri.enable = lib.mkIf(hw_file == "nixos") true;
+	programs.sway.enable = lib.mkIf (hw_file == "thinkpad") true;
   programs.zsh.enable = true;
   programs.mtr.enable = true;
 
