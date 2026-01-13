@@ -67,6 +67,7 @@ in
     ungoogled-chromium
     unrar
 		vlc
+		p7zip
   ] ++ (if device == "thinkpad" then [
     foot
   ] else [
