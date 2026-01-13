@@ -76,6 +76,11 @@
 
   networking.hostName = hw_file;
   networking.networkmanager.enable = true;
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 53317 ];
+    allowedUDPPorts = [ 53317 ];
+  };
   systemd.services.NetworkManager-wait-online.enable = false;
 
   time.timeZone = "Asia/Jakarta";

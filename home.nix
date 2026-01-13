@@ -68,6 +68,7 @@ in
     unrar
 		vlc
 		p7zip
+		localsend
   ] ++ (if device == "thinkpad" then [
     foot
   ] else [
