@@ -66,6 +66,7 @@ in
     vesktop
     ungoogled-chromium
     unrar
+		vlc
   ] ++ (if device == "thinkpad" then [
     foot
   ] else [

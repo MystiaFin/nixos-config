@@ -6,7 +6,7 @@
   imports =
     [
       ./devices/${hw_file}.nix
-			./modules/nixvim.nix
+      ./modules/nixvim.nix
     ];
 
   boot = {
