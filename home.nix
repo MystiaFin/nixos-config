@@ -24,7 +24,7 @@ in
   imports = [
     inputs.spicetify-nix.homeManagerModules.default
     inputs.zen-browser.homeModules.beta
-    ./home-manager/zsh.nix
+		./home-manager/fish.nix
     ./home-manager/gtk.nix
     ./home-manager/tmux.nix
     ./home-manager/wofi.nix

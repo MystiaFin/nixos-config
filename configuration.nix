@@ -13,6 +13,7 @@
     loader.systemd-boot = {
       enable = true;
       consoleMode = "max";
+			configurationLimit = 10;
     };
     loader.efi.canTouchEfiVariables = true;
     consoleLogLevel = 0;
@@ -106,7 +107,7 @@
   ];
 
   programs.niri.enable = true;
-  programs.zsh.enable = true;
+	programs.fish.enable = true;
   programs.mtr.enable = true;
 
   services.xserver.wacom.enable = lib.mkIf (hw_file == "nixos") true;
@@ -137,7 +138,7 @@
 
   users.users.mystiafin = {
     isNormalUser = true;
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
     extraGroups = [ "wheel" "libvirtd" "docker" ];
     packages = with pkgs; [
       tree
