@@ -31,6 +31,7 @@ in
     ./home-manager/wlogout.nix
     ./home-manager/btop.nix
     ./home-manager/niri.nix
+		./home-manager/bash.nix
   ] ++ (if device == "thinkpad" then [
     ./home-manager/foot.nix
   ] else [
