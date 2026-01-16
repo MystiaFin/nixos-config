@@ -27,7 +27,15 @@
       gcc
       nixpkgs-fmt
       kdePackages.qtdeclarative
-      # kdl-lsp 
+      kdlfmt
+    ];
+
+    autoCmd = [
+      {
+        event = "BufWritePost";
+        pattern = "*.kdl";
+        command = "!kdlfmt -i %";
+      }
     ];
 
     plugins.web-devicons = {
@@ -202,15 +210,12 @@
         "tsx"
         "prisma"
         "kdl"
+        "norg"
       ];
     };
 
     plugins.ts-autotag = {
       enable = true;
-      settings = {
-        enable_close = true;
-        enable_close_on_slash = true;
-      };
     };
 
     plugins.nvim-autopairs.enable = true;

@@ -4,25 +4,24 @@
   programs.tmux = {
     enable = true;
     escapeTime = 0;
-    terminal = "tmux-256color";
+		terminal = "screen-256color";
     keyMode = "vi";
 
     plugins = with pkgs; [
-      {
-        plugin = tmuxPlugins.continuum;
-        extraConfig = ''
-          set -g @continuum-restore 'off'  # Change to 'off'
-          set -g @continuum-save-interval '15'
-        '';
-      }
       {
         plugin = tmuxPlugins.resurrect;
         extraConfig = ''
           set -g @resurrect-save-bash-history 'on'
         '';
       }
+      {
+        plugin = tmuxPlugins.continuum; 
+        extraConfig = ''
+          set -g @continuum-restore 'on' 
+          set -g @continuum-save-interval '15'
+        '';
+      }
     ];
-
     extraConfig = ''
       set -ga terminal-overrides ',*:Tc'
 

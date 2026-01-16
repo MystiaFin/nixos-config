@@ -40,7 +40,7 @@
         set -l green (set_color a6e3a1)
         set -l text (set_color cdd6f4)
         set -l normal (set_color normal)
-        echo -n $text"╭─"
+        echo -n $text"╭─  "
         echo -n $path_blue"["(prompt_pwd)"]"
 
         if type -q git
