@@ -3,7 +3,7 @@
   gtk = {
     enable = true;
     font = {
-      name = "Poppins";
+      name = "Inter";
       size = 11;
     };
 

@@ -21,6 +21,7 @@
     };
 
     extraPackages = with pkgs; [
+      tree-sitter
       git
       ripgrep
       fd
@@ -196,22 +197,12 @@
 
     plugins.treesitter = {
       enable = true;
+      nixGrammars = false;
       settings = {
         highlight.enable = true;
         indent.enable = true;
       };
-      ensureInstalled = [
-        "lua"
-        "typescript"
-        "javascript"
-        "html"
-        "css"
-        "json"
-        "tsx"
-        "prisma"
-        "kdl"
-        "norg"
-      ];
+      package = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
     };
 
     plugins.ts-autotag = {
@@ -251,6 +242,9 @@
               "class\\s*=\\s*['\"]([^'\"]*)['\"]"
             ];
           };
+        };
+        jsonls = {
+          enable = true;
         };
         nixd = {
           enable = true;
