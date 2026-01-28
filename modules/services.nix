@@ -13,7 +13,12 @@
 
   services.pipewire = {
     enable = true;
-    pulse.enable = true;
+    extraConfig.pipewire."92-low-latency" = {
+      "context.properties" = {
+        "default.clock.rate" = 48000;
+        "default.clock.allowed-rates" = [ 44100 48000 ];
+      };
+    };
   };
 
   services.keyd = {

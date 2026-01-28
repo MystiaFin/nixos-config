@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   programs.nixvim = {
@@ -13,6 +13,8 @@
       wrap = false;
       tabstop = 2;
       shiftwidth = 2;
+      expandtab = true;
+      smartindent = true;
       swapfile = false;
       guicursor = "";
       ignorecase = true;
@@ -275,6 +277,48 @@
       enableTelescope = true;
     };
 
+    plugins.neorg = {
+      enable = true;
+      settings.load = {
+        "core.defaults" = {
+          __empty = null;
+        };
+        "core.concealer" = {
+          config = {
+            icon_preset = "diamond";
+          };
+        };
+        "core.dirman" = {
+          config = {
+            workspaces = {
+              notes = "~/notes";
+            };
+            default_workspace = "notes";
+          };
+        };
+        "core.summary" = {
+          config = {
+            strategy = "by_path";
+            link_format = "friendly";
+          };
+        };
+        "core.esupports.indent" = {
+          __empty = null;
+        };
+        "core.integrations.treesitter" = {
+          __empty = null;
+        };
+        "core.export" = {
+          __empty = null;
+        };
+        "core.tangle" = {
+          __empty = null;
+        };
+      };
+    };
+
+    opts.conceallevel = 2;
+
     keymaps = [
       {
         mode = "n";
@@ -336,6 +380,7 @@
       { mode = "n"; key = "[d"; action = "<cmd>lua vim.diagnostic.goto_prev()<CR>"; }
       { mode = "n"; key = "]d"; action = "<cmd>lua vim.diagnostic.goto_next()<CR>"; }
       { mode = "n"; key = "<leader>d"; action = "<cmd>lua vim.diagnostic.open_float()<CR>"; }
+      { mode = "n"; key = "<leader>n"; action = "<cmd>Neorg workspace notes<CR>"; }
     ];
   };
 }

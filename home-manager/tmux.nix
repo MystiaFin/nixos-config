@@ -4,7 +4,7 @@
   programs.tmux = {
     enable = true;
     escapeTime = 0;
-		terminal = "screen-256color";
+    terminal = "screen-256color";
     keyMode = "vi";
 
     plugins = with pkgs; [
@@ -15,15 +15,28 @@
         '';
       }
       {
-        plugin = tmuxPlugins.continuum; 
+        plugin = tmuxPlugins.continuum;
         extraConfig = ''
           set -g @continuum-restore 'on' 
           set -g @continuum-save-interval '15'
         '';
       }
     ];
+
     extraConfig = ''
       set -ga terminal-overrides ',*:Tc'
+
+      set -g base-index 1
+      setw -g pane-base-index 1
+
+      bind -n M-! select-window -t 1
+      bind -n M-@ select-window -t 2
+      bind -n M-# select-window -t 3
+      bind -n M-$ select-window -t 4
+      bind -n M-% select-window -t 5
+
+      bind -n M-h previous-window
+      bind -n M-l next-window
 
       set -g status on
       set -g status-interval 2
@@ -52,9 +65,6 @@
       bind j select-pane -D
       bind k select-pane -U
       bind l select-pane -R
-
-      bind -n M-j previous-window
-      bind -n M-k next-window
     '';
   };
 }
