@@ -3,6 +3,7 @@
     enable = true;
 
     shellIntegration.enableZshIntegration = false;
+    shellIntegration.enableFishIntegration = false;
 
     font = {
       name = "JetBrainsMono Nerd Font";
