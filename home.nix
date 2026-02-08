@@ -77,6 +77,7 @@ in
     wineWowPackages.stable
     winetricks
 		zed-editor
+    kdePackages.kdenlive
   ] ++ (if device == "thinkpad" then [
     foot
   ] else [
