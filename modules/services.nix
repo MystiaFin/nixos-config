@@ -20,6 +20,18 @@
       };
     };
   };
+  services.pipewire.wireplumber.extraConfig."11-bluetooth-policy" = {
+    "monitor.bluez.rules" = [
+      {
+        matches = [{ "node.name" = "~bluez_output.*"; }];
+        actions = {
+          update-props = {
+            "audio.rate" = 48000;
+          };
+        };
+      }
+    ];
+  };
 
   services.keyd = {
     enable = true;

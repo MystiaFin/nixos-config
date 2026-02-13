@@ -31,6 +31,8 @@
       nixpkgs-fmt
       kdePackages.qtdeclarative
       kdlfmt
+      typst
+      tinymist
     ];
 
     autoCmd = [
@@ -262,6 +264,10 @@
           enable = true;
           filetypes = [ "kdl" ];
         };
+        tinymist = {
+          enable = true;
+          filetypes = [ "typ"];
+        };
       };
     };
     extraConfigLua = ''
@@ -275,6 +281,13 @@
     plugins.harpoon = {
       enable = true;
       enableTelescope = true;
+    };
+
+    plugins.typst-preview = {
+      enable = true;
+      settings = {
+        open_cmd = "xdg-open %s";
+      };
     };
 
     plugins.neorg = {

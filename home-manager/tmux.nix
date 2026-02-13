@@ -40,19 +40,23 @@
 
       set -g status on
       set -g status-interval 2
-      set -g status-style ""
+      set -g status-style bg=default
 
-      set -g status-left "#[fg=#24273a,bg=#f9e2af]  #[fg=#f9e2af,bg=#24273a]"
+      # Status Left
+      set -g status-left "#[fg=#24273a,bg=#f9e2af]  #[fg=#f9e2af,bg=default]"
       set -g status-left-length 60
 
-      set -g window-status-separator ""
+      set -g window-status-separator " "
 
-      set -g window-status-format "#[fg=#24273a,bg=#45475a]#[fg=#cdd6f4,bg=#45475a] #W #[fg=#45475a,bg=#24273a]"
+      # Window Inactive
+      set -g window-status-format "#[fg=#cdd6f4,bg=#45475a] #W #[fg=#45475a,bg=default,nobold]"
 
-      set -g window-status-current-format "#[fg=#24273a,bg=#89b4fa]#[fg=#11111b,bg=#89b4fa,bold] #W #[fg=#89b4fa,bg=#24273a]"
+      # Window Active
+      set -g window-status-current-format "#[fg=#11111b,bg=#89b4fa,bold] #W #[fg=#89b4fa,bg=default,nobold]"
       set -g window-status-current-style "fg=#11111b,bg=#89b4fa,bold"
 
-      set -g status-right "#S #[fg=#45475a,bg=#24273a]#[fg=#cdd6f4,bg=#45475a] #H #[fg=#f9e2af,bg=#45475a]#[fg=#11111b,bg=#f9e2af] %H:%M:%S "
+      # Status Right
+      set -g status-right "#S #[fg=#45475a,bg=default]#[fg=#cdd6f4,bg=#45475a] #H #[fg=#f9e2af,bg=#45475a]#[fg=#11111b,bg=#f9e2af] %H:%M:%S "
       set -g status-right-length 50
 
       set -g pane-border-style "fg=#45475a"
