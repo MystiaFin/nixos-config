@@ -1,5 +1,9 @@
 { device, pkgs, ... }:
 {
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
   programs.fish = {
     enable = true;
 
@@ -7,7 +11,7 @@
       ll = "lsd -l";
       ls = "lsd";
       la = "lsd -a";
-			lla = "lsd -la";
+      lla = "lsd -la";
       vim = "nvim";
       vi = "nvim";
       nrs = "sudo nixos-rebuild switch --flake .#${if device == "thinkpad" then "thinkpad" else "desktop"}";

@@ -51,6 +51,7 @@ in
     obs-studio
     xdg-desktop-portal-gtk
     google-fonts
+    corefonts
     inter
     btop
     libnotify
@@ -78,6 +79,7 @@ in
     winetricks
 		zed-editor
     kdePackages.kdenlive
+    onlyoffice-desktopeditors
   ] ++ (if device == "thinkpad" then [
     foot
   ] else [

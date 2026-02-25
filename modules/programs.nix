@@ -14,6 +14,7 @@
   ];
 
   programs.niri.enable = true;
+  programs.hyprland.enable = true;
 	programs.fish.enable = true;
   programs.mtr.enable = true;
   programs.dconf.enable = true;
