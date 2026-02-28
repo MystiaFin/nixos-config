@@ -239,6 +239,7 @@
         };
         html.enable = true;
         cssls.enable = true;
+        org.enalbe = true;
         tailwindcss = {
           enable = true;
           settings = {
@@ -266,7 +267,7 @@
         };
         tinymist = {
           enable = true;
-          filetypes = [ "typ"];
+          filetypes = [ "typ" ];
         };
       };
     };
@@ -287,6 +288,14 @@
       enable = true;
       settings = {
         open_cmd = "xdg-open %s";
+      };
+    };
+
+    plugins.orgmode = {
+      enable = true;
+      settings = {
+        org_agenda_files = "~/orgfiles/**/*";
+        org_default_notes_file = "~/orgfiles/refile.org";
       };
     };
 

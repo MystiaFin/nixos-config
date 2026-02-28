@@ -46,6 +46,7 @@ in
     cloudflare-cli
     brightnessctl
     nerd-fonts.jetbrains-mono
+    vista-fonts
     quickshell
     qt6.qt5compat
     obs-studio
@@ -80,6 +81,8 @@ in
 		zed-editor
     kdePackages.kdenlive
     onlyoffice-desktopeditors
+    aerc
+    typst
   ] ++ (if device == "thinkpad" then [
     foot
   ] else [
