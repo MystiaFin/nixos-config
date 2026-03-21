@@ -33,13 +33,13 @@
         modules = [
           ./configuration.nix
           home-manager.nixosModules.home-manager
-          nixvim.nixosModules.nixvim
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.mystiafin = import ./home.nix;
             home-manager.extraSpecialArgs = { inherit inputs; device = "nixos"; };
             home-manager.backupFileExtension = "backup";
+            home-manager.sharedModules = [ inputs.nixvim.homeModules.nixvim ];
           }
         ];
       };
@@ -60,6 +60,7 @@
             home-manager.users.mystiafin = import ./home.nix;
             home-manager.extraSpecialArgs = { inherit inputs; device = "thinkpad"; };
             home-manager.backupFileExtension = "backup";
+            home-manager.sharedModules = [ inputs.nixvim.homeManagerModules.nixvim ];
           }
         ];
       };

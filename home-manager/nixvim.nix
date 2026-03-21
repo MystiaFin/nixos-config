@@ -33,6 +33,9 @@
       kdlfmt
       typst
       tinymist
+      texliveFull
+      texlive.combined.scheme-full
+      zathura
     ];
 
     autoCmd = [
@@ -269,6 +272,7 @@
           enable = true;
           filetypes = [ "typ" ];
         };
+        texlab.enable = true;
       };
     };
     extraConfigLua = ''
@@ -336,6 +340,15 @@
         "core.tangle" = {
           __empty = null;
         };
+      };
+    };
+    plugins.vimtex = {
+      enable = true;
+      texlivePackage = null;
+      settings = {
+        view_method = "zathura";
+        compiler_method = "xelatex";
+        view_automatic = false;
       };
     };
 

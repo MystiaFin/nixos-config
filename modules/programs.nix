@@ -7,6 +7,8 @@
     xwayland-satellite
     catppuccin-cursors.mochaDark
     sddm-astronaut
+    texlive.combined.scheme-full
+    showmethekey
   ] ++ lib.optionals (hw_file == "nixos") [
     opentabletdriver
     mangohud
@@ -15,7 +17,7 @@
 
   programs.niri.enable = true;
   programs.hyprland.enable = true;
-	programs.fish.enable = true;
+  programs.fish.enable = true;
   programs.mtr.enable = true;
   programs.dconf.enable = true;
   programs.bash.enable = true;

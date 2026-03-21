@@ -31,8 +31,9 @@ in
     ./home-manager/wlogout.nix
     ./home-manager/btop.nix
     ./home-manager/niri.nix
+    ./home-manager/nixvim.nix
     ./home-manager/bash.nix
-		./home-manager/cava.nix
+    ./home-manager/cava.nix
   ] ++ (if device == "thinkpad" then [
     ./home-manager/foot.nix
   ] else [
@@ -78,11 +79,13 @@ in
     lsd
     wineWowPackages.stable
     winetricks
-		zed-editor
+    zed-editor
     kdePackages.kdenlive
     onlyoffice-desktopeditors
     aerc
     typst
+    texliveFull
+    qalculate-gtk
   ] ++ (if device == "thinkpad" then [
     foot
   ] else [

@@ -6,7 +6,7 @@
   imports =
     [
       ./devices/${hw_file}.nix
-      ./modules/nixvim.nix
+      ./modules/desktop/tablet.nix
       ./modules/boot.nix
       ./modules/desktop/nvidia.nix
       ./modules/desktop/games.nix
