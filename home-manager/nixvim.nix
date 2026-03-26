@@ -415,7 +415,15 @@
       { mode = "n"; key = "[d"; action = "<cmd>lua vim.diagnostic.goto_prev()<CR>"; }
       { mode = "n"; key = "]d"; action = "<cmd>lua vim.diagnostic.goto_next()<CR>"; }
       { mode = "n"; key = "<leader>d"; action = "<cmd>lua vim.diagnostic.open_float()<CR>"; }
-      { mode = "n"; key = "<leader>n"; action = "<cmd>Neorg workspace notes<CR>"; }
+      {
+        mode = "n";
+        key = "<leader>ll";
+        action = "\\lv";
+        options = {
+          remap = true;
+          desc = "VimTeX Preview";
+        };
+      }
     ];
   };
 }
