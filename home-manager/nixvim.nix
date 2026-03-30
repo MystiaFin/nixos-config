@@ -33,8 +33,6 @@
       kdlfmt
       typst
       tinymist
-      texliveFull
-      texlive.combined.scheme-full
       zathura
     ];
 

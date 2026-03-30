@@ -7,7 +7,6 @@
     xwayland-satellite
     catppuccin-cursors.mochaDark
     sddm-astronaut
-    texlive.combined.scheme-full
     showmethekey
   ] ++ lib.optionals (hw_file == "nixos") [
     opentabletdriver
