@@ -33,6 +33,7 @@
       kdlfmt
       typst
       tinymist
+      texliveFull
       zathura
     ];
 
@@ -59,7 +60,6 @@
           treesitter = true;
           harpoon = true;
           telescope = true;
-          noice = true;
           notify = true;
         };
         custom_highlights = ''
@@ -110,14 +110,6 @@
       };
     };
 
-    plugins.lualine = {
-      enable = true;
-      settings.options = {
-        component_separators = { left = ""; right = ""; };
-        section_separators = { left = ""; right = ""; };
-      };
-    };
-
     plugins.indent-blankline = {
       enable = true;
       settings.exclude.filetypes = [ "dashboard" ];
@@ -133,27 +125,6 @@
       };
     };
 
-    plugins.noice = {
-      enable = true;
-      settings = {
-        presets = {
-          bottom_search = false;
-          command_palette = true;
-          long_message_to_split = false;
-        };
-        views = {
-          cmdline_popup = {
-            position = { row = "50%"; col = "50%"; };
-            size = { width = 80; height = "auto"; };
-          };
-          notify = {
-            position = { row = "100%"; col = "100%"; };
-            border = { style = "rounded"; };
-          };
-        };
-      };
-    };
-
     plugins.notify = {
       enable = true;
       settings = {
@@ -162,6 +133,15 @@
         stages = "fade";
         timeout = 2000;
         max_width = 60;
+      };
+    };
+
+    plugins.vimtex = {
+      enable = true;
+      texlivePackage = null;
+      settings = {
+        enabled = true;
+        view_method = "zathura";
       };
     };
 
@@ -340,17 +320,6 @@
         };
       };
     };
-    plugins.vimtex = {
-      enable = true;
-      texlivePackage = null;
-      settings = {
-        view_method = "zathura";
-        compiler_method = "xelatex";
-        view_automatic = false;
-      };
-    };
-
-    opts.conceallevel = 2;
 
     keymaps = [
       {
