@@ -1,0 +1,66 @@
+require('dashboard').setup({
+	theme = 'doom',
+	config = {
+		header = {
+			' ',
+			' ',
+			' ',
+			' ',
+			' ',
+			' ',
+			' ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗',
+			' ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║',
+			' ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║',
+			' ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║',
+			' ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║',
+			' ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝',
+			' ',
+			' ',
+			' ',
+			' ',
+		},
+		center = {
+			{
+				icon = " ",
+				icon_hl = "title",
+				desc = "Find file           ",
+				desc_hl = "string",
+				key = "f",
+				keymap = "spc f f",
+				key_hl = "number",
+				action = "Telescope",
+			},
+			{
+				icon = " ",
+				icon_hl = "Title",
+				desc = "File Browser        ",
+				desc_hl = "String",
+				key = "-",
+				keymap = "",
+				key_hl = "Number",
+				action = "Oil",
+			},
+			{
+				icon = " ",
+				icon_hl = "Title",
+				desc = "Notes        ",
+				desc_hl = "String",
+				key = "n",
+				keymap = "",
+				key_hl = "Number",
+				action = "Neorg workspace notes",
+			},
+			{
+				icon = " ",
+				icon_hl = "Title",
+				desc = "Quit Neovim        ",
+				desc_hl = "String",
+				key = "q",
+				keymap = "",
+				key_hl = "Number",
+				action = "qa",
+			},
+		}
+
+	}
+})
