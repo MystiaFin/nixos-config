@@ -1,70 +1,86 @@
 {
-  description = "Veronica's NixOS";
+  description = "Multi-machine NixOS configuration";
+
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    zen-browser = {
+      url = "github:youwen5/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    zen-browser = {
-      url = "github:0xc000022070/zen-browser-flake";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        home-manager.follows = "home-manager";
-      };
-    };
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
   };
 
-  outputs = { self, nixpkgs, nixvim, home-manager, ... }@inputs: {
-    nixosConfigurations = {
-
-      desktop = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; hw_file = "nixos"; };
-        modules = [
-          ./configuration.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.mystiafin = import ./home.nix;
-            home-manager.extraSpecialArgs = { inherit inputs; device = "nixos"; };
-            home-manager.backupFileExtension = "backup";
-            home-manager.sharedModules = [ inputs.nixvim.homeModules.nixvim ];
-          }
-        ];
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      ...
+    }@inputs:
+    let
+      system = "x86_64-linux";
+      stateVersion = "26.05";
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
       };
 
-      thinkpad = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; hw_file = "thinkpad"; };
-        modules = [
-          ./configuration.nix
-          ({ pkgs, ... }: {
-            boot.kernelPackages = pkgs.linuxPackages_xanmod;
-          })
-          home-manager.nixosModules.home-manager
-          nixvim.nixosModules.nixvim
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.mystiafin = import ./home.nix;
-            home-manager.extraSpecialArgs = { inherit inputs; device = "thinkpad"; };
-            home-manager.backupFileExtension = "backup";
-            home-manager.sharedModules = [ inputs.nixvim.homeManagerModules.nixvim ];
-          }
-        ];
-      };
+      mkHost =
+        hostName:
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = { inherit inputs stateVersion; };
+          modules = [
+            ./modules/hosts/${hostName}/default.nix
+            ./modules/shared/default.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = { inherit inputs stateVersion hostName; };
+              home-manager.users.mystiafin = {
+                imports = [
+                  ./modules/home/shared
+                  ./modules/home/${hostName}
+                ];
+              };
+            }
+          ];
+        };
 
+      mkHome =
+        hostName:
+        home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          extraSpecialArgs = { inherit inputs stateVersion hostName; };
+          modules = [
+            {
+              home = {
+                username = "mystiafin";
+                homeDirectory = "/home/mystiafin";
+                inherit stateVersion;
+              };
+            }
+            ./modules/home/shared
+            ./modules/home/${hostName}
+          ];
+        };
+    in
+    {
+      nixosConfigurations = {
+        kanade = mkHost "kanade";
+        mafuyu = mkHost "mafuyu";
+      };
+      homeConfigurations = {
+        kanade = mkHome "kanade";
+        mafuyu = mkHome "mafuyu";
+      };
     };
-  };
 }
