@@ -1,6 +1,6 @@
 { pkgs, inputs, ... }: {
   home.packages = with pkgs; [
-    kdePackages.dolphin
+    pcmanfm
     yazi
     vesktop
     ungoogled-chromium
