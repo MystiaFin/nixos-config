@@ -3,6 +3,7 @@
 {
   imports = [
     ./niri.nix
+    ./foot.nix
   ];
 
   home.packages = with pkgs; [

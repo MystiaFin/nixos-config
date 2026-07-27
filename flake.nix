@@ -2,9 +2,9 @@
   description = "Multi-machine NixOS configuration";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/26.05";
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     zen-browser = {
@@ -39,7 +39,7 @@
           specialArgs = { inherit inputs stateVersion; };
           modules = [
             ./modules/hosts/${hostName}/default.nix
-            ./modules/shared/default.nix
+            ./modules/shared-system/default.nix
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;

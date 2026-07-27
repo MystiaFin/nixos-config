@@ -44,6 +44,8 @@ in
 
   home.packages = with pkgs; [
     tree-sitter
+    nano
+    brightnessctl
     wl-clipboard
     htop
     fastfetch
@@ -66,6 +68,9 @@ in
     vesktop
     ungoogled-chromium
     zed-editor
+    vlc
+    showmethekey
+    inputs.zen-browser.packages."${pkgs.system}".default
     onlyoffice-desktopeditors
     qalculate-gtk
     obs-studio
