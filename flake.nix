@@ -39,7 +39,6 @@
           specialArgs = { inherit inputs stateVersion; };
           modules = [
             ./modules/hosts/${hostName}/default.nix
-            ./modules/shared-system/default.nix
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
@@ -47,11 +46,13 @@
               home-manager.extraSpecialArgs = { inherit inputs stateVersion hostName; };
               home-manager.users.mystiafin = {
                 imports = [
-                  ./modules/home/shared
-                  ./modules/home/${hostName}
+                  ./modules/config
+                  ./modules/pkgs
+                  ./modules/hosts/${hostName}/home
                 ];
               };
             }
+            ./modules/shared/default.nix
           ];
         };
 
@@ -68,8 +69,9 @@
                 inherit stateVersion;
               };
             }
-            ./modules/home/shared
-            ./modules/home/${hostName}
+            ./modules/config
+            ./modules/pkgs
+            ./modules/hosts/${hostName}/home
           ];
         };
     in

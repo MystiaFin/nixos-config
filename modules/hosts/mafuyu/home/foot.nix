@@ -16,7 +16,7 @@ let
       lines = 10000;
     };
     cursor = {
-      style = "beam";
+      style = "block";
       blink = false;
     };
     colors-dark = {

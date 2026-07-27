@@ -17,11 +17,6 @@
 
   networking.networkmanager.enable = true;
 
-  environment.variables = {
-    XCURSOR_THEME = "catppuccin-mocha-dark-cursors";
-    XCURSOR_SIZE = "14";
-  };
-
   users.users.mystiafin = {
     isNormalUser = true;
     extraGroups = [
