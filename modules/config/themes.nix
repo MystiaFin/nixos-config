@@ -39,6 +39,7 @@ in {
   gtk.enable = true;
 
   home.sessionVariables = {
+    QT_QPA_PLATFORMTHEME = "qt6ct";
     FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
     XCURSOR_THEME = "catppuccin-mocha-dark-cursors";
     XCURSOR_SIZE = "14";

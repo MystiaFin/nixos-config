@@ -1,27 +1,41 @@
 { config, pkgs, inputs, ... }:
 
+let
+  sddm-astronaut = pkgs.sddm-astronaut.override {
+    embeddedTheme = "pixel_sakura";
+  };
+in
 {
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = [
     sddm-astronaut
-    xwayland-satellite
+    pkgs.xwayland-satellite
   ];
 
   services.displayManager.sddm = {
     enable = true;
+    package = pkgs.kdePackages.sddm;
+    theme = "sddm-astronaut-theme";
     wayland.enable = true;
-    extraPackages = with pkgs; [
-      kdePackages.qtmultimedia
-      kdePackages.qtsvg
-      kdePackages.qt5compat
+    extraPackages = [
+      sddm-astronaut
+      pkgs.kdePackages.qtmultimedia
+      pkgs.kdePackages.qtsvg
+      pkgs.kdePackages.qt5compat
     ];
   };
 
   boot.plymouth = {
     enable = true;
-    themePackages = with pkgs; [
-      (catppuccin-plymouth.override { variant = "mocha"; })
-    ];
   };
+
+  boot.consoleLogLevel = 0;
+  boot.initrd.verbose = false;
+  boot.kernelParams = [
+    "quiet"
+    "splash"
+    "rd.udev.log_level=3"
+    "rd.systemd.show_status=false"
+  ];
 
   programs.dconf.enable = true;
 
