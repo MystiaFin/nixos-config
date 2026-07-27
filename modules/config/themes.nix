@@ -10,6 +10,11 @@ in {
   home.packages = with pkgs; [
     catppuccin-qt5ct
     catppuccin-cursors.mochaDark
+    papirus-icon-theme
+    (catppuccin-kde.override {
+      flavour = [ "mocha" "macchiato" "frappe" "latte" ];
+      accents = [ "blue" ];
+    })
   ];
 
   programs.spicetify = {
@@ -31,16 +36,5 @@ in {
     FREETYPE_PROPERTIES = "cff:no-stem-darkening=0 autofitter:no-stem-darkening=0";
     XCURSOR_THEME = "catppuccin-mocha-dark-cursors";
     XCURSOR_SIZE = "14";
-  };
-
-  xdg.configFile."qt6ct/qt6ct.conf" = {
-    force = true;
-    text = ''
-      [Appearance]
-      custom_palette=true
-      color_scheme_path=${pkgs.catppuccin-qt5ct}/share/qt6ct/colors/catppuccin-mocha-mauve.conf
-      icon_theme=Papirus
-      style=Fusion
-    '';
   };
 }
