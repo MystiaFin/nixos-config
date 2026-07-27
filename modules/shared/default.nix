@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ./desktop.nix
     ./tools.nix
   ];
 

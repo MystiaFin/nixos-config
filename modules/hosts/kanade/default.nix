@@ -1,7 +1,10 @@
 { config, pkgs, stateVersion, ... }:
 
 {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [
+    ./hardware-configuration.nix
+    ../../shared/desktop.nix
+  ];
 
   networking.hostName = "kanade";
 
