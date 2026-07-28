@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports = [
@@ -8,6 +8,7 @@
 
   home.packages = with pkgs; [
     foot
+    inputs.helium-browser.packages."${pkgs.stdenv.hostPlatform.system}".default
   ];
 
   home.sessionVariables = {

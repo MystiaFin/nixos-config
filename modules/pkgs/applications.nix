@@ -4,11 +4,9 @@
     kdePackages.dolphin
     yazi
     vesktop
-    ungoogled-chromium
     zed-editor
     vlc
     showmethekey
-    inputs.zen-browser.packages."${pkgs.stdenv.hostPlatform.system}".default
     onlyoffice-desktopeditors
     qalculate-gtk
     obs-studio

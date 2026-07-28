@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports = [
@@ -11,6 +11,8 @@
     prismlauncher
     osu-lazer-bin
     kdePackages.kdenlive
+    inputs.zen-browser.packages."${pkgs.stdenv.hostPlatform.system}".default
+    ungoogled-chromium
   ];
 
   home.sessionVariables = {
