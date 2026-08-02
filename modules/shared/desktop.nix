@@ -8,6 +8,7 @@ in
 {
   environment.systemPackages = [
     sddm-astronaut
+		pkgs.easyeffects
     pkgs.xwayland-satellite
   ];
 
