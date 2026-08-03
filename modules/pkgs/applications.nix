@@ -2,6 +2,7 @@
   home.packages = with pkgs; [
     pcmanfm
     kdePackages.dolphin
+		thunar
     yazi
     vesktop
     zed-editor
@@ -16,5 +17,6 @@
     aerc
     wineWow64Packages.stable
     winetricks
+		kdePackages.gwenview
   ];
 }

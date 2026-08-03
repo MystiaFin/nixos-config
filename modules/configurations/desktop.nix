@@ -22,6 +22,7 @@ in
       pkgs.kdePackages.qtmultimedia
       pkgs.kdePackages.qtsvg
       pkgs.kdePackages.qt5compat
+			pkgs.kdePackages.kservice
     ];
   };
 
@@ -42,6 +43,15 @@ in
 
   services.printing.enable = true;
 
+	services.ipp-usb.enable = true;
+	services.printing.drivers = [ pkgs.cnijfilter2 ];
+
+	services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
+
   services.pipewire = {
     enable = true;
     pulse.enable = true;
@@ -53,4 +63,10 @@ in
     enable = true;
     package = pkgs.niri;
   };
+
+	environment.sessionVariables = {
+    XDG_MENU_PREFIX = "plasma-";
+  };
+
+	environment.etc."xdg/menus/applications.menu".source = "${pkgs.kdePackages.plasma-workspace}/etc/xdg/menus/plasma-applications.menu";
 }

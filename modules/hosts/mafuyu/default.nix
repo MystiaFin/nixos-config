@@ -3,7 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../../shared/desktop.nix
+    ../../configurations/desktop.nix
   ];
 
   networking.hostName = "mafuyu";

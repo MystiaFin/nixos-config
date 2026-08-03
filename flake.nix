@@ -43,7 +43,7 @@
           specialArgs = { inherit inputs stateVersion; };
           modules = [
             ./modules/hosts/${hostName}/default.nix
-            ./modules/shared/default.nix
+            ./modules/configurations/default.nix
           ];
         };
 
