@@ -18,5 +18,6 @@
     wineWow64Packages.stable
     winetricks
 		kdePackages.gwenview
+		kdePackages.ark
   ];
 }
