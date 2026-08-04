@@ -22,7 +22,6 @@ in
       pkgs.kdePackages.qtmultimedia
       pkgs.kdePackages.qtsvg
       pkgs.kdePackages.qt5compat
-			pkgs.kdePackages.kservice
     ];
   };
 

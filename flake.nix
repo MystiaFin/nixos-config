@@ -19,6 +19,10 @@
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    zennotes = {
+      url = "github:ZenNotes/zennotes";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

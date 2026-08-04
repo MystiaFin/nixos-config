@@ -81,7 +81,8 @@
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "spicetify-nix": "spicetify-nix",
-        "zen-browser": "zen-browser"
+        "zen-browser": "zen-browser",
+        "zennotes": "zennotes"
       }
     },
     "spicetify-nix": {
@@ -170,6 +171,26 @@
       "original": {
         "owner": "youwen5",
         "repo": "zen-browser-flake",
+        "type": "github"
+      }
+    },
+    "zennotes": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1785786132,
+        "narHash": "sha256-ylQUU9KNwSeSmJ5DJuXEhhTa264u+LpraeM28sibL44=",
+        "owner": "ZenNotes",
+        "repo": "zennotes",
+        "rev": "6e81067482acc3a0b7c621740c7795c98a43ac84",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ZenNotes",
+        "repo": "zennotes",
         "type": "github"
       }
     }

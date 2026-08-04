@@ -1,27 +1,50 @@
-{ config, pkgs, inputs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   imports = [
     ./tools.nix
   ];
 
-  nixpkgs.config.allowUnfree = true;
+  options.custom.username = lib.mkOption {
+    type = lib.types.str;
+    default = "mystiafin";
+    description = "Primary user account name";
+  };
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  config = {
+    nixpkgs.config.allowUnfree = true;
 
-  time.timeZone = "Asia/Jakarta";
-
-  networking.networkmanager.enable = true;
-
-  users.users.mystiafin = {
-    isNormalUser = true;
-    extraGroups = [
-      "wheel"
-      "networkmanager"
+    nix.settings.experimental-features = [
+      "nix-command"
+      "flakes"
     ];
-    shell = pkgs.fish;
+
+    time.timeZone = "Asia/Jakarta";
+
+    networking.networkmanager.enable = true;
+
+    users.users.${config.custom.username} = {
+      isNormalUser = true;
+      extraGroups = [
+        "wheel"
+        "networkmanager"
+      ];
+      shell = pkgs.fish;
+    };
+
+    services.syncthing = {
+      enable = true;
+      openDefaultPorts = true;
+      user = config.custom.username;
+      group = "users";
+      dataDir = "/home/${config.custom.username}";
+      configDir = "/home/${config.custom.username}/.config/syncthing";
+    };
   };
 }

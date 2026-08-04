@@ -1,0 +1,44 @@
+* {
+    font: "Sans 12";
+    background-color: #1e1e2e;
+    text-color: #cdd6f4;
+}
+
+window {
+    location: center;
+    width: 600px;
+    border-radius: 12px;
+    border: 2px solid #89b4fa;
+    background-color: #1e1e2e;
+}
+
+inputbar {
+    background-color: #313244;
+    border-radius: 10px;
+    padding: 8px;
+    margin: 8px;
+    children: [ prompt, entry ];
+}
+
+prompt {
+    text-color: #89b4fa;
+}
+
+entry {
+    padding: 4px;
+}
+
+listview {
+    lines: 8;
+    padding: 8px;
+}
+
+element {
+    padding: 8px;
+    border-radius: 8px;
+}
+
+element selected {
+    background-color: #45475a;
+    text-color: #89b4fa;
+}

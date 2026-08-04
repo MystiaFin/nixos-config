@@ -5,5 +5,6 @@
     ./applications.nix
     ./fonts.nix
     ./desktop.nix
+    ./scripts.nix
   ];
 }

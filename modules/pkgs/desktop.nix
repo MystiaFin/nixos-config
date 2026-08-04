@@ -7,5 +7,7 @@
     qt6Packages.qt6ct
     xdg-desktop-portal-gtk
 		kdePackages.ark
+		kdePackages.kservice
+		cava
   ];
 }
