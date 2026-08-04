@@ -6,5 +6,6 @@
     qt6.qtsvg
     qt6Packages.qt6ct
     xdg-desktop-portal-gtk
+		kdePackages.ark
   ];
 }
