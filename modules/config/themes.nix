@@ -1,25 +1,37 @@
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 let
   spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
-in {
+in
+{
   imports = [
     inputs.spicetify-nix.homeManagerModules.default
   ];
 
   home.packages = with pkgs; [
+    catppuccin-gtk
     catppuccin-qt5ct
     catppuccin-cursors.mochaDark
     papirus-icon-theme
-		kdePackages.qt6ct
+    kdePackages.qt6ct
     kdePackages.qtsvg
     (catppuccin-kde.override {
-      flavour = [ "mocha" "macchiato" "frappe" "latte" ];
+      flavour = [
+        "mocha"
+        "macchiato"
+        "frappe"
+        "latte"
+      ];
       accents = [ "blue" ];
     })
   ];
 
-	xdg.configFile."kdeglobals".text = ''
+  xdg.configFile."kdeglobals".text = ''
     [Icons]
     Theme=Papirus-Dark
   '';
@@ -37,6 +49,7 @@ in {
   };
 
   gtk.enable = true;
+	xdg.configFile."gtk-4.0/settings.ini".enable = false;
 
   home.sessionVariables = {
     QT_QPA_PLATFORMTHEME = "qt6ct";

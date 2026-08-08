@@ -10,5 +10,6 @@
     gopls
     typst
     texliveFull
+		pandoc
   ];
 }

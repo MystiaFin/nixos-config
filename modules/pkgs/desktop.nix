@@ -9,5 +9,6 @@
 		kdePackages.ark
 		kdePackages.kservice
 		cava
+		nwg-look
   ];
 }
