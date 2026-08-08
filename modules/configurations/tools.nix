@@ -7,7 +7,6 @@
     curl
     ripgrep
     gcc
-    ffmpeg
     tree
     inputs.home-manager.packages.${pkgs.stdenv.hostPlatform.system}.home-manager
     opencode

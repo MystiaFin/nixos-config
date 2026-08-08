@@ -40,6 +40,8 @@ in
 
   programs.dconf.enable = true;
 
+  services.udisks2.enable = true;
+
   services.printing.enable = true;
 
 	services.ipp-usb.enable = true;

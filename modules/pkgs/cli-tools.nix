@@ -21,5 +21,7 @@
     bluez-tools
     cloudflare-warp
     cloudflare-cli
+		speedtest-cli
+    ffmpeg
   ];
 }

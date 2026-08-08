@@ -38,6 +38,8 @@
       shell = pkgs.fish;
     };
 
+    services.cloudflare-warp.enable = true;
+
     services.syncthing = {
       enable = true;
       openDefaultPorts = true;
