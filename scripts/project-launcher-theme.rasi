@@ -1,14 +1,20 @@
 * {
     font: "Sans 12";
-    background-color: #1e1e2e;
+    background-color: transparent;
     text-color: #cdd6f4;
+}
+
+element-text, element-icon {
+    background-color: inherit;
+    text-color: inherit;
 }
 
 window {
     location: center;
     width: 600px;
     border-radius: 12px;
-    border: 2px solid #89b4fa;
+    border: 1px;
+    border-color: #89b4fa;
     background-color: #1e1e2e;
 }
 
@@ -22,6 +28,7 @@ inputbar {
 
 prompt {
     text-color: #89b4fa;
+    padding: 3px;
 }
 
 entry {
