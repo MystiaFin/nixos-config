@@ -10,6 +10,7 @@ in
     sddm-astronaut
 		pkgs.easyeffects
     pkgs.xwayland-satellite
+    pkgs.simple-scan
   ];
 
   services.displayManager.sddm = {
@@ -44,8 +45,12 @@ in
 
   services.printing.enable = true;
 
-	services.ipp-usb.enable = true;
+  services.ipp-usb.enable = true;
 	services.printing.drivers = [ pkgs.cnijfilter2 ];
+
+	hardware.sane.enable = true;
+	hardware.sane.extraBackends = [ pkgs.sane-airscan ];
+	services.saned.enable = true;
 
 	services.avahi = {
     enable = true;
