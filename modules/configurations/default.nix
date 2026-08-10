@@ -17,6 +17,12 @@
     description = "Primary user account name";
   };
 
+  options.features.desktop = lib.mkOption {
+    type = lib.types.bool;
+    default = false;
+    description = "Whether this host is a desktop host, enabling desktop-only packages and entries";
+  };
+
   config = {
     nixpkgs.config.allowUnfree = true;
 
@@ -34,9 +40,12 @@
       extraGroups = [
         "wheel"
         "networkmanager"
+        "docker"
       ];
       shell = pkgs.fish;
     };
+
+    virtualisation.docker.enable = true;
 
     services.cloudflare-warp.enable = true;
 

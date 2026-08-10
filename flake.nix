@@ -53,9 +53,13 @@
 
       mkHome =
         hostName:
+        hostConfig:
         home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
-          extraSpecialArgs = { inherit inputs stateVersion hostName; };
+          extraSpecialArgs = {
+            inherit inputs stateVersion hostName;
+            isDesktop = hostConfig.config.features.desktop;
+          };
           modules = [
             {
               home = {
@@ -69,15 +73,17 @@
             ./modules/hosts/${hostName}/home
           ];
         };
-    in
-    {
+
       nixosConfigurations = {
         kanade = mkHost "kanade";
         mafuyu = mkHost "mafuyu";
       };
+    in
+    {
+      inherit nixosConfigurations;
       homeConfigurations = {
-        kanade = mkHome "kanade";
-        mafuyu = mkHome "mafuyu";
+        kanade = mkHome "kanade" nixosConfigurations.kanade;
+        mafuyu = mkHome "mafuyu" nixosConfigurations.mafuyu;
       };
     };
 }
