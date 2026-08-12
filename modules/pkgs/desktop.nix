@@ -1,10 +1,36 @@
 { pkgs, isDesktop, lib, ... }:
 
 let
+  stirlingPdfImage = "docker.stirlingpdf.com/stirlingtools/stirling-pdf:1.7.4";
+  stirlingPdfDataDir = "$HOME/.local/share/stirling-pdf";
+
   stirling-pdf-launcher = pkgs.writeShellScriptBin "stirling-pdf-launcher" ''
-    docker start stirling-pdf
-    sleep 5
+    set -euo pipefail
+
+    mkdir -p "${stirlingPdfDataDir}"/{configs,logs,customFiles,trainingData}
+
+    if ! docker start stirling-pdf 2>/dev/null; then
+      docker run -d \
+        --name stirling-pdf \
+        --restart unless-stopped \
+        -p 8080:8080 \
+        -v "${stirlingPdfDataDir}/configs:/configs" \
+        -v "${stirlingPdfDataDir}/logs:/logs" \
+        -v "${stirlingPdfDataDir}/customFiles:/customFiles" \
+        -v "${stirlingPdfDataDir}/trainingData:/usr/share/tessdata" \
+        ${stirlingPdfImage}
+    fi
+
+    echo "Waiting for Stirling PDF to become ready..."
+    for _ in $(seq 1 30); do
+      if ${pkgs.curl}/bin/curl -sf http://localhost:8080/api/v1/info/status >/dev/null 2>&1; then
+        break
+      fi
+      sleep 1
+    done
+
     ${pkgs.stirling-pdf-desktop}/bin/stirling-pdf
+
     docker stop stirling-pdf
   '';
 in

@@ -6,7 +6,11 @@
     nerd-fonts.jetbrains-mono
     nerd-fonts.symbols-only
     material-design-icons
-    google-fonts
+    roboto
+		open-sans
+		poppins
+		raleway
+		noto-fonts
     corefonts
     inter
   ];
