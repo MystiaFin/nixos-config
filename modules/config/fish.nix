@@ -13,6 +13,7 @@
       vi = "nvim";
       nrs = "sudo nixos-rebuild switch --flake .#(hostname)";
       hms = "home-manager switch --flake .#(hostname)";
+			project = "wl-mirror --scaling fit eDP-1";
     };
 
     interactiveShellInit = ''

@@ -275,3 +275,13 @@ binds {
     Ctrl+Alt+Delete { quit; }
     Mod+Shift+P hotkey-overlay-title="Project Launcher (tmux)" { spawn "project-launcher"; }
 }
+
+window-rule {
+    match app-id="wl-mirror"
+    open-on-output "DP-2" 
+    open-fullscreen true
+}
+
+output "DP-2" {
+    mode "1024x768@60.004"
+}

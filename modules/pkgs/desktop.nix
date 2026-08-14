@@ -1,4 +1,9 @@
-{ pkgs, isDesktop, lib, ... }:
+{
+  pkgs,
+  isDesktop,
+  lib,
+  ...
+}:
 
 let
   stirlingPdfImage = "docker.stirlingpdf.com/stirlingtools/stirling-pdf:1.7.4";
@@ -47,6 +52,8 @@ lib.mkIf isDesktop {
     cava
     nwg-look
     stirling-pdf-desktop
+    wdisplays
+    wl-mirror
   ];
 
   xdg.desktopEntries."stirling-pdf" = {

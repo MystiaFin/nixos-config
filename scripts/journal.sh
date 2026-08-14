@@ -56,9 +56,6 @@ MDEOF
 fi
 
 # ── OPEN ──────────────────────────────────────────────────────────────────────
-exec kitty \
-    --directory "$VAULT" \
-    --class "obsidian-journal" \
-    -T "Journal" \
-    -o background_opacity=0.9 \
+exec @TERMINAL@ \
+    @TERMINAL_FLAGS@ \
     fish -i -c "nvim '$TODAY_FILE'"

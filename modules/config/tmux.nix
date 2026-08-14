@@ -65,6 +65,7 @@
       set -g status-interval 1
       set -g status-justify left
       set -g status-style bg=#2e3440,fg=#d8dee9
+      set -g status-left-length 80
 
       # nord0 #2e3440  nord3 #4c566a  nord6 #eceff4
       # nord8 #88c0d0  nord10 #5e81ac

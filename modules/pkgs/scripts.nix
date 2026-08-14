@@ -1,14 +1,36 @@
-{ pkgs, ... }: {
+{ config, pkgs, ... }:
+
+let
+  # Main terminal of the host (same one the niri keybind uses).
+  terminal = config.custom.niri.terminal;
+
+  # Terminal-specific arguments. `class` is the window class/app-id, `title`
+  # the window title, and "$VAULT" the shell var holding the working directory.
+  openArgs = class: title:
+    if terminal == "foot" then
+      "--working-directory \"$VAULT\" --app-id ${class} --title \"${title}\""
+    else
+      "--directory \"$VAULT\" --class ${class} -T \"${title}\" -o background_opacity=0.9";
+
+  mkScript = name: { class, title, inputs }: pkgs.writeShellApplication {
+    inherit name;
+    runtimeInputs = with pkgs; [ fish neovim ] ++ inputs ++ [ pkgs.${terminal} ];
+    text = pkgs.lib.replaceStrings
+      [ "@TERMINAL@" "@TERMINAL_FLAGS@" ]
+      [ terminal (openArgs class title) ]
+      (builtins.readFile ../../scripts/${name}.sh);
+  };
+in {
   home.packages = [
-    (pkgs.writeShellApplication {
-      name = "journal";
-      runtimeInputs = with pkgs; [ kitty fish neovim coreutils gnused findutils ];
-      text = builtins.readFile ../../scripts/journal.sh;
+    (mkScript "journal" {
+      class = "obsidian-journal";
+      title = "Journal";
+      inputs = [ pkgs.coreutils pkgs.gnused pkgs.findutils ];
     })
-    (pkgs.writeShellApplication {
-      name = "obsidian-todo";
-      runtimeInputs = with pkgs; [ kitty fish neovim ];
-      text = builtins.readFile ../../scripts/obsidian-todo.sh;
+    (mkScript "obsidian-todo" {
+      class = "obsidian-todo";
+      title = "Obsidian TODO";
+      inputs = [ ];
     })
     (pkgs.writeShellApplication {
       name = "project-launcher";
