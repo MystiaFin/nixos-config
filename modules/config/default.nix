@@ -7,7 +7,6 @@
   imports = [
     ./fish.nix
     ./niri.nix
-    ./quickshell.nix
     ./fontconfig.nix
     ./themes.nix
 		./tmux.nix
