@@ -53,6 +53,7 @@ lib.mkIf isDesktop {
     nwg-look
     wdisplays
     wl-mirror
+		qt6.qtshadertools
   ];
 
   xdg.desktopEntries."stirling-pdf" = {
