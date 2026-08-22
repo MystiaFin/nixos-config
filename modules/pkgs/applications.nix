@@ -5,6 +5,7 @@
     inputs.zennotes.packages.${pkgs.system}.zennotes-desktop
     vesktop
     zed-editor
+		obsidian
     vlc
     showmethekey
     onlyoffice-desktopeditors
