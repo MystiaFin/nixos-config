@@ -11,6 +11,7 @@ in
 		pkgs.easyeffects
     pkgs.xwayland-satellite
     pkgs.simple-scan
+    pkgs.file-roller
   ];
 
   services.displayManager.sddm = {
@@ -42,6 +43,22 @@ in
   programs.dconf.enable = true;
 
   services.udisks2.enable = true;
+
+  security.polkit.enable = true;
+
+  programs.thunar = {
+    enable = true;
+    plugins = with pkgs; [
+      thunar-archive-plugin
+      thunar-volman
+      thunar-media-tags-plugin
+    ];
+  };
+
+  programs.xfconf.enable = true;
+
+  services.gvfs.enable = true;
+  services.tumbler.enable = true;
 
   services.printing.enable = true;
 

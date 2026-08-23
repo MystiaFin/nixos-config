@@ -51,7 +51,6 @@ lib.mkIf isDesktop {
     kdePackages.kservice
     cava
     nwg-look
-    stirling-pdf-desktop
     wdisplays
     wl-mirror
   ];
