@@ -53,6 +53,10 @@ in
       name = "catppuccin-mocha-blue-standard";
       package = pkgs.catppuccin-gtk.override { variant = "mocha"; };
     };
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
+    };
   };
 	xdg.configFile."gtk-4.0/settings.ini".enable = false;
 

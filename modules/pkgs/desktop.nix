@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   isDesktop,
   lib,
@@ -62,4 +63,8 @@ lib.mkIf isDesktop {
     exec = "${stirling-pdf-launcher}/bin/stirling-pdf-launcher";
     categories = [ "Office" ];
   };
+
+  xdg.configFile."xfce4/helpers.rc".text = ''
+    TerminalEmulator=${config.home.sessionVariables.TERMINAL}
+  '';
 }
