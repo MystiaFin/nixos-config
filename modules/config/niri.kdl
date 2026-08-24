@@ -48,24 +48,19 @@ layout {
 
     default-column-width { proportion 0.7; }
     focus-ring {
-        width 2
-        active-color "#7fc8ff"
-        inactive-color "#505050"
+        off
     }
 
     border {
         off
-        width 2
-        active-color "#ffc87f"
-        inactive-color "#505050"
-        urgent-color "#9b0000"
     }
 
     shadow {
+        on
         softness 30
-        spread 5
-        offset x=0 y=5
-        color "#0007"
+        spread 0
+        offset x=0 y=10
+        color "#000000e8"
     }
 
     struts {
@@ -84,12 +79,26 @@ gestures {
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 animations {
     window-open {
-        duration-ms 180
-        curve "ease-out-expo"
+        duration-ms 200
+        curve "ease-out-cubic"
+        custom-shader r#"
+            vec4 open_color(vec3 coords_geo, vec3 size_geo) {
+                coords_geo.y -= (1.0 - niri_clamped_progress) * 240.0 / size_geo.y;
+                vec3 coords_tex = niri_geo_to_tex * coords_geo;
+                return texture2D(niri_tex, coords_tex.st) * niri_clamped_progress;
+            }
+        "#
     }
     window-close {
-        duration-ms 180
-        curve "ease-out-quad"
+        duration-ms 280
+        curve "ease-out-cubic"
+        custom-shader r#"
+            vec4 close_color(vec3 coords_geo, vec3 size_geo) {
+                coords_geo.y -= niri_clamped_progress * 240.0 / size_geo.y;
+                vec3 coords_tex = niri_geo_to_tex * coords_geo;
+                return texture2D(niri_tex, coords_tex.st) * (1.0 - niri_clamped_progress);
+            }
+        "#
     }
 }
 
