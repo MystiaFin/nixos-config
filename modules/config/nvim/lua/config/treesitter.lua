@@ -10,6 +10,7 @@ require("tree-sitter-manager").setup({
 		"php",
 		"svelte",
 		"go",
+		"python",
 		"markdown",
 		"markdown_inline"
 	},

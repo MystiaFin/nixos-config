@@ -21,9 +21,25 @@ in
   programs.neovim = {
     enable = true;
     defaultEditor = true;
+    withPython3 = true;
     initLua = builtins.readFile ./nvim/init.lua;
+    extraPackages = [
+      pkgs.imagemagick
+      pkgs.python3Packages.jupytext
+      pkgs.ueberzugpp
+    ];
+    extraPython3Packages = python: with python; [
+      cairosvg
+      ipykernel
+      jupyter-client
+      nbformat
+      pillow
+      pynvim
+    ];
     plugins = with pkgs.vimPlugins; [
       tree-sitter-manager-nvim
+      jupytext-nvim
+      molten-nvim
       nvim-web-devicons
       plenary-nvim
       nvim-notify
@@ -63,5 +79,13 @@ in
       which-key-nvim
     ];
   };
+  home.activation.updateNeovimRemotePlugins = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    run ${config.programs.neovim.finalPackage}/bin/nvim --headless -u NONE \
+      --cmd "let g:python3_host_prog='${config.programs.neovim.finalPackage.python3Env}/bin/pynvim-python'" \
+      --cmd "set loadplugins" \
+      --cmd "set runtimepath+=${pkgs.vimPlugins.molten-nvim}" \
+      --cmd "runtime plugin/rplugin.vim" \
+      +UpdateRemotePlugins +qa
+  '';
   xdg.configFile."nvim/lua".source = ./nvim/lua;
 }
