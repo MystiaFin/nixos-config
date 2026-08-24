@@ -2,19 +2,6 @@
 {
   fonts.fontconfig.enable = true;
 
-  home.packages = with pkgs; [
-    nerd-fonts.jetbrains-mono
-    nerd-fonts.symbols-only
-    material-design-icons
-    roboto
-		open-sans
-		poppins
-		raleway
-		noto-fonts
-    corefonts
-    inter
-  ];
-
 	home.activation.copyFontsForOnlyOffice = lib.hm.dag.entryAfter ["writeBoundary"] ''
     FONT_DIR="$HOME/.local/share/fonts"
     

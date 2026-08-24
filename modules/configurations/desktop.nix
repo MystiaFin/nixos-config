@@ -6,6 +6,25 @@ let
   };
 in
 {
+  fonts = {
+    enableDefaultPackages = true;
+    packages = with pkgs; [
+      nerd-fonts.jetbrains-mono
+      nerd-fonts.symbols-only
+      material-design-icons
+      roboto
+      open-sans
+      poppins
+      raleway
+      noto-fonts
+      noto-fonts-cjk-sans
+      noto-fonts-cjk-serif
+      noto-fonts-color-emoji
+      corefonts
+      inter
+    ];
+  };
+
   environment.systemPackages = [
     sddm-astronaut
 		pkgs.easyeffects
