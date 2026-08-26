@@ -24,5 +24,6 @@
 		speedtest-cli
     ffmpeg
 		python3Packages.pdf2docx
+		sqlite
   ];
 }
