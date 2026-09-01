@@ -16,7 +16,7 @@ in
   home.packages = with pkgs; [
     catppuccin-qt5ct
     catppuccin-cursors.mochaDark
-    glib
+    dconf
     papirus-icon-theme
     kdePackages.qt6ct
     kdePackages.qtsvg
