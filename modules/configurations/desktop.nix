@@ -88,6 +88,8 @@ in
 	hardware.sane.extraBackends = [ pkgs.sane-airscan ];
 	services.saned.enable = true;
 
+	hardware.bluetooth.enable = true;
+
 	services.avahi = {
     enable = true;
     nssmdns4 = true;
