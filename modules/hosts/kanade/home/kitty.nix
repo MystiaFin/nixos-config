@@ -13,6 +13,9 @@ let
     cursor_blink_interval 0
     shell_integration no-cursor
 
+    allow_remote_control socket-only
+    listen_on unix:@quickshell-kitty
+
     tab_bar_edge top
     tab_bar_style powerline
     tab_bar_min_tabs 2
@@ -52,6 +55,8 @@ let
     color13 #f5c2e7
     color14 #94e2d5
     color15 #a6adc8
+
+    include /home/mystiafin/.config/quickshell/terminal-colors-kitty.conf
   '';
 in {
   xdg.configFile."kitty/kitty.conf".source = mkKittyConf;

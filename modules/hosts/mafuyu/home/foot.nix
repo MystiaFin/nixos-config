@@ -45,5 +45,7 @@ let
     };
   };
 in {
-  xdg.configFile."foot/foot.ini".text = cfg;
+  xdg.configFile."foot/foot.ini".text = cfg + ''
+    include=/home/mystiafin/.config/quickshell/terminal-colors-foot.ini
+  '';
 }

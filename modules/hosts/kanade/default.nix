@@ -16,6 +16,7 @@
   environment.systemPackages = with pkgs; [
     mangohud
     protonup-qt
+		protonplus
     opentabletdriver
   ];
 
