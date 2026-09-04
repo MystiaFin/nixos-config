@@ -16,6 +16,19 @@ let
       hash = "sha256-IOLjwLX1zJCYMu42ygEtwzhugIWa3UDujOuqwHkBg88=";
     };
   };
+  dadbod-grip-nvim = pkgs.vimUtils.buildVimPlugin {
+    name = "dadbod-grip.nvim";
+    nvimSkipModules = [
+      "dadbod-grip.pickers.snacks"
+      "dadbod-grip.pickers.telescope"
+    ];
+    src = pkgs.fetchFromGitHub {
+      owner = "joryeugene";
+      repo = "dadbod-grip.nvim";
+      rev = "v3.9.0";
+      hash = "sha256-IsFxyoqGScs5epu1f2H1CoVeauVBb/aezW8Mrk+C2a4=";
+    };
+  };
 in
 {
   programs.neovim = {
@@ -40,6 +53,7 @@ in
       tree-sitter-manager-nvim
       jupytext-nvim
       molten-nvim
+      dadbod-grip-nvim
       nvim-web-devicons
       plenary-nvim
       nvim-notify

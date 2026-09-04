@@ -1,6 +1,8 @@
 local cmp = require("cmp")
 local luasnip = require("luasnip")
 
+require("dadbod-grip").setup({ completion = false })
+
 cmp.setup({
 	enabled = function()
 		return vim.bo.filetype ~= "markdown"
@@ -34,6 +36,7 @@ cmp.setup({
 		end, { "i", "s" }),
 	}),
 	sources = cmp.config.sources({
+		{ name = "dadbod_grip" },
 		{ name = "nvim_lsp" },
 		{ name = "luasnip" },
 		{ name = "buffer" },
