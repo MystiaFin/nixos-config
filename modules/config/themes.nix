@@ -7,6 +7,42 @@
 
 let
   spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+  quickshellThemeExtension = {
+    src = pkgs.writeTextDir "spicetify-quickshell-theme.js" ''
+      (function quickshellTheme() {
+          const endpoint = "http://127.0.0.1:17384/spotify.css";
+          const styleId = "quickshell-dynamic-theme";
+          let currentCss = "";
+
+          async function refreshTheme() {
+              try {
+                  const response = await fetch(endpoint, { cache: "no-store" });
+                  if (!response.ok)
+                      return;
+
+                  const css = await response.text();
+                  if (css === currentCss)
+                      return;
+
+                  currentCss = css;
+                  let style = document.getElementById(styleId);
+                  if (!style) {
+                      style = document.createElement("style");
+                      style.id = styleId;
+                      document.documentElement.appendChild(style);
+                  }
+                  style.textContent = css;
+              } catch (_) {
+                  // The local bridge may not be ready yet; the next poll retries.
+              }
+          }
+
+          refreshTheme();
+          setInterval(refreshTheme, 1500);
+      })();
+    '';
+    name = "spicetify-quickshell-theme.js";
+  };
 in
 {
   imports = [
@@ -40,12 +76,25 @@ in
     enable = true;
     theme = spicePkgs.themes.catppuccin;
     colorScheme = "mocha";
-    enabledExtensions = with spicePkgs.extensions; [
+    enabledExtensions = (with spicePkgs.extensions; [
       fullAppDisplay
       shuffle
       hidePodcasts
       adblock
-    ];
+    ]) ++ [ quickshellThemeExtension ];
+  };
+
+  systemd.user.services.quickshell-theme-server = {
+    Unit = {
+      Description = "Serve Quickshell application theme CSS";
+      After = [ "graphical-session-pre.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.darkhttpd}/bin/darkhttpd %h/.cache/quickshell-theme --addr 127.0.0.1 --port 17384 --header \"Access-Control-Allow-Origin: *\" --no-listing";
+      Restart = "on-failure";
+      RestartSec = 1;
+    };
+    Install.WantedBy = [ "default.target" ];
   };
 
   home.pointerCursor = {
