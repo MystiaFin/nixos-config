@@ -27,9 +27,9 @@
 }
 
 :root,
-.encore-base-set,
-.encore-inverted-light-set,
-.encore-inverted-dark-set {
+:root .encore-base-set,
+:root .encore-inverted-light-set,
+:root .encore-inverted-dark-set {
   --background-base: var(--qs-background);
   --background-highlight: var(--qs-surface-hover);
   --background-press: var(--qs-surface-pressed);
@@ -53,7 +53,7 @@
   --decorative-subdued: var(--qs-text-muted);
 }
 
-.encore-bright-accent-set {
+:root .encore-bright-accent-set {
   --background-base: var(--qs-accent);
   --background-highlight: var(--qs-accent-hover);
   --background-press: var(--qs-accent-hover);
