@@ -39,7 +39,7 @@ in {
     })
     (pkgs.writeShellApplication {
       name = "tmux-boot";
-      runtimeInputs = with pkgs; [ tmux coreutils gnused ];
+      runtimeInputs = with pkgs; [ tmux ];
       text = builtins.readFile ../../scripts/tmux-boot.sh;
     })
   ];

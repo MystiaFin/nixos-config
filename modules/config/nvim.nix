@@ -40,15 +40,18 @@ in
       pkgs.imagemagick
       pkgs.python3Packages.jupytext
       pkgs.ueberzugpp
+      pkgs.rust-analyzer
+      pkgs.rustfmt
     ];
-    extraPython3Packages = python: with python; [
-      cairosvg
-      ipykernel
-      jupyter-client
-      nbformat
-      pillow
-      pynvim
-    ];
+    extraPython3Packages =
+      python: with python; [
+        cairosvg
+        ipykernel
+        jupyter-client
+        nbformat
+        pillow
+        pynvim
+      ];
     plugins = with pkgs.vimPlugins; [
       tree-sitter-manager-nvim
       jupytext-nvim

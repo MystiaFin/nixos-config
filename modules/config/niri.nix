@@ -21,7 +21,7 @@ in {
 
   config = {
     xdg.configFile."niri/config.kdl".text = ''
-      spawn-at-startup "bash" "-c" "${pkgs.tmux}/bin/tmux new-session -d -s warm-up; sleep 6; ${pkgs.tmux}/bin/tmux kill-session -t warm-up"
+      spawn-at-startup "tmux-boot"
 
       ${cfg.outputConfig}
 

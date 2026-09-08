@@ -1,10 +1,14 @@
 #!/bin/bash
 
-tmux start-server
+if tmux list-sessions >/dev/null 2>&1; then
+    exit 0
+fi
+
 tmux new-session -d -s revival
 
-TMUX=$( tmux -L default display-message -p '#{socket_path}' 2>/dev/null ) \
-    "$HOME/.config/tmux/plugins/tmux-resurrect/scripts/restore.sh"
+restore_script="$(tmux show-options -gqv @resurrect-restore-script-path)"
+if [ -n "$restore_script" ]; then
+    tmux run-shell "$restore_script"
+fi
 
-sleep 3
-tmux kill-session -t revival 2>/dev/null
+tmux kill-session -t revival 2>/dev/null || true

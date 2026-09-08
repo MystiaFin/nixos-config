@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   home.packages = with pkgs; [
     lua-language-server
     intelephense
@@ -10,6 +11,10 @@
     gopls
     typst
     texliveFull
-		pandoc
+    pandoc
+    rust-analyzer
+    rustfmt
+    rustc
+    cargo
   ];
 }

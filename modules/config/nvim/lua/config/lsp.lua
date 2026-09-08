@@ -43,6 +43,19 @@ vim.lsp.config.html = {
 	root_markers = { "package.json", ".git" },
 }
 
+vim.lsp.config.rust_analyzer = {
+	cmd = { "rust-analyzer" },
+	filetypes = { "rust" },
+	root_markers = { "Cargo.toml", "rust-project.json", ".git" },
+	settings = {
+		["rust-analyzer"] = {
+			check = {
+				command = "clippy",
+			},
+		},
+	},
+}
+
 vim.lsp.config.cssls = {
 	cmd = { "vscode-css-language-server", "--stdio" },
 	filetypes = { "css", "scss", "less" },
@@ -100,6 +113,7 @@ vim.lsp.enable({
 	"ts_ls",
 	"nil_ls",
 	"gopls",
+	"rust_analyzer",
 })
 
 vim.filetype.add({
