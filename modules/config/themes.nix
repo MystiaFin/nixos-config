@@ -7,11 +7,13 @@
 
 let
   spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+  spotifyThemeAdapter = builtins.readFile ./spotify-theme.css;
   quickshellThemeExtension = {
     src = pkgs.writeTextDir "spicetify-quickshell-theme.js" ''
       (function quickshellTheme() {
           const endpoint = "http://127.0.0.1:17384/spotify.css";
           const styleId = "quickshell-dynamic-theme";
+          const adapterCss = ${builtins.toJSON spotifyThemeAdapter};
           let currentCss = "";
 
           async function refreshTheme() {
@@ -31,7 +33,7 @@ let
                       style.id = styleId;
                       document.documentElement.appendChild(style);
                   }
-                  style.textContent = css;
+                  style.textContent = css + "\n" + adapterCss;
               } catch (_) {
                   // The local bridge may not be ready yet; the next poll retries.
               }

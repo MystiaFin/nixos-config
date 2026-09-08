@@ -1,0 +1,74 @@
+/* Static adapter from Quickshell's palette to Spotify's semantic tokens. */
+:root {
+  --spice-main: var(--qs-background);
+  --spice-base: var(--qs-background);
+  --spice-sidebar: var(--qs-surface);
+  --spice-player: var(--qs-surface);
+  --spice-card: var(--qs-surface-selected);
+  --spice-shadow: var(--qs-background);
+  --spice-main-elevated: var(--qs-surface);
+  --spice-highlight: var(--qs-surface-hover);
+  --spice-highlight-elevated: var(--qs-surface-pressed);
+  --spice-tab-active: var(--qs-surface-selected);
+  --spice-notification: var(--qs-surface-selected);
+  --spice-misc: var(--qs-surface-pressed);
+  --spice-overlay0: var(--qs-text-muted);
+  --spice-overlay1: var(--qs-text-secondary);
+  --spice-overlay2: var(--qs-text);
+  --spice-text: var(--qs-text);
+  --spice-subtext: var(--qs-text-secondary);
+  --spice-button: var(--qs-accent);
+  --spice-button-active: var(--qs-accent-hover);
+  --spice-button-disabled: var(--qs-text-muted);
+  --spice-selected-row: var(--qs-surface-selected);
+  --spice-green: var(--qs-positive);
+  --spice-red: var(--qs-negative);
+  --spice-notification-error: var(--qs-negative);
+}
+
+:root,
+.encore-base-set,
+.encore-inverted-light-set,
+.encore-inverted-dark-set {
+  --background-base: var(--qs-background);
+  --background-highlight: var(--qs-surface-hover);
+  --background-press: var(--qs-surface-pressed);
+  --background-elevated-base: var(--qs-surface);
+  --background-elevated-highlight: var(--qs-surface-hover);
+  --background-elevated-press: var(--qs-surface-pressed);
+  --background-tinted-base: var(--qs-surface-selected);
+  --background-tinted-highlight: var(--qs-surface-hover);
+  --background-tinted-press: var(--qs-surface-pressed);
+  --text-base: var(--qs-text);
+  --text-subdued: var(--qs-text-secondary);
+  --text-bright-accent: var(--qs-accent);
+  --text-negative: var(--qs-negative);
+  --text-positive: var(--qs-positive);
+  --essential-base: var(--qs-text);
+  --essential-subdued: var(--qs-text-muted);
+  --essential-bright-accent: var(--qs-accent);
+  --essential-negative: var(--qs-negative);
+  --essential-positive: var(--qs-positive);
+  --decorative-base: var(--qs-text);
+  --decorative-subdued: var(--qs-text-muted);
+}
+
+.encore-bright-accent-set {
+  --background-base: var(--qs-accent);
+  --background-highlight: var(--qs-accent-hover);
+  --background-press: var(--qs-accent-hover);
+  --background-elevated-base: var(--qs-accent);
+  --background-elevated-highlight: var(--qs-accent-hover);
+  --background-elevated-press: var(--qs-accent-hover);
+  --background-tinted-base: var(--qs-accent);
+  --background-tinted-highlight: var(--qs-accent-hover);
+  --background-tinted-press: var(--qs-accent-hover);
+  --text-base: var(--qs-on-accent);
+  --text-subdued: var(--qs-on-accent);
+  --text-bright-accent: var(--qs-on-accent);
+  --essential-base: var(--qs-on-accent);
+  --essential-subdued: var(--qs-on-accent);
+  --essential-bright-accent: var(--qs-on-accent);
+  --decorative-base: var(--qs-on-accent);
+  --decorative-subdued: var(--qs-on-accent);
+}
