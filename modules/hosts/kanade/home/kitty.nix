@@ -5,7 +5,7 @@ let
     font_family JetBrainsMono Nerd Font
     font_size 13
 
-    background_opacity 0.92
+    background_opacity 0.75
 
     window_padding_width 8
 

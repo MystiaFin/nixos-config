@@ -22,5 +22,5 @@ require("themery").setup({
 			name = "Gruvbox Baby",
 			colorscheme = "gruvbox-baby",
 		},
-  },
+	},
 })
