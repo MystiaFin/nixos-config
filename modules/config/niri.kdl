@@ -282,7 +282,7 @@ binds {
 
     Mod+Shift+E { quit; }
     Ctrl+Alt+Delete { quit; }
-    Mod+Shift+P hotkey-overlay-title="Project Launcher (tmux)" { spawn "project-launcher"; }
+    Mod+Shift+P hotkey-overlay-title="Project Launcher (tmux)" { spawn "qs" "ipc" "call" "launcher" "showTmux"; }
 }
 
 window-rule {
