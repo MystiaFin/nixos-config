@@ -43,6 +43,7 @@ in
 lib.mkIf isDesktop {
   home.packages = with pkgs; [
     quickshell
+    imagemagick
     wlogout
     qt6.qt5compat
     qt6.qtsvg
