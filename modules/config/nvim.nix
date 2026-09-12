@@ -42,6 +42,7 @@ in
       pkgs.ueberzugpp
       pkgs.rust-analyzer
       pkgs.rustfmt
+      pkgs.kdePackages.qtdeclarative
     ];
     extraPython3Packages =
       python: with python; [
