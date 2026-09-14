@@ -1,4 +1,9 @@
-{ config, pkgs, stateVersion, ... }:
+{
+  config,
+  pkgs,
+  stateVersion,
+  ...
+}:
 
 {
   imports = [
@@ -16,9 +21,15 @@
   environment.systemPackages = with pkgs; [
     mangohud
     protonup-qt
-		protonplus
+    protonplus
     opentabletdriver
   ];
+
+  networking.networkmanager.wifi.powersave = false;
+
+  boot.extraModprobeConfig = ''
+    options mt7921e disable_aspm=1
+  '';
 
   programs.steam = {
     enable = true;

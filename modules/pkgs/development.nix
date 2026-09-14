@@ -16,5 +16,6 @@
     rustfmt
     rustc
     cargo
+    kdePackages.qtdeclarative
   ];
 }

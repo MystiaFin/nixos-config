@@ -78,11 +78,8 @@ vim.lsp.config.tailwindcss = {
 }
 
 vim.lsp.config.qmlls = {
-	cmd = { "/usr/lib/qt6/bin/qmlls" },
-	filetypes = { "qmljs", "qml" },
-	cmd_env = {
-		QML_IMPORT_PATH = "/usr/lib/qt6/qml"
-	},
+	cmd = { "qmlls" },
+	filetypes = { "qml" },
 }
 
 vim.lsp.config.gopls = {
