@@ -17,5 +17,7 @@
     rustc
     cargo
     kdePackages.qtdeclarative
+    clang
+    clang-tools
   ];
 }

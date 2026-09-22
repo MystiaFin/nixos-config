@@ -97,6 +97,23 @@ vim.lsp.config.gopls = {
 	},
 }
 
+vim.lsp.config.clangd = {
+	cmd = {
+		"clangd",
+		"--background-index",
+		"--clang-tidy",
+		"--completion-style=detailed",
+		"--header-insertion=iwyu",
+	},
+	filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
+	root_markers = {
+		"compile_commands.json",
+		"compile_flags.txt",
+		".clangd",
+		".git",
+	},
+}
+
 
 vim.lsp.enable({
 	"lua_ls",
@@ -111,6 +128,8 @@ vim.lsp.enable({
 	"nil_ls",
 	"gopls",
 	"rust_analyzer",
+	"clangd",
+
 })
 
 vim.filetype.add({
