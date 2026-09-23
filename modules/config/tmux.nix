@@ -24,6 +24,8 @@
       # vi key bindings
       set -g mode-keys vi
       set -g status-keys vi
+      bind-key -T copy-mode-vi v send-keys -X begin-selection
+      bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
       bind h select-pane -L
       bind j select-pane -D
       bind k select-pane -U

@@ -1,11 +1,13 @@
-{ pkgs, inputs, ... }: {
+{ pkgs, inputs, ... }:
+{
   home.packages = with pkgs; [
     pcmanfm
-		yazi
+    yazi
+    claude-code
     inputs.zennotes.packages.${pkgs.system}.zennotes-desktop
     vesktop
     zed-editor
-		obsidian
+    obsidian
     vlc
     showmethekey
     onlyoffice-desktopeditors
@@ -17,12 +19,12 @@
     aerc
     rofi
     stirling-pdf-desktop
-		losslesscut-bin
+    losslesscut-bin
     wineWow64Packages.stable
     winetricks
-		kdePackages.gwenview
-		zathura
-		zathuraPkgs.zathuraWrapper
+    kdePackages.gwenview
+    zathura
+    zathuraPkgs.zathuraWrapper
   ];
   home.file."xfce4/xfconf/xfce-perchannel-xml/thunar.xml".text = ''
     <?xml version="1.0" encoding="UTF-8"?>
