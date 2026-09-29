@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/26.05";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -39,6 +40,10 @@
         inherit system;
         config.allowUnfree = true;
       };
+      pkgs-unstable = import inputs.nixpkgs-unstable {
+        inherit system;
+        config.allowUnfree = true;
+      };
 
       mkHost =
         hostName:
@@ -57,7 +62,7 @@
         home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           extraSpecialArgs = {
-            inherit inputs stateVersion hostName;
+            inherit inputs stateVersion hostName pkgs-unstable;
             isDesktop = hostConfig.config.features.desktop;
           };
           modules = [
