@@ -4,6 +4,7 @@
     nano
     brightnessctl
     wl-clipboard
+    cliphist
     htop
     fastfetch
     unzip
