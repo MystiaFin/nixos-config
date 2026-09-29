@@ -66,7 +66,7 @@ layout {
     struts {
     }
 }
-spawn-at-startup "qs"
+spawn-at-startup "amane run"
 spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store"
 hotkey-overlay {
 				skip-at-startup
@@ -147,7 +147,7 @@ binds {
 
     Mod+Return hotkey-overlay-title="Open a Terminal: kitty" { spawn "@TERMINAL@"; }
 		Ctrl+Space hotkey-overlay-title="Quickshell Launcher" { 
-    spawn "qs" "ipc" "call" "launcher" "toggle";
+    spawn "amane" "ipc" "call" "launcher" "toggle";
 }
 		Mod+E { spawn "thunar"; }
 		Mod+N hotkey-overlay-title="Obsidian TODO" { spawn "obsidian-todo"; }
@@ -284,7 +284,7 @@ binds {
     Mod+Shift+E { quit; }
     Ctrl+Alt+Delete { quit; }
     Mod+Shift+P hotkey-overlay-title="Project Launcher (tmux)" { spawn "qs" "ipc" "call" "launcher" "showTmux"; }
-		Mod+Shift+W { spawn "qs" "ipc" "call" "wallpaper" "toggle"; }
+		Mod+Shift+W { spawn "amane" "ipc" "call" "wallpaper" "toggle"; }
     Mod+P hotkey-overlay-title="Display Settings" { spawn "qs" "ipc" "call" "multiDisplay" "toggle"; }
     Mod+Period hotkey-overlay-title="Clipboard History" { spawn "qs" "ipc" "call" "clipboard" "toggle"; }
 }

@@ -1,10 +1,10 @@
-{ pkgs, inputs, ... }:
+{ pkgs, pkgs-unstable, inputs, ... }:
 {
   home.packages = with pkgs; [
     pcmanfm
     yazi
-    claude-code
     inputs.zennotes.packages.${pkgs.system}.zennotes-desktop
+    pkgs-unstable.claude-code
     vesktop
     zed-editor
     obsidian
