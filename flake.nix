@@ -24,6 +24,7 @@
       url = "github:ZenNotes/zennotes";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    amane.url = "git+ssh://git@github.com/MystiaFin/amane.git";
   };
 
   outputs =
@@ -36,9 +37,17 @@
     let
       system = "x86_64-linux";
       stateVersion = "26.05";
+      overlay-unstable = final: _prev: {
+        unstable = import inputs.nixpkgs-unstable {
+          inherit system;
+          config.allowUnfree = true;
+        };
+        claude-code = final.unstable.claude-code;
+      };
       pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
+        overlays = [ overlay-unstable ];
       };
       pkgs-unstable = import inputs.nixpkgs-unstable {
         inherit system;
@@ -57,8 +66,7 @@
         };
 
       mkHome =
-        hostName:
-        hostConfig:
+        hostName: hostConfig:
         home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           extraSpecialArgs = {

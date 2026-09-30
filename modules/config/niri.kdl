@@ -149,6 +149,7 @@ binds {
 		Ctrl+Space hotkey-overlay-title="Quickshell Launcher" { 
     spawn "amane" "ipc" "call" "launcher" "toggle";
 }
+Mod+Space { spawn "amane" "ipc" "call" "launcher" "toggle";}
 		Mod+E { spawn "thunar"; }
 		Mod+N hotkey-overlay-title="Obsidian TODO" { spawn "obsidian-todo"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }

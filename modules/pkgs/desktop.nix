@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  inputs,
   isDesktop,
   lib,
   ...
@@ -42,6 +43,7 @@ let
 in
 lib.mkIf isDesktop {
   home.packages = with pkgs; [
+    inputs.amane.packages.${pkgs.stdenv.hostPlatform.system}.default
     quickshell
     imagemagick
     wlogout
