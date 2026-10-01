@@ -5,11 +5,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1790740584,
-        "narHash": "sha256-Bt8wD+Dn/OrFdy+hhesnIWK+jWuytXBMTQysrYQVwm8=",
+        "lastModified": 1790748404,
+        "narHash": "sha256-apJcrbUqw46+VOS/LMViKKn+R4MPzne7juHeRqE5Pmk=",
         "ref": "refs/heads/main",
-        "rev": "1b0b3144ebe3001759ce0006639e1c0d0ae31dbf",
-        "revCount": 115,
+        "rev": "58126719bd3258e883bd75910ca7475b7d750cec",
+        "revCount": 118,
         "type": "git",
         "url": "ssh://git@github.com/MystiaFin/amane.git"
       },
@@ -95,19 +95,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-<<<<<<< HEAD
         "lastModified": 1790578696,
         "narHash": "sha256-ZoxIApko70jCdbH3l20HWXOBaT2HZd87orzd2yJ9dVE=",
         "owner": "NixOS",
         "repo": "nixpkgs",
         "rev": "7a0f122f5090cf4c2ade2a13a0e229d4e19ba71f",
-=======
-        "lastModified": 1790463110,
-        "narHash": "sha256-hKlVl12B1dF0Q5vd9dY3lIJM5mFGWYSlXwSLAqHZ1+s=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "e158d9ed9b51c98974c5e66e1ba1c9e0255fecaa",
->>>>>>> 946a5b5 (amane install)
         "type": "github"
       },
       "original": {
