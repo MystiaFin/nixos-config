@@ -4,18 +4,6 @@ let
   sddm-astronaut = pkgs.sddm-astronaut.override {
     embeddedTheme = "pixel_sakura";
   };
-
-  # what amane links, so plain cargo can build it and the shells it compiles
-  amaneLibraries = with pkgs; [
-    fontconfig
-    freetype
-    expat
-    wayland
-    libxkbcommon
-    vulkan-loader
-    libpulseaudio
-    linux-pam
-  ];
 in
 {
   fonts = {
@@ -122,17 +110,6 @@ in
 
 	environment.sessionVariables = {
     XDG_MENU_PREFIX = "plasma-";
-
-    # set for every session, so niri starting `amane run` finds and builds it too
-    PATH = [ "$HOME/.cargo/bin" ];
-
-    PKG_CONFIG_PATH = lib.makeSearchPathOutput "dev" "lib/pkgconfig" amaneLibraries;
-
-    # pam is linked by name, not through pkg-config
-    LIBRARY_PATH = lib.makeLibraryPath [ pkgs.linux-pam ];
-
-    # loaded at runtime rather than linked
-    LD_LIBRARY_PATH = [ "${pkgs.vulkan-loader}/lib" "${pkgs.wayland}/lib" ];
   };
 
 	environment.etc."xdg/menus/applications.menu".source = "${pkgs.kdePackages.plasma-workspace}/etc/xdg/menus/plasma-applications.menu";

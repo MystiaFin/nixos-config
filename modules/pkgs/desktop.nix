@@ -43,8 +43,7 @@ let
 in
 lib.mkIf isDesktop {
   home.packages = with pkgs; [
-    # amane itself is installed with cargo; its build environment is in modules/configurations/desktop.nix
-    pkg-config
+    inputs.amane.packages.${pkgs.stdenv.hostPlatform.system}.default
     quickshell
     imagemagick
     wlogout
