@@ -5,11 +5,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1790838069,
-        "narHash": "sha256-V3e5tZvgJkMi8xGXAlz3FjG8hmgkyRnfNKWDwjX6S4U=",
+        "lastModified": 1790931284,
+        "narHash": "sha256-O4aey6Td9Dl0RYIeKMIsx3T29hKcVHW+SOkyqs6RVBg=",
         "ref": "refs/heads/main",
-        "rev": "7a56786990d7a24d3c118ecaba98b45244350e8f",
-        "revCount": 196,
+        "rev": "da1329f37f6e93af8ab513d093cf72646333cbdd",
+        "revCount": 197,
         "type": "git",
         "url": "ssh://git@github.com/MystiaFin/amane.git"
       },
