@@ -3,7 +3,6 @@ vim.o.number = true
 vim.o.relativenumber = true
 
 -- Text format
-vim.o.wrap = false
 vim.o.tabstop = 2
 
 -- General options
