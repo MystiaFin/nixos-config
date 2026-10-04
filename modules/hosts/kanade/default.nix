@@ -9,6 +9,7 @@
   imports = [
     ./hardware-configuration.nix
     ../../configurations/desktop.nix
+    ./mouse-debounce.nix
   ];
 
   networking.hostName = "kanade";
