@@ -14,6 +14,7 @@
       nrs = "sudo nixos-rebuild switch --flake .#(hostname)";
       hms = "home-manager switch --flake .#(hostname)";
 			project = "wl-mirror --scaling fit eDP-1";
+      amane-ex = "env AMANE_CONFIG=$HOME/.config/amane-example amane";
     };
 
     interactiveShellInit = ''
