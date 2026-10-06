@@ -40,9 +40,44 @@ let
 
     docker stop stirling-pdf
   '';
+
+  # amane links these, both when the cli is built and when it builds a shell
+  amaneLibraries = with pkgs; [
+    fontconfig
+    freetype
+    expat
+    wayland
+    libxkbcommon
+    vulkan-loader
+    libpulseaudio
+    linux-pam
+  ];
+
+  # what `cargo install --path cli` and `amane dev` need to find those libraries;
+  # pam is linked by name rather than found through pkg-config, so it needs a search path
+  amaneEnv = {
+    PKG_CONFIG_PATH = lib.makeSearchPathOutput "dev" "lib/pkgconfig" amaneLibraries;
+    LIBRARY_PATH = lib.makeLibraryPath [ pkgs.linux-pam ];
+    LD_LIBRARY_PATH = lib.makeLibraryPath (with pkgs; [ vulkan-loader wayland ]);
+  };
+
+  # niri spawns amane without a login shell's variables or ~/.cargo/bin on PATH,
+  # so this gives the cargo-installed cli the same environment
+  amane = pkgs.writeShellScriptBin "amane" ''
+    export PATH=${lib.makeBinPath (with pkgs; [ cargo rustc pkg-config stdenv.cc ])}''${PATH:+:$PATH}
+    export PKG_CONFIG_PATH=${amaneEnv.PKG_CONFIG_PATH}''${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}
+    export LIBRARY_PATH=${amaneEnv.LIBRARY_PATH}''${LIBRARY_PATH:+:$LIBRARY_PATH}
+    export LD_LIBRARY_PATH=${amaneEnv.LD_LIBRARY_PATH}''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
+
+    exec "$HOME/.cargo/bin/amane" "$@"
+  '';
 in
 lib.mkIf isDesktop {
+  # lets a plain `cargo install --path cli` build amane in any shell
+  home.sessionVariables = amaneEnv;
+
   home.packages = with pkgs; [
+    amane
     quickshell
     imagemagick
     wlogout

@@ -31,6 +31,7 @@ in
     rustc
     cargo
     pkg-config
+    clippy
     kdePackages.qtdeclarative
     clang
     clang-tools
