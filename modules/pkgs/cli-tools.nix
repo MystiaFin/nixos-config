@@ -24,6 +24,8 @@
     cloudflare-cli
 		speedtest-cli
     ffmpeg
+    wf-recorder
+    pulseaudio # only for pactl, pipewire-pulse stays the server
 		python3Packages.pdf2docx
 		sqlite
 		visidata
