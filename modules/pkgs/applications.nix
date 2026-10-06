@@ -11,6 +11,7 @@
     vlc
     showmethekey
     onlyoffice-desktopeditors
+    libreoffice
     qalculate-gtk
     obs-studio
     inkscape-with-extensions

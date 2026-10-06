@@ -24,7 +24,6 @@
       url = "github:ZenNotes/zennotes";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    amane.url = "git+ssh://git@github.com/MystiaFin/amane.git";
   };
 
   outputs =

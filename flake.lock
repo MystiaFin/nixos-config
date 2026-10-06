@@ -1,23 +1,5 @@
 {
   "nodes": {
-    "amane": {
-      "inputs": {
-        "nixpkgs": "nixpkgs"
-      },
-      "locked": {
-        "lastModified": 1791085266,
-        "narHash": "sha256-bNoiJjWpk+Ol8KOvg/jW7xm3N3NjzAFP0bmVT8BRHSg=",
-        "ref": "refs/heads/main",
-        "rev": "67d47a3881c3aff3df94aecfc9d75afeeaccc4cc",
-        "revCount": 256,
-        "type": "git",
-        "url": "ssh://git@github.com/MystiaFin/amane.git"
-      },
-      "original": {
-        "type": "git",
-        "url": "ssh://git@github.com/MystiaFin/amane.git"
-      }
-    },
     "helium-browser": {
       "inputs": {
         "nixpkgs": [
@@ -63,16 +45,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1789286504,
-        "narHash": "sha256-eiEK7cKZORNEvX0GeF3RtNEF/JXhgf2RqSp3230q13E=",
+        "lastModified": 1780145889,
+        "narHash": "sha256-md0zn0RnwNvPyASas1yG5YUuwQ4ALA6ucL50l0DvqCo=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "ef34387ddd751e1ab8857adf4676492d32eb24ec",
+        "rev": "8c50a710ddca43d7a530fb805ad55bde8d0141c5",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixos-unstable",
+        "ref": "26.05",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -109,28 +91,11 @@
         "type": "github"
       }
     },
-    "nixpkgs_2": {
-      "locked": {
-        "lastModified": 1780145889,
-        "narHash": "sha256-md0zn0RnwNvPyASas1yG5YUuwQ4ALA6ucL50l0DvqCo=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "8c50a710ddca43d7a530fb805ad55bde8d0141c5",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "26.05",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
-        "amane": "amane",
         "helium-browser": "helium-browser",
         "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs_2",
+        "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "spicetify-nix": "spicetify-nix",
         "zen-browser": "zen-browser",
