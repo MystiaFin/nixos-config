@@ -146,7 +146,7 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     Mod+Return hotkey-overlay-title="Open a Terminal: kitty" { spawn "@TERMINAL@"; }
-		Ctrl+Space hotkey-overlay-title="Quickshell Launcher" { 
+		Ctrl+Space hotkey-overlay-title="Amane Launcher" { 
     spawn "amane" "ipc" "call" "launcher" "toggle";
 }
 Mod+Space { spawn "amane" "ipc" "call" "launcher" "toggle";}
@@ -286,8 +286,6 @@ Mod+Space { spawn "amane" "ipc" "call" "launcher" "toggle";}
     Ctrl+Alt+Delete { quit; }
     Mod+Shift+P hotkey-overlay-title="Project Launcher (tmux)" { spawn "amane" "ipc" "call" "launcher" "showTmux"; }
 		Mod+Shift+W { spawn "amane" "ipc" "call" "wallpaper" "toggle"; }
-    Mod+P hotkey-overlay-title="Display Settings" { spawn "qs" "ipc" "call" "multiDisplay" "toggle"; }
-    Mod+Period hotkey-overlay-title="Clipboard History" { spawn "qs" "ipc" "call" "clipboard" "toggle"; }
 }
 
 window-rule {

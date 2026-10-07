@@ -78,7 +78,6 @@ lib.mkIf isDesktop {
 
   home.packages = with pkgs; [
     amane
-    quickshell
     imagemagick
     wlogout
     qt6.qt5compat

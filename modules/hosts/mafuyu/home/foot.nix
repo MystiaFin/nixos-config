@@ -5,7 +5,7 @@ let
   cfg = ini {
     main = {
       font = "JetBrainsMono Nerd Font:size=13";
-      include = "${config.home.homeDirectory}/.config/quickshell/terminal-colors-foot.ini";
+      include = "${config.home.homeDirectory}/.local/state/amane/terminal-colors-foot.ini";
       pad = "8x8";
     };
     bell = {

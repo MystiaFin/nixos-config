@@ -8,11 +8,11 @@
 let
   spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
   spotifyThemeAdapter = builtins.readFile ./spotify-theme.css;
-  quickshellThemeExtension = {
-    src = pkgs.writeTextDir "spicetify-quickshell-theme.js" ''
-      (function quickshellTheme() {
+  amaneThemeExtension = {
+    src = pkgs.writeTextDir "spicetify-amane-theme.js" ''
+      (function amaneTheme() {
           const endpoint = "http://127.0.0.1:17384/spotify.css";
-          const styleId = "quickshell-dynamic-theme";
+          const styleId = "amane-dynamic-theme";
           const adapterCss = ${builtins.toJSON spotifyThemeAdapter};
           let currentCss = "";
 
@@ -43,7 +43,7 @@ let
           setInterval(refreshTheme, 1500);
       })();
     '';
-    name = "spicetify-quickshell-theme.js";
+    name = "spicetify-amane-theme.js";
   };
 in
 {
@@ -81,16 +81,16 @@ in
       shuffle
       hidePodcasts
       adblock
-    ]) ++ [ quickshellThemeExtension ];
+    ]) ++ [ amaneThemeExtension ];
   };
 
-  systemd.user.services.quickshell-theme-server = {
+  systemd.user.services.amane-theme-server = {
     Unit = {
-      Description = "Serve Quickshell application theme CSS";
+      Description = "Serve amane application theme CSS";
       After = [ "graphical-session-pre.target" ];
     };
     Service = {
-      ExecStart = "${pkgs.darkhttpd}/bin/darkhttpd %h/.cache/quickshell-theme --addr 127.0.0.1 --port 17384 --header \"Access-Control-Allow-Origin: *\" --no-listing";
+      ExecStart = "${pkgs.darkhttpd}/bin/darkhttpd %h/.cache/amane/spotify --addr 127.0.0.1 --port 17384 --header \"Access-Control-Allow-Origin: *\" --no-listing";
       Restart = "on-failure";
       RestartSec = 1;
     };
