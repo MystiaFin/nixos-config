@@ -14,7 +14,7 @@ let
     shell_integration no-cursor
 
     allow_remote_control socket-only
-    listen_on unix:@quickshell-kitty
+    listen_on unix:@amane-kitty
 
     tab_bar_edge top
     tab_bar_style powerline
@@ -56,7 +56,7 @@ let
     color14 #94e2d5
     color15 #a6adc8
 
-    include /home/mystiafin/.config/quickshell/terminal-colors-kitty.conf
+    include /home/mystiafin/.local/state/amane/terminal-colors-kitty.conf
   '';
 in {
   xdg.configFile."kitty/kitty.conf".source = mkKittyConf;
