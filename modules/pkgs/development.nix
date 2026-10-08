@@ -35,6 +35,12 @@ in
     kdePackages.qtdeclarative
     clang
     clang-tools
+    (python3.withPackages (ps: with ps; [
+      pdfplumber
+      openpyxl
+      pandas
+      requests
+    ]))
   ];
 
   # binaries from `cargo install`
@@ -44,6 +50,9 @@ in
   home.sessionVariables = {
     PKG_CONFIG_PATH = lib.makeSearchPathOutput "dev" "lib/pkgconfig" amaneLibraries;
     LIBRARY_PATH = lib.makeLibraryPath [ pkgs.linux-pam ];
-    LD_LIBRARY_PATH = lib.makeLibraryPath [ pkgs.vulkan-loader pkgs.wayland ];
+    LD_LIBRARY_PATH = lib.makeLibraryPath [
+      pkgs.vulkan-loader
+      pkgs.wayland
+    ];
   };
 }
