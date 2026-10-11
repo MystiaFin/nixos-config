@@ -90,7 +90,7 @@ in
       After = [ "graphical-session-pre.target" ];
     };
     Service = {
-      ExecStart = "${pkgs.darkhttpd}/bin/darkhttpd %h/.cache/amane/spotify --addr 127.0.0.1 --port 17384 --header \"Access-Control-Allow-Origin: *\" --no-listing";
+      ExecStart = "${pkgs.darkhttpd}/bin/darkhttpd %h/.cache/amane/theme --addr 127.0.0.1 --port 17384 --header \"Access-Control-Allow-Origin: *\" --no-listing";
       Restart = "on-failure";
       RestartSec = 1;
     };

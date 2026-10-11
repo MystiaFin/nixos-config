@@ -80,7 +80,6 @@ lib.mkIf isDesktop {
     amane
     imagemagick
     wlogout
-    qt6.qt5compat
     qt6.qtsvg
     qt6Packages.qt6ct
     xdg-desktop-portal-gtk
@@ -90,7 +89,6 @@ lib.mkIf isDesktop {
     nwg-look
     wdisplays
     wl-mirror
-		qt6.qtshadertools
   ];
 
   xdg.desktopEntries."stirling-pdf" = {

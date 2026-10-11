@@ -1,10 +1,14 @@
 {
   config,
   pkgs,
+  inputs,
   stateVersion,
   ...
 }:
 
+let
+  unstable = inputs.nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+in
 {
   imports = [
     ./hardware-configuration.nix
@@ -40,6 +44,13 @@
   };
 
   programs.gamemode.enable = true;
+
+  # hyprland 0.56 from unstable, to test amane against it (amane issue #7)
+  programs.hyprland = {
+    enable = true;
+    package = unstable.hyprland;
+    portalPackage = unstable.xdg-desktop-portal-hyprland;
+  };
 
   hardware.nvidia = {
     modesetting.enable = true;

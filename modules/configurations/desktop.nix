@@ -61,6 +61,11 @@ in
 
   programs.dconf.enable = true;
 
+  programs.appimage = {
+    enable = true;
+    binfmt = true;
+  };
+
   services.udisks2.enable = true;
 
   security.polkit.enable = true;
