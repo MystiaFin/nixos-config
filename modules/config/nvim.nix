@@ -83,6 +83,7 @@ in
       harpoon2
       neoscroll-nvim
       gitsigns-nvim
+      diffview-nvim
       dashboard-nvim
       vimtex
       typst-preview-nvim
