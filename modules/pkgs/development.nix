@@ -26,12 +26,7 @@ in
     typst
     texliveFull
     pandoc
-    rust-analyzer
-    rustfmt
-    rustc
-    cargo
     pkg-config
-    clippy
     kdePackages.qtdeclarative
     clang
     clang-tools

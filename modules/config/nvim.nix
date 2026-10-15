@@ -40,7 +40,6 @@ in
       pkgs.imagemagick
       pkgs.python3Packages.jupytext
       pkgs.ueberzugpp
-      pkgs.rust-analyzer
       pkgs.rustfmt
       pkgs.kdePackages.qtdeclarative
       pkgs.clang-tools
