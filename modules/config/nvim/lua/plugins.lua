@@ -25,7 +25,6 @@ vim.pack.add({
   -- Treesitter main branch fix
 	"https://github.com/romus204/tree-sitter-manager.nvim",
   "https://github.com/nvim-lualine/lualine.nvim",
-  "https://github.com/andweeb/presence.nvim",
   "https://github.com/windwp/nvim-autopairs",
   "https://github.com/windwp/nvim-ts-autotag",
   "https://github.com/lukas-reineke/indent-blankline.nvim",

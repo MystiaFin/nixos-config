@@ -75,7 +75,6 @@ in
       nvim-lspconfig
       telescope-nvim
       lualine-nvim
-      presence-nvim
       nvim-autopairs
       nvim-ts-autotag
       indent-blankline-nvim

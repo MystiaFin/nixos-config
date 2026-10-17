@@ -22,6 +22,7 @@ in
     svelte-language-server
     typescript-language-server
     nil
+    go
     gopls
     typst
     texliveFull

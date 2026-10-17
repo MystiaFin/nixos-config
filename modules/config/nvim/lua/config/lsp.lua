@@ -43,6 +43,35 @@ vim.lsp.config.html = {
 	root_markers = { "package.json", ".git" },
 }
 
+local function read(path)
+	local f = io.open(path)
+	if not f then
+		return nil
+	end
+	local text = f:read("a")
+	f:close()
+	return text
+end
+
+-- a kernel (or any bare-metal crate) targets `*-none*` or rebuilds core with build-std;
+-- rustup already picks its toolchain, this only fixes what rust-analyzer checks
+local function bare_metal_settings(root)
+	local toolchain = read(root .. "/rust-toolchain.toml") or read(root .. "/rust-toolchain") or ""
+	local cargo = read(root .. "/.cargo/config.toml") or read(root .. "/.cargo/config") or ""
+	local target = toolchain:match('"([%w_.-]+%-none[%w_.-]*)"')
+	if not (target or cargo:find("%-none") or cargo:find("build%-std")) then
+		return nil
+	end
+	-- there's no `test` crate and the kernel brings its own panic handler,
+	-- so checking test targets only produces bogus errors
+	local settings = { check = { allTargets = false } }
+	-- rust-analyzer already reads build.target from .cargo/config, so only fill it in when that's missing
+	if target and not cargo:find("target%s*=") then
+		settings.cargo = { target = target }
+	end
+	return settings
+end
+
 vim.lsp.config.rust_analyzer = {
 	cmd = { "rust-analyzer" },
 	filetypes = { "rust" },
@@ -54,6 +83,14 @@ vim.lsp.config.rust_analyzer = {
 			},
 		},
 	},
+	on_init = function(client)
+		local extra = client.root_dir and bare_metal_settings(client.root_dir)
+		if extra then
+			-- a new table, so other rust projects keep the plain settings
+			client.settings = vim.tbl_deep_extend("force", client.settings, { ["rust-analyzer"] = extra })
+			client:notify("workspace/didChangeConfiguration", { settings = client.settings })
+		end
+	end,
 }
 
 vim.lsp.config.cssls = {
