@@ -1,1 +1,1 @@
-there is a massive overhaul on this repository. i apologize for any inconvenient caused by my latest commit.
+this is just my personal nixos config. no one is using this besides ME. so why bother writing a readme?
