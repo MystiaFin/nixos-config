@@ -12,6 +12,7 @@
 		./tmux.nix
 		./nvim.nix
 		./git.nix
+		./emacs.nix
   ];
 
   home.stateVersion = stateVersion;
