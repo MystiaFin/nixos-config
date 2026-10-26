@@ -82,6 +82,7 @@ in
       neoscroll-nvim
       gitsigns-nvim
       diffview-nvim
+      neogit
       dashboard-nvim
       vimtex
       typst-preview-nvim
