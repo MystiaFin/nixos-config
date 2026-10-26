@@ -30,6 +30,7 @@ require("config/snacks")
 require("config/avante")
 require("config/copilot")
 require("config/image")
+require("config/cord")
 
 require("jupytext").setup({
 	style = "markdown",

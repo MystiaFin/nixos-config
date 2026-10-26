@@ -96,6 +96,7 @@ in
       image-nvim
       noice-nvim
       which-key-nvim
+      cord-nvim
     ];
   };
   home.activation.updateNeovimRemotePlugins = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
