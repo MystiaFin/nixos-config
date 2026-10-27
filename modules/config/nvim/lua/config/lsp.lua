@@ -151,6 +151,18 @@ vim.lsp.config.clangd = {
 	},
 }
 
+vim.lsp.config.wgsl_analyzer = {
+	cmd = { "wgsl-analyzer" },
+	filetypes = { "wgsl" },
+	root_markers = { ".git" },
+}
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+	pattern = "*.wgsl",
+	callback = function(args)
+		vim.lsp.buf.format({ bufnr = args.buf, name = "wgsl_analyzer" })
+	end,
+})
 
 vim.lsp.enable({
 	"lua_ls",
@@ -166,7 +178,7 @@ vim.lsp.enable({
 	"gopls",
 	"rust_analyzer",
 	"clangd",
-
+	"wgsl_analyzer",
 })
 
 vim.filetype.add({

@@ -36,6 +36,19 @@ in
     options mt7921e disable_aspm=1
   '';
 
+  # mt7921 firmware hangs ("driver own failed") when woken from its own low-power states
+  systemd.services.mt7921-disable-pm = {
+    wantedBy = [ "sys-subsystem-net-devices-wlp3s0.device" ];
+    after = [ "sys-subsystem-net-devices-wlp3s0.device" "sys-kernel-debug.mount" ];
+    serviceConfig.Type = "oneshot";
+    script = ''
+      for p in /sys/kernel/debug/ieee80211/phy*/mt76; do
+        echo 0 > $p/runtime-pm
+        echo 0 > $p/deep-sleep
+      done
+    '';
+  };
+
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;

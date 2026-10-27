@@ -43,6 +43,7 @@ in
       pkgs.rustfmt
       pkgs.kdePackages.qtdeclarative
       pkgs.clang-tools
+      pkgs.wgsl-analyzer
     ];
     extraPython3Packages =
       python: with python; [
