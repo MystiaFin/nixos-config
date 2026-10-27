@@ -12,7 +12,8 @@ require("tree-sitter-manager").setup({
 		"go",
 		"python",
 		"markdown",
-		"markdown_inline"
+		"markdown_inline",
+		"typst"
 	},
 	border = nil,
 	highlight = true,

@@ -26,7 +26,6 @@
     kdePackages.gwenview
     zathura
     zathuraPkgs.zathuraWrapper
-		emacs
   ];
   home.file."xfce4/xfconf/xfce-perchannel-xml/thunar.xml".text = ''
     <?xml version="1.0" encoding="UTF-8"?>
