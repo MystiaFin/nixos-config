@@ -14,7 +14,7 @@ let
 
   mkScript = name: { class, title, inputs }: pkgs.writeShellApplication {
     inherit name;
-    runtimeInputs = with pkgs; [ fish neovim ] ++ inputs ++ [ pkgs.${terminal} ];
+    runtimeInputs = with pkgs; [ zsh neovim ] ++ inputs ++ [ pkgs.${terminal} ];
     text = pkgs.lib.replaceStrings
       [ "@TERMINAL@" "@TERMINAL_FLAGS@" ]
       [ terminal (openArgs class title) ]

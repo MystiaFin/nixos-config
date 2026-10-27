@@ -12,7 +12,11 @@
     opencode
   ];
 
-  programs.fish.enable = true;
+  programs.zsh = {
+    enable = true;
+    # home-manager's .zshrc runs compinit itself, so skip the system one
+    enableGlobalCompInit = false;
+  };
 
   programs.gnupg.agent = {
     enable = true;

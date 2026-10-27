@@ -19,4 +19,4 @@ CHOSEN=$(tmux list-sessions -F "#{session_name}" \
 
 echo "$CHOSEN" > "$SESSION_FILE"
 
-exec "$TERMINAL" -a foot -T foot -o colors.alpha=0.9 -- fish -i -c "exec tmux attach-session -t '$CHOSEN'"
+exec "$TERMINAL" -a foot -T foot -o colors.alpha=0.9 -- zsh -i -c "exec tmux attach-session -t '$CHOSEN'"

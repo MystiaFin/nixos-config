@@ -58,4 +58,4 @@ fi
 # ── OPEN ──────────────────────────────────────────────────────────────────────
 exec @TERMINAL@ \
     @TERMINAL_FLAGS@ \
-    fish -i -c "nvim '$TODAY_FILE'"
+    zsh -i -c "nvim '$TODAY_FILE'"

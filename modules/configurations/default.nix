@@ -42,7 +42,7 @@
         "networkmanager"
         "docker"
       ];
-      shell = pkgs.fish;
+      shell = pkgs.zsh;
     };
 
     virtualisation.docker.enable = true;

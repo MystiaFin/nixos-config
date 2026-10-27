@@ -5,7 +5,7 @@
 
 {
   imports = [
-    ./fish.nix
+    ./zsh.nix
     ./niri.nix
     ./fontconfig.nix
     ./themes.nix
