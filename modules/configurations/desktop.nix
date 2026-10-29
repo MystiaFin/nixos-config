@@ -70,6 +70,15 @@ in
 
   security.polkit.enable = true;
 
+  # thunar's side pane puts its section titles 8px left of the icons under them
+  nixpkgs.overlays = [
+    (final: prev: {
+      thunar-unwrapped = prev.thunar-unwrapped.overrideAttrs (old: {
+        patches = (old.patches or [ ]) ++ [ ../pkgs/patches/thunar-sidebar-alignment.patch ];
+      });
+    })
+  ];
+
   programs.thunar = {
     enable = true;
     plugins = with pkgs; [

@@ -1,0 +1,31 @@
+Line the side pane's section titles up with the icons below them, 12px apart from the labels.
+
+--- a/thunar/thunar-shortcuts-view.c
++++ b/thunar/thunar-shortcuts-view.c
+@@ -345,7 +345,7 @@
+                                         "reorderable", FALSE,
+                                         "resizable", FALSE,
+                                         "expand", TRUE,
+-                                        "spacing", 2,
++                                        "spacing", 12,
+                                         NULL);
+   gtk_tree_view_append_column (GTK_TREE_VIEW (view), column);
+ 
+@@ -356,7 +356,7 @@
+   /* header */
+   renderer = g_object_new (GTK_TYPE_CELL_RENDERER_TEXT,
+                            "weight", PANGO_WEIGHT_BOLD,
+-                           "xpad", 6,
++                           "xpad", 0,
+                            "ypad", 4,
+                            "ellipsize", PANGO_ELLIPSIZE_END,
+                            NULL);
+@@ -368,7 +368,7 @@
+ 
+   /* separator for indent */
+   renderer = gtk_cell_renderer_text_new ();
+-  g_object_set (G_OBJECT (renderer), "xpad", 6, NULL);
++  g_object_set (G_OBJECT (renderer), "xpad", 0, NULL);
+   gtk_tree_view_column_pack_start (column, renderer, FALSE);
+   gtk_tree_view_column_set_attributes (column, renderer,
+                                        "visible", THUNAR_SHORTCUTS_MODEL_COLUMN_IS_ITEM,
