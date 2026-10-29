@@ -1,9 +1,9 @@
 # --- completion: fish-style menu ---
 
-# arrow keys move through the list, typed lowercase matches any case,
-# and a word can match in the middle (`conf` finds `nixos-config`)
-zstyle ':completion:*' menu select
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+# one tab opens the list and arrow keys move through it, case never matters (`doc` and `DOC`
+# both find `Documents`), and a word can match in the middle (`conf` finds `nixos-config`)
+zstyle ':completion:*' menu yes select
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' '+r:|[._-]=* r:|=*' '+l:|=* r:|=*'
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' verbose yes
