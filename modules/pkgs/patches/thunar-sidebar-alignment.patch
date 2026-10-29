@@ -1,8 +1,27 @@
-Line the side pane's section titles up with the icons below them, 12px apart from the labels.
+Line the side pane's section titles up with the icons below them, 12px apart from the labels,
+and don't hover the titles, which can't be picked.
 
 --- a/thunar/thunar-shortcuts-view.c
 +++ b/thunar/thunar-shortcuts-view.c
-@@ -345,7 +345,7 @@
+@@ -97,6 +97,9 @@
+ thunar_shortcuts_view_button_release_event (GtkWidget      *widget,
+                                             GdkEventButton *event);
+ static gboolean
++thunar_shortcuts_view_motion_notify_event (GtkWidget      *widget,
++                                           GdkEventMotion *event);
++static gboolean
+ thunar_shortcuts_view_key_release_event (GtkWidget   *widget,
+                                          GdkEventKey *event);
+ static void
+@@ -291,6 +294,7 @@
+   gtkwidget_class = GTK_WIDGET_CLASS (klass);
+   gtkwidget_class->button_press_event = thunar_shortcuts_view_button_press_event;
+   gtkwidget_class->button_release_event = thunar_shortcuts_view_button_release_event;
++  gtkwidget_class->motion_notify_event = thunar_shortcuts_view_motion_notify_event;
+   gtkwidget_class->key_release_event = thunar_shortcuts_view_key_release_event;
+   gtkwidget_class->drag_begin = thunar_shortcuts_view_drag_begin;
+   gtkwidget_class->drag_data_received = thunar_shortcuts_view_drag_data_received;
+@@ -345,7 +349,7 @@
                                          "reorderable", FALSE,
                                          "resizable", FALSE,
                                          "expand", TRUE,
@@ -11,16 +30,16 @@ Line the side pane's section titles up with the icons below them, 12px apart fro
                                          NULL);
    gtk_tree_view_append_column (GTK_TREE_VIEW (view), column);
  
-@@ -356,7 +356,7 @@
+@@ -356,7 +360,7 @@
    /* header */
    renderer = g_object_new (GTK_TYPE_CELL_RENDERER_TEXT,
                             "weight", PANGO_WEIGHT_BOLD,
 -                           "xpad", 6,
-+                           "xpad", 0,
++                           "xpad", 12,
                             "ypad", 4,
                             "ellipsize", PANGO_ELLIPSIZE_END,
                             NULL);
-@@ -368,7 +368,7 @@
+@@ -368,7 +372,7 @@
  
    /* separator for indent */
    renderer = gtk_cell_renderer_text_new ();
@@ -29,3 +48,47 @@ Line the side pane's section titles up with the icons below them, 12px apart fro
    gtk_tree_view_column_pack_start (column, renderer, FALSE);
    gtk_tree_view_column_set_attributes (column, renderer,
                                         "visible", THUNAR_SHORTCUTS_MODEL_COLUMN_IS_ITEM,
+@@ -1107,6 +1111,43 @@
+ }
+ 
+ 
++
++static gboolean
++thunar_shortcuts_view_motion_notify_event (GtkWidget      *widget,
++                                           GdkEventMotion *event)
++{
++  GtkTreeModel    *model;
++  GtkTreePath     *path;
++  GtkTreeIter      iter;
++  GdkEventCrossing leave = { 0 };
++  gboolean         is_header = FALSE;
++
++  if (gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (widget), event->x, event->y, &path, NULL, NULL, NULL))
++    {
++      model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
++      if (gtk_tree_model_get_iter (model, &iter, path))
++        gtk_tree_model_get (model, &iter, THUNAR_SHORTCUTS_MODEL_COLUMN_IS_HEADER, &is_header, -1);
++      gtk_tree_path_free (path);
++    }
++
++  /* headers can't be picked, so don't hover them either: over one, act as if the pointer left */
++  if (is_header && (event->state & GDK_BUTTON1_MASK) == 0)
++    {
++      leave.type = GDK_LEAVE_NOTIFY;
++      leave.window = event->window;
++      leave.send_event = TRUE;
++      leave.time = event->time;
++      leave.x = event->x;
++      leave.y = event->y;
++      leave.mode = GDK_CROSSING_NORMAL;
++      leave.detail = GDK_NOTIFY_ANCESTOR;
++      return (*GTK_WIDGET_CLASS (thunar_shortcuts_view_parent_class)->leave_notify_event) (widget, &leave);
++    }
++
++  return (*GTK_WIDGET_CLASS (thunar_shortcuts_view_parent_class)->motion_notify_event) (widget, event);
++}
++
++
+ 
+ static gboolean
+ thunar_shortcuts_view_selection_func (GtkTreeSelection *selection,
