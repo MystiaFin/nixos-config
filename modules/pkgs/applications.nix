@@ -5,7 +5,14 @@
     yazi
     inputs.zennotes.packages.${pkgs.system}.zennotes-desktop
     pkgs-unstable.claude-code
-    vesktop
+    # arRPC only knows a stale bundled snapshot of Discord's game list; fetch the live one.
+    (vesktop.overrideAttrs (old: {
+      preBuild = (old.preBuild or "") + ''
+        arrpc=$(realpath node_modules/arrpc)
+        chmod -R u+w "$arrpc"
+        patch -p1 -d "$arrpc" < ${./patches/arrpc-live-detectable-db.patch}
+      '';
+    }))
     zed-editor
     obsidian
     vlc

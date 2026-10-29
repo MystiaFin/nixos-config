@@ -1,0 +1,50 @@
+--- a/src/process/index.js
++++ b/src/process/index.js
+@@ -20,6 +20,38 @@
+   }
+ );
+ 
++// Index games by executable name so a scan is a few map lookups per process instead of a
++// walk over the whole DB. The bundled DB is a stale snapshot, so swap in Discord's live list
++// once it's fetched (retrying while offline, e.g. when autostarted before the network is up).
++const buildIndex = db => {
++  const index = new Map();
++  for (const app of db) for (const x of app.executables ?? []) {
++    const name = x.name[0] === '>' ? x.name.substring(1) : x.name;
++    if (!index.has(name)) index.set(name, new Set());
++    index.get(name).add(app);
++  }
++  return index;
++};
++let ExeIndex = buildIndex(DetectableDB);
++
++const fetchDetectable = () => fetch('https://discord.com/api/v10/applications/detectable')
++  .then(r => r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`)))
++  .then(db => {
++    ExeIndex = buildIndex(db.concat(DetectableDB.filter(x => x.id === 'STREAMERMODE')));
++    log(`loaded ${db.length} detectable games from Discord`);
++  })
++  .catch(e => {
++    log('failed to fetch detectable games, retrying in 60s:', e.message);
++    setTimeout(fetchDetectable, 60_000);
++  });
++fetchDetectable();
++
++const candidates = toCompare => {
++  const apps = new Set();
++  for (const p of toCompare) for (const app of ExeIndex.get(p) ?? []) apps.add(app);
++  return apps;
++};
++
+ import * as Natives from './native/index.js';
+ const Native = Natives[process.platform];
+ 
+@@ -61,7 +93,7 @@
+         toCompare.push(p.replace('_64', ''));
+       }
+ 
+-      for (const { executables, id, name } of DetectableDB) {
++      for (const { executables, id, name } of candidates(toCompare)) {
+         if (executables?.some(x => {
+           if (x.is_launcher) return false;
+           if (x.name[0] === '>' ? x.name.substring(1) !== toCompare[0] : !toCompare.some(y => x.name === y)) return false;
