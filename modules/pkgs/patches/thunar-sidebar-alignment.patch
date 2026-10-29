@@ -35,7 +35,7 @@ and don't hover the titles, which can't be picked.
    renderer = g_object_new (GTK_TYPE_CELL_RENDERER_TEXT,
                             "weight", PANGO_WEIGHT_BOLD,
 -                           "xpad", 6,
-+                           "xpad", 12,
++                           "xpad", 0,
                             "ypad", 4,
                             "ellipsize", PANGO_ELLIPSIZE_END,
                             NULL);
