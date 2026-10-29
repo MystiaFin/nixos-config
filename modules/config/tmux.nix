@@ -61,22 +61,13 @@
       unbind-key -T prefix 9
       unbind-key -T prefix 0
 
-      # --- Nord powerline status bar ---
-      # Layout copied from nord-tmux, but with explicit Nord hex colors so it
-      # looks Nord regardless of the terminal's ANSI palette
+      # --- status bar ---
+      # colors and segments come from amane (~/.local/state/amane/tmux-colors.conf),
+      # so they follow the shell theme; only the layout lives here
       set -g status-interval 1
       set -g status-justify left
-      set -g status-style bg=#2e3440,fg=#d8dee9
       set -g status-left-length 80
-
-      # nord0 #2e3440  nord3 #4c566a  nord6 #eceff4
-      # nord8 #88c0d0  nord10 #5e81ac
-      set -g status-left "#[fg=#2e3440,bg=#5e81ac,bold] #S #[fg=#5e81ac,bg=#2e3440,nobold,noitalics,nounderscore]"
-      set -g status-right "#[fg=#4c566a,bg=#2e3440,nobold,noitalics,nounderscore]#[fg=#eceff4,bg=#4c566a] %Y-%m-%d #[fg=#eceff4,bg=#4c566a,nobold,noitalics,nounderscore]#[fg=#eceff4,bg=#4c566a] %H:%M #[fg=#88c0d0,bg=#4c566a,nobold,noitalics,nounderscore]#[fg=#2e3440,bg=#88c0d0,bold] #H "
-
-      set -g window-status-format "#[fg=#2e3440,bg=#4c566a,nobold,noitalics,nounderscore] #[fg=#eceff4,bg=#4c566a]#I #[fg=#eceff4,bg=#4c566a,nobold,noitalics,nounderscore] #[fg=#eceff4,bg=#4c566a]#W #F #[fg=#4c566a,bg=#2e3440,nobold,noitalics,nounderscore]"
-      set -g window-status-current-format "#[fg=#2e3440,bg=#88c0d0,nobold,noitalics,nounderscore] #[fg=#2e3440,bg=#88c0d0]#I #[fg=#2e3440,bg=#88c0d0,nobold,noitalics,nounderscore] #[fg=#2e3440,bg=#88c0d0]#W #F #[fg=#88c0d0,bg=#2e3440,nobold,noitalics,nounderscore]"
-      set -g window-status-separator ""
+      set -g status-right-length 80
     '';
   };
 }

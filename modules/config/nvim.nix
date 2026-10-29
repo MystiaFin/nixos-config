@@ -109,4 +109,5 @@ in
       +UpdateRemotePlugins +qa
   '';
   xdg.configFile."nvim/lua".source = ./nvim/lua;
+  xdg.configFile."nvim/colors".source = ./nvim/colors;
 }
