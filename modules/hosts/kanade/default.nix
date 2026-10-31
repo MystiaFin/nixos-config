@@ -7,7 +7,11 @@
 }:
 
 let
-  unstable = inputs.nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+  # allowUnfree so the kernel's nvidia module can come from unstable too
+  unstable = import inputs.nixpkgs-unstable {
+    system = pkgs.stdenv.hostPlatform.system;
+    config.allowUnfree = true;
+  };
 in
 {
   imports = [
@@ -29,6 +33,9 @@ in
     protonplus
     opentabletdriver
   ];
+
+  # newest mt76 fixes; 6.18 panicked in mt76_dma_add_buf after the chip hung
+  boot.kernelPackages = unstable.linuxPackages_latest;
 
   networking.networkmanager.wifi.powersave = false;
 

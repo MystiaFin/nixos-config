@@ -46,6 +46,9 @@ in
     ];
   };
 
+  # without this sddm picks the first session alphabetically (hyprland-uwsm)
+  services.displayManager.defaultSession = "niri";
+
   boot.plymouth = {
     enable = true;
   };
