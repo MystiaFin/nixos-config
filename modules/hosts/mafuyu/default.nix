@@ -13,5 +13,9 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  zramSwap.enable = true;
+
+  virtualisation.docker.enableOnBoot = false;
+
   system.stateVersion = stateVersion;
 }

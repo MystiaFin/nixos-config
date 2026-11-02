@@ -13,6 +13,7 @@
 		./nvim.nix
 		./git.nix
 		./emacs.nix
+		./bottom.nix
   ];
 
   home.stateVersion = stateVersion;
