@@ -7,6 +7,9 @@
       # one row per program name instead of one per process
       flags.group_processes = true;
 
+      # MB is readable at a glance, a percent of total ram isn't
+      flags.process_memory_as_value = true;
+
       # terminal slots instead of hex so it follows amane's palette, magenta sits closest to the accent
       styles = {
         tables.headers = {
