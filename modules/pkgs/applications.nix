@@ -54,4 +54,37 @@
       </property>
     </channel>
   '';
+  # force: replaces the uca.xml thunar wrote itself (its one action is kept below)
+  xdg.configFile."Thunar/uca.xml" = {
+    force = true;
+    text = ''
+      <?xml version="1.0" encoding="UTF-8"?>
+      <actions>
+      <action>
+      	<icon>utilities-terminal</icon>
+      	<name>Open Terminal Here</name>
+      	<submenu></submenu>
+      	<unique-id>1785897717360669-1</unique-id>
+      	<command>exo-open --working-directory %f --launch TerminalEmulator</command>
+      	<description>Example for a custom action</description>
+      	<range></range>
+      	<patterns>*</patterns>
+      	<startup-notify/>
+      	<directories/>
+      </action>
+      <action>
+      	<icon>application-pdf</icon>
+      	<name>Combine into PDF</name>
+      	<submenu></submenu>
+      	<unique-id>combine-pdf</unique-id>
+      	<command>combine-pdf %F</command>
+      	<description>Merge the selected images and PDFs into combined.pdf</description>
+      	<range></range>
+      	<patterns>*.pdf;*.PDF;*.png;*.PNG;*.jpg;*.JPG;*.jpeg;*.JPEG;*.tif;*.tiff;*.webp</patterns>
+      	<image-files/>
+      	<other-files/>
+      </action>
+      </actions>
+    '';
+  };
 }

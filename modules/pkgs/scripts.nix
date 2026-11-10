@@ -14,7 +14,7 @@ let
 
   mkScript = name: { class, title, inputs }: pkgs.writeShellApplication {
     inherit name;
-    runtimeInputs = with pkgs; [ zsh neovim ] ++ inputs ++ [ pkgs.${terminal} ];
+    runtimeInputs = [ pkgs.zsh config.programs.neovim.finalPackage ] ++ inputs ++ [ pkgs.${terminal} ];
     text = pkgs.lib.replaceStrings
       [ "@TERMINAL@" "@TERMINAL_FLAGS@" ]
       [ terminal (openArgs class title) ]
@@ -41,6 +41,11 @@ in {
       name = "tmux-boot";
       runtimeInputs = with pkgs; [ tmux ];
       text = builtins.readFile ../../scripts/tmux-boot.sh;
+    })
+    (pkgs.writeShellApplication {
+      name = "combine-pdf";
+      runtimeInputs = with pkgs; [ img2pdf qpdf libnotify coreutils ];
+      text = builtins.readFile ../../scripts/combine-pdf.sh;
     })
   ];
 
