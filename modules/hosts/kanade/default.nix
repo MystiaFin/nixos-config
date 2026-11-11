@@ -7,11 +7,7 @@
 }:
 
 let
-  # allowUnfree so the kernel's nvidia module can come from unstable too
-  unstable = import inputs.nixpkgs-unstable {
-    system = pkgs.stdenv.hostPlatform.system;
-    config.allowUnfree = true;
-  };
+  unstable = inputs.nixpkgs-unstable.legacyPackages.${pkgs.stdenv.hostPlatform.system};
 in
 {
   imports = [
@@ -31,11 +27,7 @@ in
     mangohud
     protonup-qt
     protonplus
-    opentabletdriver
   ];
-
-  # newest mt76 fixes; 6.18 panicked in mt76_dma_add_buf after the chip hung
-  boot.kernelPackages = unstable.linuxPackages_latest;
 
   networking.networkmanager.wifi.powersave = false;
 
@@ -64,6 +56,8 @@ in
   };
 
   programs.gamemode.enable = true;
+
+  hardware.opentabletdriver.enable = true;
 
   # hyprland 0.56 from unstable, to test amane against it (amane issue #7)
   programs.hyprland = {
