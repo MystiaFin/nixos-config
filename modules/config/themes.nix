@@ -98,9 +98,9 @@ in
     Install.WantedBy = [ "default.target" ];
   };
 
+  # each host picks its character in its own home config
   pjsk-cursor = {
     enable = true;
-    character = "asahina-mafuyu";
     size = 14;
   };
 

@@ -15,6 +15,8 @@
     TERMINAL = "foot";
   };
 
+  pjsk-cursor.character = "asahina-mafuyu";
+
   # spotify's nix wrapper only picks wayland when this is set, through xwayland it never knows it's hidden
   xdg.desktopEntries.spotify = {
     name = "Spotify";

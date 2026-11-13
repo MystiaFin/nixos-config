@@ -31,4 +31,6 @@ in
   home.sessionVariables = {
     TERMINAL = "kitty";
   };
+
+  pjsk-cursor.character = "yoisaki-kanade";
 }
