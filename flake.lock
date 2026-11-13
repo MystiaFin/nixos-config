@@ -98,11 +98,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794578921,
-        "narHash": "sha256-EEkHp9doDVHJz6Leggdiujmjang2/lHSKB4kk2jR2IQ=",
+        "lastModified": 1794580740,
+        "narHash": "sha256-byvRnvZudlsH2g79QUvaBN6exEjErAczepqHN2tPlSQ=",
         "owner": "MystiaFin",
         "repo": "pjsk-cursors",
-        "rev": "b15cb7dac423e4f60c159e6e9686f86ab845804b",
+        "rev": "a35053566ded5f0dd13de71af416817fc6f357a9",
         "type": "github"
       },
       "original": {

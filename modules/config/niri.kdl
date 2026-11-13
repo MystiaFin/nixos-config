@@ -5,8 +5,8 @@ workspace "2"
 workspace "3"
 
 cursor {
-xcursor-theme "catppuccin-mocha-dark-cursors"
-      xcursor-size 24
+    xcursor-theme "@CURSOR_THEME@"
+    xcursor-size @CURSOR_SIZE@
 }
 input {
     keyboard {

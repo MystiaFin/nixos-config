@@ -77,12 +77,14 @@ in
 
   programs.spicetify = {
     enable = true;
-    enabledExtensions = (with spicePkgs.extensions; [
-      fullAppDisplay
-      shuffle
-      hidePodcasts
-      adblock
-    ]) ++ [ amaneThemeExtension ];
+    enabledExtensions =
+      (with spicePkgs.extensions; [
+        fullAppDisplay
+        shuffle
+        hidePodcasts
+        adblock
+      ])
+      ++ [ amaneThemeExtension ];
   };
 
   systemd.user.services.amane-theme-server = {
@@ -101,7 +103,13 @@ in
   # each host picks its character in its own home config
   pjsk-cursor = {
     enable = true;
-    size = 14;
+		size = 36;
+  };
+
+  # gtk apps on wayland read the cursor from here, not from home.pointerCursor
+  dconf.settings."org/gnome/desktop/interface" = {
+    cursor-theme = config.home.pointerCursor.name;
+    cursor-size = config.home.pointerCursor.size;
   };
 
   home.sessionVariables = {
