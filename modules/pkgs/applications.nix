@@ -34,26 +34,27 @@
     zathura
     zathuraPkgs.zathuraWrapper
 		quickshell
+		# nixpkgs lags behind upstream; inline image previews landed 2026-09-29 and need go 1.27
+		((pkgs-unstable.discordo.override { buildGoModule = pkgs-unstable.buildGo127Module; }).overrideAttrs (old: {
+			version = "0-unstable-2026-11-12";
+			src = pkgs.fetchFromGitHub {
+				owner = "ayn2op";
+				repo = "discordo";
+				rev = "61e975dc9763adbc546fd3b81496a6682c4d36a8";
+				hash = "sha256-WBPKralbJp0zdx+z/ezRZnlkkHecuJ4YJ9nx6Dz7FCQ=";
+			};
+			vendorHash = "sha256-04HOQ5NHe85bhysVLASmRf5ZTp/iWsqj8YeOrmt/Fno=";
+			# guild icons in a rail beside the channels of one guild, like Discord
+			patches = (old.patches or [ ]) ++ [ ./patches/discordo-guild-icons.patch ];
+		}))
   ];
-  home.file."xfce4/xfconf/xfce-perchannel-xml/thunar.xml".text = ''
-    <?xml version="1.0" encoding="UTF-8"?>
-    <channel name="thunar" version="1.0">
-      <property name="volman">
-        <property name="manage-removable-drives" type="bool" value="true"/>
-        <property name="autoplay-drives" type="bool" value="true"/>
-        <property name="automount-drives" type="bool" value="true"/>
-        <property name="automount-media" type="bool" value="true"/>
-        <property name="automount-mtp" type="bool" value="true"/>
-        <property name="automount-camera" type="bool" value="true"/>
-        <property name="automount-printer" type="bool" value="true"/>
-        <property name="automount-keyboard" type="bool" value="true"/>
-        <property name="automount-gamepad" type="bool" value="true"/>
-        <property name="automount-tablet" type="bool" value="true"/>
-        <property name="automount-scanner" type="bool" value="true"/>
-        <property name="automount-charger" type="bool" value="true"/>
-      </property>
-    </channel>
-  '';
+  # set per key, so thunar can still save the rest of its settings
+  xfconf.settings.thunar-volman = {
+    "automount-drives/enabled" = true;
+    "automount-media/enabled" = true;
+    "autoplay-audio-cds/enabled" = true;
+    "autoplay-video-cds/enabled" = true;
+  };
   # force: replaces the uca.xml thunar wrote itself (its one action is kept below)
   xdg.configFile."Thunar/uca.xml" = {
     force = true;

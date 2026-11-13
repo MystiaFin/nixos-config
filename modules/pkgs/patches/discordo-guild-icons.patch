@@ -1,0 +1,817 @@
+diff --git a/docs/config.md b/docs/config.md
+index c763a87..7f425fe 100644
+--- a/docs/config.md
++++ b/docs/config.md
+@@ -333,6 +333,20 @@ Default: `true`
+ 
+ Default: `true`
+ 
++### ui.guilds_tree.icons
++
++#### ui.guilds_tree.icons.enabled
++
++Whether to show the guilds as a column of icons beside the channels of the one selected, as Discord does, instead of all of them in the tree.
++
++Default: `true`
++
++#### ui.guilds_tree.icons.height
++
++The number of rows an icon takes.
++
++Default: `2`
++
+ ## ui.members_tree
+ 
+ ### ui.members_tree.graphics
+@@ -634,6 +648,16 @@ Default: `"alt+d"`
+ 
+ Default: `"alt+l"`
+ 
++## keybinds.previous_guild
++
++Show the channels of the guild above or below the one shown in the icons of the guilds tree, opening the channel last opened in it.
++
++Default: `"alt+up"`
++
++## keybinds.next_guild
++
++Default: `"alt+down"`
++
+ ## keybinds.toggle_help
+ 
+ Hide/show keybind help.
+diff --git a/internal/config/keybinds.go b/internal/config/keybinds.go
+index 093add4..d8f9d36 100644
+--- a/internal/config/keybinds.go
++++ b/internal/config/keybinds.go
+@@ -231,6 +231,9 @@ type Keybinds struct {
+ 	// Stop or start playing what is said in the voice channel joined. Stopping also mutes.
+ 	ToggleDeafen Keybind `toml:"toggle_deafen"`
+ 	LeaveVoice   Keybind `toml:"leave_voice"`
++	// Show the channels of the guild above or below the one shown in the icons of the guilds tree, opening the channel last opened in it.
++	PreviousGuild Keybind `toml:"previous_guild"`
++	NextGuild     Keybind `toml:"next_guild"`
+ 	// Hide/show keybind help.
+ 	ToggleHelp Keybind `toml:"toggle_help"`
+ 	// Switch between compact and full keybind help.
+@@ -304,6 +307,8 @@ func defaultKeybinds() Keybinds {
+ 		ToggleMute:           key("toggle mute", "alt+v"),
+ 		ToggleDeafen:         key("toggle deafen", "alt+d"),
+ 		LeaveVoice:           key("leave voice", "alt+l"),
++		PreviousGuild:        key("prev guild", "alt+up"),
++		NextGuild:            key("next guild", "alt+down"),
+ 		ToggleHelp:           key("toggle help", "alt+."),
+ 		ToggleFullHelp:       key("full help", "ctrl+."),
+ 		Suspend:              key("suspend", "ctrl+z"),
+diff --git a/internal/config/ui.go b/internal/config/ui.go
+index 13a3663..85e1662 100644
+--- a/internal/config/ui.go
++++ b/internal/config/ui.go
+@@ -161,7 +161,15 @@ type (
+ 
+ 	GuildsTreeUIConfig struct {
+ 		TreeUIConfig
+-		AutoExpandFolders bool `toml:"auto_expand_folders"`
++		AutoExpandFolders bool               `toml:"auto_expand_folders"`
++		Icons             GuildIconsUIConfig `toml:"icons"`
++	}
++
++	GuildIconsUIConfig struct {
++		// Whether to show the guilds as a column of icons beside the channels of the one selected, as Discord does, instead of all of them in the tree.
++		Enabled bool `toml:"enabled"`
++		// The number of rows an icon takes.
++		Height int `toml:"height"`
+ 	}
+ 
+ 	ScrollBarUIConfig struct {
+@@ -273,7 +281,7 @@ func defaultUI() UIConfig {
+ 		Title:       left,
+ 		Footer:      left,
+ 		Border:      BorderUIConfig{Enabled: true, Padding: [4]int{0, 0, 1, 1}, NormalSet: round, ActiveSet: round},
+-		GuildsTree:  GuildsTreeUIConfig{TreeUIConfig{Graphics: true}, true},
++		GuildsTree:  GuildsTreeUIConfig{TreeUIConfig{Graphics: true}, true, GuildIconsUIConfig{Enabled: true, Height: 2}},
+ 		MembersTree: TreeUIConfig{Graphics: true},
+ 		ScrollBar: ScrollBarUIConfig{
+ 			SymbolSet:  SymbolSetWrapper{boxDrawing},
+diff --git a/internal/ui/chat/guildstree/keymap.go b/internal/ui/chat/guildstree/keymap.go
+index a3c0e67..5873790 100644
+--- a/internal/ui/chat/guildstree/keymap.go
++++ b/internal/ui/chat/guildstree/keymap.go
+@@ -105,9 +105,9 @@ func (m Model) collapseKeybinds() []keybind.Keybind {
+ }
+ 
+ func (m Model) canCollapseParent(node *tree.Node) bool {
+-	return node != nil && len(m.root.PathTo(node)) >= 3
++	return node != nil && len(m.top().PathTo(node)) >= 3
+ }
+ 
+ func (m Model) canCollapseAll() bool {
+-	return slices.ContainsFunc(m.root.Children(), (*tree.Node).Expanded)
++	return slices.ContainsFunc(m.top().Children(), (*tree.Node).Expanded)
+ }
+diff --git a/internal/ui/chat/guildstree/model.go b/internal/ui/chat/guildstree/model.go
+index 697cbb4..ac32d96 100644
+--- a/internal/ui/chat/guildstree/model.go
++++ b/internal/ui/chat/guildstree/model.go
+@@ -12,13 +12,16 @@ import (
+ 	"github.com/ayn2op/arikawa/v3/gateway"
+ 	"github.com/ayn2op/discordo/internal/config"
+ 	"github.com/ayn2op/discordo/internal/ui"
++	"github.com/ayn2op/discordo/internal/ui/images"
+ 	uitree "github.com/ayn2op/discordo/internal/ui/tree"
+ 	"github.com/ayn2op/discordo/internal/voice"
+ 	"github.com/ayn2op/ningen/v3"
+ 	"github.com/ayn2op/ningen/v3/states/read"
+ 	"github.com/ayn2op/tview"
+ 	"github.com/ayn2op/tview/cmd"
++	tviewimage "github.com/ayn2op/tview/image"
+ 	"github.com/ayn2op/tview/keybind"
++	"github.com/ayn2op/tview/row"
+ 	"github.com/ayn2op/tview/text"
+ 	"github.com/ayn2op/tview/tree"
+ 	"github.com/ayn2op/tview/viewport"
+@@ -49,6 +52,13 @@ type Model struct {
+ 	channelNodes map[discord.ChannelID]*tree.Node
+ 	dmRootNode   *tree.Node
+ 
++	// lastOpened maps the node of a guild, or the direct messages, to the node of the channel last opened in it.
++	lastOpened map[*tree.Node]*tree.Node
++	// images are the icons of the guilds, among the images shared by the panes.
++	images     map[discord.URL]tviewimage.Widget
++	iconWidth  int
++	railScroll viewport.ScrollState
++
+ 	// focused reports whether the tree takes keys.
+ 	focused bool
+ }
+@@ -61,6 +71,7 @@ func NewModel(cfg *config.Config, state *ningen.State) Model {
+ 		voiceSession: voice.New(state.State, cfg.Voice.Sensitivity, cfg.Voice.Volume),
+ 		guildNodes:   make(map[discord.GuildID]*tree.Node),
+ 		channelNodes: make(map[discord.ChannelID]*tree.Node),
++		lastOpened:   make(map[*tree.Node]*tree.Node),
+ 	}
+ }
+ 
+@@ -78,6 +89,7 @@ func (m *Model) reset() *tree.Node {
+ 	// Keep allocated map capacity; READY can rebuild often during reconnects.
+ 	clear(m.guildNodes)
+ 	clear(m.channelNodes)
++	clear(m.lastOpened)
+ 	m.dmRootNode = tree.NewNode(m.dmNodeText()).
+ 		SetReference(dmNode{}).
+ 		SetExpandable(true).
+@@ -126,6 +138,9 @@ func (m *Model) rebuild(event *gateway.ReadyEvent) {
+ 	}
+ 
+ 	m.setCurrentNode(root)
++	if m.iconsEnabled() {
++		m.switchTo(m.dmRootNode)
++	}
+ }
+ 
+ func (m Model) refreshReadState(event *read.UpdateEvent) {
+@@ -590,7 +605,7 @@ func isThread(channelType discord.ChannelType) bool {
+ }
+ 
+ func (m *Model) collapseParentNode(node *tree.Node) {
+-	path := m.root.PathTo(node)
++	path := m.top().PathTo(node)
+ 	if len(path) < 3 {
+ 		return
+ 	}
+@@ -747,6 +762,15 @@ func (m Model) Update(msg tview.Msg) (Model, tview.Cmd) {
+ 	switch msg := msg.(type) {
+ 	case *gateway.ReadyEvent:
+ 		m.rebuild(msg)
++		return m, m.requestIcons()
++	case images.ChangedMsg:
++		m.images = msg
++		// Dropped when the cell size changes, as they were sized for it.
++		return m, m.requestIcons()
++	case railMsg:
++		return m, m.switchTo(msg.node)
++	case railScrollMsg:
++		m.railScroll = msg.ScrollState
+ 		return m, nil
+ 	case *gateway.MessageCreateEvent:
+ 		if !msg.GuildID.IsValid() {
+@@ -785,7 +809,7 @@ func (m Model) Update(msg tview.Msg) (Model, tview.Cmd) {
+ 		keybinds := m.cfg.Keybinds.GuildsTree
+ 		switch {
+ 		case keybind.Matches(msg, keybinds.CollapseAll.Keybind):
+-			for _, node := range m.root.Children() {
++			for _, node := range m.top().Children() {
+ 				node.CollapseAll()
+ 			}
+ 
+@@ -814,6 +838,11 @@ func (m Model) Update(msg tview.Msg) (Model, tview.Cmd) {
+ 				return 0
+ 			})
+ 			return m, nil
++		case keybind.Matches(msg, m.cfg.Keybinds.PreviousGuild.Keybind, m.cfg.Keybinds.NextGuild.Keybind):
++			if !m.iconsEnabled() {
++				return m, nil
++			}
++			return m, m.switchAdjacent(keybind.Matches(msg, m.cfg.Keybinds.PreviousGuild.Keybind))
+ 		case keybind.Matches(msg, m.cfg.Keybinds.ToggleMute.Keybind):
+ 			return m, m.toggleMute()
+ 		case keybind.Matches(msg, m.cfg.Keybinds.ToggleDeafen.Keybind):
+@@ -826,12 +855,19 @@ func (m Model) Update(msg tview.Msg) (Model, tview.Cmd) {
+ 	return m, nil
+ }
+ 
+-// View shows the tree in a box titled Guilds.
++// View shows the tree in a box titled Guilds, or, with icons, the icons of the guilds beside the channels of the one shown in a box titled with its name.
+ func (m Model) View() tview.Widget {
+ 	onChange := func(current *tree.Node) tview.Msg { return currentMsg{current} }
+ 	onSelect := func(n *tree.Node) tview.Msg { return selectedMsg{node: n} }
+-	return uitree.New(
+-		m.root,
++	title := "Guilds"
++	if m.iconsEnabled() {
++		if top := m.top(); top != nil {
++			title = top.Spans()[0].Text
++		}
++	}
++
++	channels := uitree.New(
++		m.top(),
+ 		m.current,
+ 		m.scrollState,
+ 		m.cfg,
+@@ -842,6 +878,11 @@ func (m Model) View() tview.Widget {
+ 		onChange,
+ 		onSelect,
+ 	).
+-		Title(ui.Label("Guilds", m.cfg.Theme.Title, m.focused)).
++		Title(ui.Label(title, m.cfg.Theme.Title, m.focused)).
+ 		Footer(ui.Label(m.voiceFooter(), m.cfg.Theme.Footer, m.focused))
++	if !m.iconsEnabled() {
++		return channels
++	}
++
++	return row.New(m.railView(), channels)
+ }
+diff --git a/internal/ui/chat/guildstree/msg.go b/internal/ui/chat/guildstree/msg.go
+index 5237a2d..8794b64 100644
+--- a/internal/ui/chat/guildstree/msg.go
++++ b/internal/ui/chat/guildstree/msg.go
+@@ -91,6 +91,9 @@ func (m Model) selectChannel(node *tree.Node, channelID discord.ChannelID) tview
+ 	}
+ 
+ 	if channel.Type != discord.GuildForum {
++		if home := m.homeOf(node); home != nil {
++			m.lastOpened[home] = node
++		}
+ 		return loadChannel(m.state, uint(m.cfg.MessagesLimit), *channel)
+ 	}
+ 
+diff --git a/internal/ui/chat/guildstree/rail.go b/internal/ui/chat/guildstree/rail.go
+new file mode 100644
+index 0000000..139d2d4
+--- /dev/null
++++ b/internal/ui/chat/guildstree/rail.go
+@@ -0,0 +1,351 @@
++package guildstree
++
++import (
++	"cmp"
++	"strings"
++	"unicode/utf8"
++
++	"github.com/ayn2op/arikawa/v3/discord"
++	"github.com/ayn2op/discordo/internal/ui/images"
++	"github.com/ayn2op/ningen/v3"
++	"github.com/ayn2op/tview"
++	"github.com/ayn2op/tview/cmd"
++	tviewimage "github.com/ayn2op/tview/image"
++	"github.com/ayn2op/tview/layout"
++	"github.com/ayn2op/tview/tree"
++	"github.com/ayn2op/tview/viewport"
++	"github.com/gdamore/tcell/v3"
++	"github.com/gdamore/tcell/v3/color"
++)
++
++// railSpacing is the number of empty rows between the icons of the rail.
++const railSpacing = 1
++
++const (
++	railActiveMarker    = "▌"
++	railUnreadMarker    = "•"
++	railMentionedMarker = "●"
++)
++
++// railMsg shows the channels of node, a guild or the direct messages.
++type railMsg struct {
++	node *tree.Node
++}
++
++// railScrollMsg scrolls the rail to ScrollState.
++type railScrollMsg struct {
++	ScrollState viewport.ScrollState
++}
++
++// railItem is a guild, or the direct messages, shown as an icon in the rail.
++type railItem struct {
++	node *tree.Node
++	// icon is the URL of the image of the guild, or "" if it has none.
++	icon       discord.URL
++	initials   string
++	indication ningen.UnreadIndication
++}
++
++// iconsEnabled reports whether the guilds are shown as a rail of icons beside the channels of one of them.
++func (m Model) iconsEnabled() bool {
++	icons := m.cfg.UI.GuildsTree.Icons
++	return icons.Enabled && icons.Height > 0
++}
++
++// SetIconWidth sets the width in cells of the icons of the rail.
++func (m *Model) SetIconWidth(width int) {
++	m.iconWidth = width
++}
++
++// home returns the node of the guild, or the direct messages, that the current node is in, or nil if it is in none.
++func (m Model) home() *tree.Node {
++	return m.homeOf(m.current)
++}
++
++// homeOf returns the node of the guild, or the direct messages, that node is in, or nil if it is in none.
++func (m Model) homeOf(node *tree.Node) *tree.Node {
++	for _, node := range m.root.PathTo(node) {
++		switch node.Reference().(type) {
++		case discord.GuildID, dmNode:
++			return node
++		}
++	}
++
++	return nil
++}
++
++// top returns the node whose children are shown as the top level of the tree.
++func (m Model) top() *tree.Node {
++	if !m.iconsEnabled() {
++		return m.root
++	}
++
++	return cmp.Or(m.home(), m.dmRootNode)
++}
++
++// railNodes returns the nodes of the direct messages and the guilds, those in folders in place of their folder.
++func (m Model) railNodes() []*tree.Node {
++	var nodes []*tree.Node
++	for _, node := range m.root.Children() {
++		if node.Reference() != nil {
++			nodes = append(nodes, node)
++			continue
++		}
++
++		nodes = append(nodes, node.Children()...)
++	}
++
++	return nodes
++}
++
++func (m Model) railItems() []railItem {
++	nodes := m.railNodes()
++	items := make([]railItem, 0, len(nodes))
++	for _, node := range nodes {
++		item := railItem{node: node}
++		switch ref := node.Reference().(type) {
++		case dmNode:
++			item.initials = "DM"
++			channels, _ := m.state.Cabinet.PrivateChannels()
++			for _, channel := range channels {
++				item.indication = max(item.indication, m.state.ChannelIsUnread(channel.ID, ningen.UnreadOpts{IncludeMutedCategories: true}))
++			}
++		case discord.GuildID:
++			if guild, err := m.state.Cabinet.Guild(ref); err == nil {
++				item.icon = guildIconURL(*guild)
++				item.initials = initials(guild.Name)
++			}
++			item.indication = m.state.GuildIsUnread(ref, ningen.GuildUnreadOpts{IncludeMutedCategories: true})
++		}
++		items = append(items, item)
++	}
++
++	return items
++}
++
++// IconURLs returns the URLs of the icons of the rail, which stay loaded while it is shown.
++func (m Model) IconURLs() map[discord.URL]bool {
++	urls := make(map[discord.URL]bool)
++	if !m.iconsEnabled() {
++		return urls
++	}
++
++	for _, item := range m.railItems() {
++		if item.icon != "" {
++			urls[item.icon] = true
++		}
++	}
++
++	return urls
++}
++
++// requestIcons returns the command that loads the icons of the rail that are not loaded, or nil.
++func (m Model) requestIcons() tview.Cmd {
++	msg := images.RequestedMsg{Squares: map[discord.URL]uint{}}
++	for url := range m.IconURLs() {
++		if _, ok := m.images[url]; !ok {
++			msg.Squares[url] = uint(m.cfg.UI.GuildsTree.Icons.Height)
++		}
++	}
++
++	if len(msg.Squares) == 0 {
++		return nil
++	}
++
++	return cmd.Task(func() tview.Msg { return msg })
++}
++
++// switchTo shows the channels of node, a guild or the direct messages, opening the channel last opened in it.
++func (m *Model) switchTo(node *tree.Node) tview.Cmd {
++	if node == nil {
++		return nil
++	}
++
++	if len(node.Children()) == 0 {
++		m.selectNode(node)
++	}
++	node.Expand()
++
++	m.railScroll.ScrollToTarget()
++	if last := m.lastOpened[node]; last != nil && len(node.PathTo(last)) > 0 {
++		m.expandPathToNode(last)
++		m.setCurrentNode(last)
++		return m.selectNode(last)
++	}
++
++	m.setCurrentNode(cmp.Or(firstChild(node), node))
++	return nil
++}
++
++// switchAdjacent shows the channels of the guild after the one shown, or before it if previous, wrapping around.
++func (m *Model) switchAdjacent(previous bool) tview.Cmd {
++	nodes := m.railNodes()
++	if len(nodes) == 0 {
++		return nil
++	}
++
++	index := 0
++	for i, node := range nodes {
++		if node == m.top() {
++			index = i
++		}
++	}
++
++	step := 1
++	if previous {
++		step = len(nodes) - 1
++	}
++
++	return m.switchTo(nodes[(index+step)%len(nodes)])
++}
++
++func firstChild(node *tree.Node) *tree.Node {
++	if children := node.Children(); len(children) > 0 {
++		return children[0]
++	}
++
++	return nil
++}
++
++func guildIconURL(guild discord.Guild) discord.URL {
++	url := guild.IconURLWithType(discord.PNGImage)
++	if url == "" {
++		return ""
++	}
++
++	return url + "?size=128"
++}
++
++// initials returns the first letter of each word of name, as Discord shows a guild without an icon.
++func initials(name string) string {
++	var initials strings.Builder
++	for _, word := range strings.Fields(name) {
++		r, _ := utf8.DecodeRuneInString(word)
++		initials.WriteRune(r)
++	}
++
++	return initials.String()
++}
++
++// railView returns the rail of icons in a viewport that keeps the icon of the guild shown in view.
++func (m Model) railView() tview.Widget {
++	items := m.railItems()
++	rail := railWidget{items: items, active: -1, images: m.images, iconWidth: m.iconWidth, iconHeight: m.cfg.UI.GuildsTree.Icons.Height}
++	top := m.top()
++	for index, item := range items {
++		if item.node == top {
++			rail.active = index
++		}
++	}
++
++	return viewport.New(rail, m.railScroll).
++		Width(layout.Fixed(rail.width())).
++		Target(rail.target).
++		OnChange(func(s *viewport.ScrollState) tview.Msg { return railScrollMsg{ScrollState: *s} })
++}
++
++// railWidget draws the icons of the guilds one under another, each after a marker of whether it is shown or unread.
++type railWidget struct {
++	items  []railItem
++	active int
++	images map[discord.URL]tviewimage.Widget
++
++	iconWidth, iconHeight int
++}
++
++var _ tview.Widget = railWidget{}
++
++// width returns the width of the marker, the icon, and the space after it.
++func (w railWidget) width() int {
++	return 1 + w.iconWidth + 1
++}
++
++func (w railWidget) step() int {
++	return w.iconHeight + railSpacing
++}
++
++func (w railWidget) height() int {
++	return max(len(w.items)*w.step()-railSpacing, 0)
++}
++
++// target returns the rows of the icon of the guild shown.
++func (w railWidget) target(int) (top, height int) {
++	if w.active < 0 {
++		return 0, 0
++	}
++
++	return w.active * w.step(), w.iconHeight
++}
++
++func (w railWidget) Size() (width, height layout.Length) {
++	return layout.Fixed(w.width()), layout.Fixed(w.height())
++}
++
++func (w railWidget) Layout(limits layout.Limits) layout.Size {
++	width, height := w.Size()
++	return layout.Atomic(limits, width, height)
++}
++
++func (w railWidget) Draw(screen tview.Screen, area tview.Rectangle) {
++	for index, item := range w.items {
++		y := area.Y + index*w.step()
++		w.drawMarker(screen, item, index == w.active, area.X, y)
++
++		icon := tview.Rectangle{X: area.X + 1, Y: y, Width: w.iconWidth, Height: w.iconHeight}
++		if image, ok := w.images[item.icon]; ok && item.icon != "" {
++			if width, _ := image.Size(); width != layout.Fixed(0) {
++				image.Draw(screen, icon)
++				continue
++			}
++		}
++
++		drawInitials(screen, item.initials, icon)
++	}
++}
++
++// drawMarker draws, left of the icon of item at y, a bar if it is shown, or a dot if it is unread.
++func (w railWidget) drawMarker(screen tview.Screen, item railItem, active bool, x, y int) {
++	style := tcell.StyleDefault
++	switch {
++	case active:
++		for row := range w.iconHeight {
++			screen.Put(x, y+row, railActiveMarker, style)
++		}
++	case item.indication == ningen.ChannelMentioned:
++		screen.Put(x, y+(w.iconHeight-1)/2, railMentionedMarker, style.Foreground(color.Red))
++	case item.indication == ningen.ChannelUnread:
++		screen.Put(x, y+(w.iconHeight-1)/2, railUnreadMarker, style)
++	}
++}
++
++// drawInitials fills area and writes initials in the middle of it.
++func drawInitials(screen tview.Screen, initials string, area tview.Rectangle) {
++	style := tcell.StyleDefault.Reverse(true)
++	for y := range area.Height {
++		for x := range area.Width {
++			screen.Put(area.X+x, area.Y+y, " ", style)
++		}
++	}
++
++	tview.Print(screen, initials, area.X, area.Y+(area.Height-1)/2, area.Width, tview.HorizontalAlignmentCenter, style.Bold(true))
++}
++
++// Handle turns a click on an icon into the message that shows the channels of its guild.
++func (w railWidget) Handle(msg tview.Msg, area tview.Rectangle) tview.Msg {
++	mouse, ok := msg.(tview.MouseMsg)
++	if !ok || mouse.Action != tview.MouseLeftClick {
++		return msg
++	}
++
++	x, y := mouse.Position()
++	if !area.Contains(x, y) {
++		return msg
++	}
++
++	row := y - area.Y
++	if index := row / w.step(); index < len(w.items) && row%w.step() < w.iconHeight {
++		return railMsg{node: w.items[index].node}
++	}
++
++	return nil
++}
+diff --git a/internal/ui/chat/guildstree/rail_test.go b/internal/ui/chat/guildstree/rail_test.go
+new file mode 100644
+index 0000000..75a8942
+--- /dev/null
++++ b/internal/ui/chat/guildstree/rail_test.go
+@@ -0,0 +1,114 @@
++package guildstree
++
++import (
++	"testing"
++
++	"github.com/ayn2op/arikawa/v3/discord"
++	"github.com/ayn2op/arikawa/v3/state"
++	"github.com/ayn2op/arikawa/v3/state/store/defaultstore"
++	"github.com/ayn2op/discordo/internal/config"
++	"github.com/ayn2op/ningen/v3"
++	"github.com/ayn2op/tview"
++	"github.com/ayn2op/tview/tree"
++	"github.com/gdamore/tcell/v3"
++)
++
++func TestInitials(t *testing.T) {
++	for name, want := range map[string]string{
++		"Akademi Wengdev": "AW",
++		"r/unixporn":      "r",
++		"  Rust  Lang  ":  "RL",
++		"":                "",
++		"ミク Fan Club":     "ミFC",
++	} {
++		if got := initials(name); got != want {
++			t.Errorf("initials(%q) = %q, want %q", name, got, want)
++		}
++	}
++}
++
++// newRailModel returns a model of the direct messages and two guilds, the second in a folder, each with a channel shown.
++func newRailModel(t *testing.T) (m Model, guilds, channels [2]*tree.Node) {
++	t.Helper()
++	cfg := config.Default()
++	m = NewModel(&cfg, ningen.FromState(state.NewWithStore("", defaultstore.New())))
++	root := m.reset()
++	// Shown, so the direct messages are not loaded.
++	m.dmRootNode.AddChild(tree.NewNode("dm").SetReference(discord.ChannelID(100)))
++
++	folder := tree.NewNode("folder")
++	for index, parent := range []*tree.Node{root, folder} {
++		guilds[index] = tree.NewNode("guild").SetReference(discord.GuildID(index + 1))
++		channels[index] = tree.NewNode("channel").SetReference(discord.ChannelID(index + 1))
++		parent.AddChild(guilds[index].AddChild(channels[index]))
++	}
++	root.AddChild(folder)
++	return m, guilds, channels
++}
++
++func TestModelSwitchAdjacent(t *testing.T) {
++	m, guilds, channels := newRailModel(t)
++	m.switchTo(guilds[0])
++	if m.top() != guilds[0] || m.current != channels[0] {
++		t.Fatalf("top, current = %v, %v, want the first guild and its channel", m.top(), m.current)
++	}
++
++	// The guild in the folder is next, then the direct messages, wrapping around.
++	for _, want := range []*tree.Node{guilds[1], m.dmRootNode, guilds[0]} {
++		m.switchAdjacent(false)
++		if m.top() != want {
++			t.Fatalf("top = %v, want %v", m.top(), want)
++		}
++	}
++
++	m.switchAdjacent(true)
++	if m.top() != m.dmRootNode {
++		t.Errorf("top = %v, want the direct messages", m.top())
++	}
++}
++
++func TestModelSwitchToLastOpened(t *testing.T) {
++	m, guilds, channels := newRailModel(t)
++	second := tree.NewNode("second").SetReference(discord.ChannelID(10))
++	guilds[0].AddChild(second)
++	m.lastOpened[guilds[0]] = second
++
++	m.switchTo(guilds[1])
++	m.switchTo(guilds[0])
++	if m.current != second {
++		t.Errorf("current = %v, want the channel last opened", m.current)
++	}
++
++	// A channel no longer in the tree is not returned to.
++	guilds[1].ClearChildren().AddChild(tree.NewNode("new"))
++	m.lastOpened[guilds[1]] = channels[1]
++	m.switchTo(guilds[1])
++	if m.current != guilds[1].Children()[0] {
++		t.Errorf("current = %v, want the first channel", m.current)
++	}
++}
++
++func TestRailWidgetHandle(t *testing.T) {
++	first, second := tree.NewNode("first"), tree.NewNode("second")
++	w := railWidget{items: []railItem{{node: first}, {node: second}}, iconWidth: 4, iconHeight: 2}
++	area := tview.Rectangle{X: 0, Y: 5, Width: w.width(), Height: 20}
++	for _, test := range []struct {
++		name string
++		y    int
++		want *tree.Node
++	}{
++		{"first icon", 5, first},
++		{"first icon bottom", 6, first},
++		{"spacing", 7, nil},
++		{"second icon", 8, second},
++		{"below", 11, nil},
++	} {
++		t.Run(test.name, func(t *testing.T) {
++			click := tview.MouseMsg{EventMouse: tcell.NewEventMouse(1, test.y, tcell.Button1, 0), Action: tview.MouseLeftClick}
++			got, _ := w.Handle(click, area).(railMsg)
++			if got.node != test.want {
++				t.Errorf("node = %v, want %v", got.node, test.want)
++			}
++		})
++	}
++}
+diff --git a/internal/ui/chat/images.go b/internal/ui/chat/images.go
+index 8e481b4..2d00fac 100644
+--- a/internal/ui/chat/images.go
++++ b/internal/ui/chat/images.go
+@@ -78,17 +78,21 @@ func (m *Model) reloadImages(cell image.Point) tview.Cmd {
+ 		return nil
+ 	}
+ 
+-	return cmd.Batch{m.clearImages(), m.messagesList.LoadImages()}
++	// The guild icons were sized for the old cell too, and are loaded again once they are found dropped.
++	return cmd.Batch{m.clearImages(true), m.messagesList.LoadImages()}
+ }
+ 
+-// clearImages drops the images and returns a command that frees them in the terminal.
+-func (m *Model) clearImages() tview.Cmd {
++// clearImages drops the images, but for the guild icons unless all, and returns a command that frees them in the terminal.
++func (m *Model) clearImages(all bool) tview.Cmd {
++	icons := m.guildsTree.IconURLs()
+ 	var cmds []tview.Cmd
+-	for _, image := range m.images {
+-		cmds = append(cmds, image.Delete())
++	for url, image := range m.images {
++		if all || !icons[url] {
++			cmds = append(cmds, image.Delete())
++			delete(m.images, url)
++		}
+ 	}
+ 
+-	clear(m.images)
+ 	return cmd.Batch(append(cmds, m.sendImages()))
+ }
+ 
+@@ -97,7 +101,7 @@ func (m *Model) sendImages() tview.Cmd {
+ 	images := images.ChangedMsg(maps.Clone(m.images))
+ 	var command tview.Cmd
+ 	m.reactionsPicker, command = m.reactionsPicker.Update(images)
+-	return cmd.Batch{command, m.updatePane(paneMessagesList, images), m.updatePane(paneComposer, images)}
++	return cmd.Batch{command, m.updatePane(paneGuildsTree, images), m.updatePane(paneMessagesList, images), m.updatePane(paneComposer, images)}
+ }
+ 
+ func (m *Model) loadImages(msg images.RequestedMsg) tview.Cmd {
+diff --git a/internal/ui/chat/model.go b/internal/ui/chat/model.go
+index 71d0209..154bf37 100644
+--- a/internal/ui/chat/model.go
++++ b/internal/ui/chat/model.go
+@@ -216,6 +216,7 @@ func (m *Model) syncPanes() {
+ 	m.membersTree.SetFocused(m.paneFocused(paneMembersTree))
+ 	m.messagesList.SetFooter(m.typingFooter())
+ 	m.messagesList.SetAvatarWidth(int(squareCols(uint(m.cfg.UI.MessagesList.Avatars.Height), m.imageCell())))
++	m.guildsTree.SetIconWidth(int(squareCols(uint(m.cfg.UI.GuildsTree.Icons.Height), m.imageCell())))
+ }
+ 
+ func (m Model) update(msg tview.Msg) (Model, tview.Cmd) {
+@@ -245,7 +246,7 @@ func (m Model) update(msg tview.Msg) (Model, tview.Cmd) {
+ 		}
+ 		title := ui.ChannelToString(msg.Channel, m.cfg.Icons, m.state) + " - " + consts.Name
+ 		// Not shown again soon.
+-		return m, cmd.Batch{m.clearImages(), cmd.SetTitle(title), m.messagesList.SetChannel(&msg.Channel, msg.Messages), membersCmd}
++		return m, cmd.Batch{m.clearImages(false), cmd.SetTitle(title), m.messagesList.SetChannel(&msg.Channel, msg.Messages), membersCmd}
+ 	case messageslist.Msg:
+ 		return m, m.updatePane(paneMessagesList, msg)
+ 	case tview.ResizeMsg:
+@@ -363,6 +364,9 @@ func (m Model) update(msg tview.Msg) (Model, tview.Cmd) {
+ 		// The guilds tree is what the voice channel joined is in.
+ 		case keybind.Matches(msg, keybinds.ToggleMute.Keybind, keybinds.ToggleDeafen.Keybind, keybinds.LeaveVoice.Keybind):
+ 			return m, m.updatePane(paneGuildsTree, msg)
++		// The guild is switched from any pane, as in Discord.
++		case keybind.Matches(msg, keybinds.PreviousGuild.Keybind, keybinds.NextGuild.Keybind):
++			return m, m.updatePane(paneGuildsTree, msg)
+ 
+ 		case keybind.Matches(msg, keybinds.Logout.Keybind):
+ 			return m, ui.ShowDialog(
