@@ -24,6 +24,10 @@
       url = "github:ZenNotes/zennotes";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    pjsk-cursors = {
+      url = "github:MystiaFin/pjsk-cursors";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

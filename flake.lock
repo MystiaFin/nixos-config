@@ -91,12 +91,33 @@
         "type": "github"
       }
     },
+    "pjsk-cursors": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794578450,
+        "narHash": "sha256-b+oA6pbl5UFr6M0KFVcxX6ZGDBXCs61NFjrIr8UmCtg=",
+        "owner": "MystiaFin",
+        "repo": "pjsk-cursors",
+        "rev": "469c281fd7fa037c2c5acb63097eff67b90961e9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "MystiaFin",
+        "repo": "pjsk-cursors",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "helium-browser": "helium-browser",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
+        "pjsk-cursors": "pjsk-cursors",
         "spicetify-nix": "spicetify-nix",
         "zen-browser": "zen-browser",
         "zennotes": "zennotes"

@@ -49,6 +49,7 @@ in
 {
   imports = [
     inputs.spicetify-nix.homeManagerModules.default
+    inputs.pjsk-cursors.homeManagerModules.default
   ];
 
   home.packages = with pkgs; [
@@ -97,11 +98,10 @@ in
     Install.WantedBy = [ "default.target" ];
   };
 
-  home.pointerCursor = {
-    package = pkgs.catppuccin-cursors.mochaDark;
-    name = "catppuccin-mocha-dark-cursors";
+  pjsk-cursor = {
+    enable = true;
+    theme = "asahina-mafuyu";
     size = 14;
-    gtk.enable = true;
   };
 
   home.sessionVariables = {
