@@ -100,7 +100,7 @@ in
 
   pjsk-cursor = {
     enable = true;
-    theme = "asahina-mafuyu";
+    character = "asahina-mafuyu";
     size = 14;
   };
 
